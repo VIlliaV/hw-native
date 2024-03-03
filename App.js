@@ -33,7 +33,7 @@ export default function App() {
         style={styles.image}
       >
         <Text style={styles.text}>Hello KeT</Text>
-        <Text style={{ fontFamily: "Roboto-Medium" }}>Hello KeT</Text>
+        <Text style={styles.title}>Hello KeT</Text>
         <Text style={{ fontFamily: "Roboto-Bold" }}>Hello </Text>
         <Text style={{ fontFamily: "Inter-Medium" }}>Hello KeT</Text>
         <StatusBar style="auto" />

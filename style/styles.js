@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
+import { color } from "./color";
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,13 +10,19 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
+    fontFamily: "Roboto-Regular",
+  },
+  title: {
     fontFamily: "Roboto-Medium",
+    fontSize: 30,
+    color: color.primary,
+    //? just for test:
     ...Platform.select({
       ios: {
         fontSize: 30,
       },
       android: {
-        color: "#ffffff",
+        fontFamily: "Roboto-Medium",
       },
     }),
   },
