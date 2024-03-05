@@ -1,17 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  Text,
-  View,
-  ImageBackground,
-  Platform,
-  StyleSheet,
-} from "react-native";
+import { Text, View, ImageBackground, Platform } from "react-native";
 
 import { useFonts } from "expo-font";
 import { styles } from "./style/styles";
 
 import back_ground from "./assets/image/Photo BG.webp";
 import back_ground_2x from "./assets/image/Photo BGx2.webp";
+import RegistrationScreen from "./components/auth/RegistrationScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,39 +21,15 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
         source={Platform.OS === "ios" ? back_ground_2x : back_ground}
         resizeMode="cover"
-        style={styles.image}
+        style={{ ...styles.image, justifyContent: "flex-end" }}
       >
-        <Text style={styles.text}>Hello KeT</Text>
-        <Text style={styles.title}>Hello KeT</Text>
-        <Text style={{ fontFamily: "Roboto-Bold" }}>Hello </Text>
-        <Text style={{ fontFamily: "Inter-Medium" }}>Hello KeT</Text>
+        <RegistrationScreen />
         <StatusBar style="auto" />
       </ImageBackground>
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   image: {
-//     flex: 1,
-//     justifyContent: "center",
-//   },
-//   text: {
-//     fontFamily: "Roboto-Regular",
-//     ...Platform.select({
-//       ios: {
-//         fontSize: 30,
-//       },
-//       android: {
-//         color: "#ffffff",
-//       },
-//     }),
-//   },
-// });
