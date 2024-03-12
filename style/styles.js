@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   popUp: {
     position: "relative",
-    justifyContent: "flex-end",
+    alignItems: "center",
     backgroundColor: color.bg,
     paddingHorizontal: 16,
     borderTopLeftRadius: 25,
@@ -22,6 +22,8 @@ export const styles = StyleSheet.create({
 
   text: {
     fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    textAlignVertical: "bottom",
   },
   textInput: {
     borderWidth: 1,
@@ -29,6 +31,15 @@ export const styles = StyleSheet.create({
     padding: 10,
     width: "80%",
     marginBottom: 43,
+  },
+  button: {
+    width: "100%",
+    padding: 16,
+    marginBottom: 16,
+    borderRadius: 100,
+    color: color.bg,
+    backgroundColor: color.accent,
+    alignItems: "center",
   },
   title: {
     fontFamily: "Roboto-Medium",
