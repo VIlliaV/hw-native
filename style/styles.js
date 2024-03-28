@@ -9,11 +9,11 @@ export const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    position: "relative",
     // justifyContent: "flex-start",
   },
   popUp: {
     position: "relative",
-    alignItems: "center",
     backgroundColor: color.bg,
     paddingHorizontal: 16,
     borderTopLeftRadius: 25,
@@ -26,11 +26,17 @@ export const styles = StyleSheet.create({
     textAlignVertical: "bottom",
   },
   textInput: {
+    width: "100%",
+    // height: 51,
+    padding: 16,
+    marginBottom: 16,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: color.primary,
+    backgroundColor: color.bg_secondary,
     borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    width: "80%",
-    marginBottom: 43,
+    borderRadius: 8,
+    borderColor: color.border,
   },
   button: {
     width: "100%",
@@ -48,13 +54,13 @@ export const styles = StyleSheet.create({
     lineHeight: 35,
     color: color.primary,
     //? just for test:
-    ...Platform.select({
-      ios: {
-        fontSize: 30,
-      },
-      android: {
-        fontFamily: "Roboto-Medium",
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     fontSize: 30,
+    //   },
+    //   android: {
+    //     fontFamily: "Roboto-Medium",
+    //   },
+    // }),
   },
 });
