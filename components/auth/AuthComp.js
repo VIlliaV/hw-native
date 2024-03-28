@@ -16,43 +16,31 @@ import { color } from "../../style/color";
 import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
 
-const initialAuth = {
+const initialLogin = {
+  email: "",
+  password: "",
+};
+
+const initialReg = {
   login: "",
   email: "",
   password: "",
 };
 
 const AuthComp = ({ isLogin }) => {
-  const [auth, setAuth] = useState(initialAuth);
-  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
+  const [auth, setAuth] = useState(isLogin ? initialLogin : initialReg);
+
   const [isPasswordHide, setIsPasswordHide] = useState(false);
 
-  useEffect(() => {
-    // Keyboard.addListener("keyboardWillHide", () => {
-    //   setIsKeyboardShow(false);
-    // });
-    //?  не треба
-    // Keyboard.addListener("keyboardWillShow", () => {
-    //   Keyboard.scheduleLayoutAnimation("keyboardWillShow");
-    // });
-    // return () => {
-    //   hideSubscription.remove();
-    // };
-  }, []);
-
-  const passwordOnFocus = () => {
-    setIsKeyboardShow(true);
-    setIsPasswordHide(true);
-  };
-
   const keyboardHide = () => {
-    setIsKeyboardShow(false);
     Keyboard.dismiss();
   };
 
   const onPress = () => {
+    console.log(auth);
     alert("так сильно не тисни))");
   };
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
@@ -66,23 +54,26 @@ const AuthComp = ({ isLogin }) => {
         >
           <View>
             <Text style={styles.title}>
-              Реєстрація{isKeyboardShow ? "true" : "false"}
+              {!isLogin ? "Реєстрація" : "Увійти"}
             </Text>
-            <TextInput
-              placeholder="Логін"
-              placeholderTextColor={color.placeholder}
-              autoCapitalize="none"
-              autoComplete={Platform.OS === "ios" ? "nickname" : "username-new"}
-              textContentType="nickname"
-              clearButtonMode="always"
-              value={auth.login}
-              onChangeText={(value) =>
-                setAuth((prev) => ({ ...prev, login: value }))
-              }
-              onFocus={() => setIsKeyboardShow(true)}
-              onSubmitEditing={keyboardHide}
-              style={{ ...styles.textInput }}
-            />
+            {!isLogin && (
+              <TextInput
+                placeholder="Логін"
+                placeholderTextColor={color.placeholder}
+                autoCapitalize="none"
+                autoComplete={
+                  Platform.OS === "ios" ? "nickname" : "username-new"
+                }
+                textContentType="nickname"
+                clearButtonMode="always"
+                value={auth.login}
+                onChangeText={(value) =>
+                  setAuth((prev) => ({ ...prev, login: value }))
+                }
+                onSubmitEditing={keyboardHide}
+                style={{ ...styles.textInput }}
+              />
+            )}
             <TextInput
               placeholder="Адреса електронної пошти"
               placeholderTextColor={color.placeholder}
@@ -93,7 +84,6 @@ const AuthComp = ({ isLogin }) => {
               onChangeText={(value) =>
                 setAuth((prev) => ({ ...prev, email: value }))
               }
-              onFocus={() => setIsKeyboardShow(true)}
               onSubmitEditing={keyboardHide}
               style={styles.textInput}
             />
@@ -107,8 +97,9 @@ const AuthComp = ({ isLogin }) => {
               onChangeText={(value) =>
                 setAuth((prev) => ({ ...prev, password: value }))
               }
-              onFocus={passwordOnFocus}
-              // onBlur={() => setIsPasswordHide(false)}
+              //? для того щоб не мерегтіло на IOS поле емаіл
+              onFocus={() => setIsPasswordHide(true)}
+              onBlur={() => auth.password === "" && setIsPasswordHide(false)}
               onSubmitEditing={keyboardHide}
               style={{ ...styles.textInput, marginBottom: 43 }}
             />
@@ -128,12 +119,12 @@ const AuthComp = ({ isLogin }) => {
             }}
           >
             <Text style={{ ...styles.text, color: color.bg }}>
-              Зареєстуватися
+              {!isLogin ? "Зареєструватися" : "Увійти"}
             </Text>
           </TouchableOpacity>
           <View style={{ marginBottom: 78, flexDirection: "row" }}>
             <Text style={{ ...styles.text, color: color.secondary }}>
-              Вже є акаунт?{" "}
+              {!isLogin ? "Вже є акаунт? " : "Немає акаунту? "}
             </Text>
             <Text
               onPress={onPress}
@@ -143,7 +134,7 @@ const AuthComp = ({ isLogin }) => {
                 textDecorationLine: "underline",
               }}
             >
-              Увійти
+              {!isLogin ? "Увійти" : "Зареєструватися"}
             </Text>
           </View>
         </View>
