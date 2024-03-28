@@ -4,4 +4,6 @@ export const color = {
   bg: "#FFFFFF",
   bg_secondary: "#F6F6F6",
   accent: "#FF6C00",
+  border: "#E8E8E8",
+  placeholder: "#BDBDBD",
 };
