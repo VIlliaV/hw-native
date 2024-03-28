@@ -1,7 +1,7 @@
 import AuthComp from "./AuthComp";
 
 const RegistrationScreen = () => {
-  return <AuthComp auth="register" />;
+  return <AuthComp isLogin={false} />;
 };
 
 export default RegistrationScreen;
