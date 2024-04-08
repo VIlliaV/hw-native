@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 
 import { useFonts } from "expo-font";
 import RegistrationScreen from "./components/auth/RegistrationScreen";
+import LoginScreen from "./components/auth/LoginScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,9 +18,9 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }}>
-      <RegistrationScreen />
+      {/* <RegistrationScreen /> */}
 
-      {/* <LoginScreen /> */}
+      <LoginScreen />
     </View>
   );
 }

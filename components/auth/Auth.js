@@ -44,7 +44,7 @@ const AuthComp = ({ isLogin }) => {
   };
 
   const onPress = () => {
-    console.log(auth);
+    // console.log(auth);
     alert("так сильно не тисни))");
   };
 
@@ -60,7 +60,7 @@ const AuthComp = ({ isLogin }) => {
           style={styles.popUp}
         >
           <View>
-            <Text style={styles.title}>
+            <Text style={{ ...styles.title, marginBottom: 32 }}>
               {!isLogin ? "Реєстрація" : "Увійти"}
             </Text>
             {!isLogin && (
@@ -194,7 +194,9 @@ const AuthComp = ({ isLogin }) => {
               {!isLogin ? "Зареєструватися" : "Увійти"}
             </Text>
           </TouchableOpacity>
-          <View style={{ marginBottom: 78, flexDirection: "row" }}>
+          <View
+            style={{ marginBottom: !isLogin ? 78 : 144, flexDirection: "row" }}
+          >
             <Text style={{ ...styles.text, color: color.secondary }}>
               {!isLogin ? "Вже є акаунт? " : "Немає акаунту? "}
             </Text>

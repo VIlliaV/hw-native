@@ -1,4 +1,4 @@
-import AuthComp from "./AuthComp";
+import AuthComp from "./Auth";
 
 const RegistrationScreen = () => {
   return <AuthComp isLogin={false} />;
