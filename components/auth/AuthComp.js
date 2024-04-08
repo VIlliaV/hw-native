@@ -27,8 +27,15 @@ const initialReg = {
   password: "",
 };
 
+const initialFocus = {
+  login: false,
+  email: false,
+  password: false,
+};
+
 const AuthComp = ({ isLogin }) => {
   const [auth, setAuth] = useState(isLogin ? initialLogin : initialReg);
+  const [inputOnFocus, setInputOnFocus] = useState(initialFocus);
 
   const [isPasswordHide, setIsPasswordHide] = useState(false);
 
@@ -70,8 +77,22 @@ const AuthComp = ({ isLogin }) => {
                 onChangeText={(value) =>
                   setAuth((prev) => ({ ...prev, login: value }))
                 }
+                onFocus={() =>
+                  setInputOnFocus((prev) => ({ ...prev, login: true }))
+                }
+                onBlur={() =>
+                  setInputOnFocus((prev) => ({ ...prev, login: false }))
+                }
                 onSubmitEditing={keyboardHide}
-                style={{ ...styles.textInput }}
+                style={{
+                  ...styles.textInput,
+                  borderColor: !inputOnFocus.login
+                    ? color.border
+                    : color.accent,
+                  backgroundColor: !inputOnFocus.login
+                    ? color.bg_secondary
+                    : color.bg,
+                }}
               />
             )}
             <TextInput
@@ -84,25 +105,76 @@ const AuthComp = ({ isLogin }) => {
               onChangeText={(value) =>
                 setAuth((prev) => ({ ...prev, email: value }))
               }
-              onSubmitEditing={keyboardHide}
-              style={styles.textInput}
-            />
-            <TextInput
-              placeholder="Пароль"
-              placeholderTextColor={color.placeholder}
-              autoComplete="new-password"
-              secureTextEntry={isPasswordHide}
-              clearButtonMode="always"
-              value={auth.password}
-              onChangeText={(value) =>
-                setAuth((prev) => ({ ...prev, password: value }))
+              onFocus={() =>
+                setInputOnFocus((prev) => ({ ...prev, email: true }))
               }
-              //? для того щоб не мерегтіло на IOS поле емаіл
-              onFocus={() => setIsPasswordHide(true)}
-              onBlur={() => auth.password === "" && setIsPasswordHide(false)}
+              onBlur={() =>
+                setInputOnFocus((prev) => ({ ...prev, email: false }))
+              }
               onSubmitEditing={keyboardHide}
-              style={{ ...styles.textInput, marginBottom: 43 }}
+              style={{
+                ...styles.textInput,
+                borderColor: !inputOnFocus.email ? color.border : color.accent,
+                backgroundColor: !inputOnFocus.email
+                  ? color.bg_secondary
+                  : color.bg,
+              }}
             />
+            <View
+              style={{
+                position: "relative",
+                transformOrigin: "top",
+              }}
+            >
+              <TextInput
+                placeholder="Пароль"
+                placeholderTextColor={color.placeholder}
+                autoComplete="new-password"
+                secureTextEntry={isPasswordHide}
+                clearButtonMode="always"
+                value={auth.password}
+                onChangeText={(value) =>
+                  setAuth((prev) => ({ ...prev, password: value }))
+                }
+                //? для того щоб не мерегтіло на IOS поле емаіл
+                onFocus={() => {
+                  setIsPasswordHide(true);
+                  setInputOnFocus((prev) => ({ ...prev, password: true }));
+                }}
+                onBlur={() => {
+                  auth.password === "" && setIsPasswordHide(false);
+                  setInputOnFocus((prev) => ({ ...prev, password: false }));
+                }}
+                onSubmitEditing={keyboardHide}
+                style={{
+                  ...styles.textInput,
+                  marginBottom: 43,
+                  borderColor: !inputOnFocus.password
+                    ? color.border
+                    : color.accent,
+                  backgroundColor: !inputOnFocus.password
+                    ? color.bg_secondary
+                    : color.bg,
+                }}
+              />
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  right: 16,
+                  top: 16,
+                }}
+              >
+                <Text
+                  onPress={onPress}
+                  style={{
+                    ...styles.text,
+                    color: color.secondary,
+                  }}
+                >
+                  Показати
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </KeyboardAvoidingView>
         <View
