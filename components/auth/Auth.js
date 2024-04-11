@@ -12,7 +12,7 @@ import {
   Image,
 } from "react-native";
 import { styles } from "../../style/styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { color } from "../../style/color";
 import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
@@ -39,6 +39,7 @@ const initialFocus = {
 const AuthComp = ({ isLogin }) => {
   const [auth, setAuth] = useState(isLogin ? initialLogin : initialReg);
   const [inputOnFocus, setInputOnFocus] = useState(initialFocus);
+  const [isAvatarAdd, setIsAvatarAdd] = useState(false);
 
   const [isPasswordHide, setIsPasswordHide] = useState(false);
 
@@ -47,7 +48,6 @@ const AuthComp = ({ isLogin }) => {
   };
 
   const onPress = () => {
-    // console.log(auth);
     alert("так сильно не тисни))");
   };
 
@@ -64,26 +64,29 @@ const AuthComp = ({ isLogin }) => {
         >
           <View>
             <View style={styleAuth.avatarBox}>
-              <AddSVG fill={color.accent} bg={color.bg} />
-              <DeleteSVG
-                fill={color.placeholder}
-                bg={color.bg}
-                border={color.border}
-              />
+              <View style={styleAuth.buttonAvatar(isAvatarAdd)}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => setIsAvatarAdd(!isAvatarAdd)}
+                >
+                  {!isAvatarAdd ? (
+                    <AddSVG fill={color.accent} bg={color.bg} />
+                  ) : (
+                    <DeleteSVG
+                      fill={color.placeholder}
+                      bg={color.bg}
+                      border={color.border}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
             <Text style={styleAuth.titleAuth(isLogin)}>
               {!isLogin ? "Реєстрація" : "Увійти"}
             </Text>
             {!isLogin && (
               <TextInput
-                placeholder="Логін"
-                placeholderTextColor={color.placeholder}
-                autoCapitalize="none"
-                autoComplete={
-                  Platform.OS === "ios" ? "nickname" : "username-new"
-                }
-                textContentType="nickname"
-                clearButtonMode="always"
+                {...inputLoginProps}
                 value={auth.login}
                 onChangeText={(value) =>
                   setAuth((prev) => ({ ...prev, login: value }))
@@ -99,11 +102,7 @@ const AuthComp = ({ isLogin }) => {
               />
             )}
             <TextInput
-              placeholder="Адреса електронної пошти"
-              placeholderTextColor={color.placeholder}
-              autoComplete="email"
-              inputMode="email"
-              clearButtonMode="always"
+              {...inputEmailProps}
               value={auth.email}
               onChangeText={(value) =>
                 setAuth((prev) => ({ ...prev, email: value }))
@@ -119,11 +118,8 @@ const AuthComp = ({ isLogin }) => {
             />
             <View style={styleAuth.passwordBox}>
               <TextInput
-                placeholder="Пароль"
-                placeholderTextColor={color.placeholder}
-                autoComplete="new-password"
+                {...inputPasswordProps}
                 secureTextEntry={isPasswordHide}
-                clearButtonMode="always"
                 value={auth.password}
                 onChangeText={(value) =>
                   setAuth((prev) => ({ ...prev, password: value }))
@@ -143,7 +139,10 @@ const AuthComp = ({ isLogin }) => {
                   marginBottom: 43,
                 }}
               />
-              <TouchableOpacity style={styleAuth.showPassword}>
+              <TouchableOpacity
+                style={styleAuth.showPassword}
+                activeOpacity={0.6}
+              >
                 <Text
                   onPress={onPress}
                   style={{ ...styles.text, color: color.secondary }}
@@ -155,7 +154,11 @@ const AuthComp = ({ isLogin }) => {
           </View>
         </KeyboardAvoidingView>
         <View style={styleAuth.submitBox}>
-          <TouchableOpacity onPress={onPress} style={styles.button}>
+          <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={0.6}
+            style={styles.button}
+          >
             <Text style={{ ...styles.text, color: color.bg }}>
               {!isLogin ? "Зареєструватися" : "Увійти"}
             </Text>
@@ -191,6 +194,11 @@ const styleAuth = {
     transform: [{ translateX: -60 }],
     zIndex: 1,
   },
+  buttonAvatar: (isAvatarAdd) => ({
+    position: "absolute",
+    bottom: isAvatarAdd ? 8 : 14,
+    right: isAvatarAdd ? -18 : -13,
+  }),
   titleAuth: (isLogin) => ({
     ...styles.title,
     marginBottom: 32,
@@ -221,4 +229,30 @@ const styleAuth = {
     color: color.secondary,
     textDecorationLine: "underline",
   },
+};
+
+const inputLoginProps = {
+  placeholder: "Логін",
+  placeholderTextColor: { ...color.placeholder },
+  autoCapitalize: "none",
+  autoComplete: {
+    ...(Platform.OS === "ios" ? "nickname" : "username-new"),
+  },
+  textContentType: "nickname",
+  clearButtonMode: "always",
+};
+
+const inputEmailProps = {
+  placeholder: "Адреса електронної пошти",
+  placeholderTextColor: { ...color.placeholder },
+  autoComplete: "email",
+  inputMode: "email",
+  clearButtonMode: "always",
+};
+
+const inputPasswordProps = {
+  placeholder: "Пароль",
+  placeholderTextColor: { ...color.placeholder },
+  autoComplete: "new-password",
+  clearButtonMode: "always",
 };
