@@ -63,24 +63,26 @@ const AuthComp = ({ isLogin }) => {
           style={styles.popUp}
         >
           <View>
-            <View style={styleAuth.avatarBox}>
-              <View style={styleAuth.buttonAvatar(isAvatarAdd)}>
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => setIsAvatarAdd(!isAvatarAdd)}
-                >
-                  {!isAvatarAdd ? (
-                    <AddSVG fill={color.accent} bg={color.bg} />
-                  ) : (
-                    <DeleteSVG
-                      fill={color.placeholder}
-                      bg={color.bg}
-                      border={color.border}
-                    />
-                  )}
-                </TouchableOpacity>
+            {!isLogin && (
+              <View style={styleAuth.avatarBox}>
+                <View style={styleAuth.buttonAvatar(isAvatarAdd)}>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() => setIsAvatarAdd(!isAvatarAdd)}
+                  >
+                    {!isAvatarAdd ? (
+                      <AddSVG fill={color.accent} bg={color.bg} />
+                    ) : (
+                      <DeleteSVG
+                        fill={color.placeholder}
+                        bg={color.bg}
+                        border={color.border}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            )}
             <Text style={styleAuth.titleAuth(isLogin)}>
               {!isLogin ? "Реєстрація" : "Увійти"}
             </Text>
@@ -144,10 +146,10 @@ const AuthComp = ({ isLogin }) => {
                 activeOpacity={0.6}
               >
                 <Text
-                  onPress={onPress}
+                  onPress={() => setIsPasswordHide(!isPasswordHide)}
                   style={{ ...styles.text, color: color.secondary }}
                 >
-                  Показати
+                  {isPasswordHide ? "Показати" : "Сховати"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -235,9 +237,7 @@ const inputLoginProps = {
   placeholder: "Логін",
   placeholderTextColor: { ...color.placeholder },
   autoCapitalize: "none",
-  autoComplete: {
-    ...(Platform.OS === "ios" ? "nickname" : "username-new"),
-  },
+  autoComplete: Platform.OS === "ios" ? "nickname" : "username-new",
   textContentType: "nickname",
   clearButtonMode: "always",
 };
