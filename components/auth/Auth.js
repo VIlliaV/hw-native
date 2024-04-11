@@ -16,7 +16,8 @@ import { useEffect, useState } from "react";
 import { color } from "../../style/color";
 import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
-import addAvatarSvg from "../../assets/svg/add.svg";
+import AddSVG from "../SVGComponents/AddSVG";
+import DeleteSVG from "../SVGComponents/DeleteSVG";
 
 const initialLogin = {
   email: "",
@@ -63,7 +64,12 @@ const AuthComp = ({ isLogin }) => {
         >
           <View>
             <View style={styleAuth.avatarBox}>
-              <Image source={addAvatarSvg} />
+              <AddSVG fill={color.accent} bg={color.bg} />
+              <DeleteSVG
+                fill={color.placeholder}
+                bg={color.bg}
+                border={color.border}
+              />
             </View>
             <Text style={styleAuth.titleAuth(isLogin)}>
               {!isLogin ? "Реєстрація" : "Увійти"}
