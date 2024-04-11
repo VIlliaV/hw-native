@@ -18,9 +18,9 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <RegistrationScreen /> */}
+      <RegistrationScreen />
 
-      <LoginScreen />
+      {/* <LoginScreen /> */}
     </View>
   );
 }

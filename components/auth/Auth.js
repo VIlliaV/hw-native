@@ -9,12 +9,14 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import { styles } from "../../style/styles";
 import { useEffect, useState } from "react";
 import { color } from "../../style/color";
 import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
+import addAvatarSvg from "../../assets/svg/add.svg";
 
 const initialLogin = {
   email: "",
@@ -60,7 +62,10 @@ const AuthComp = ({ isLogin }) => {
           style={styles.popUp}
         >
           <View>
-            <Text style={{ ...styles.title, marginBottom: 32 }}>
+            <View style={styleAuth.avatarBox}>
+              <Image source={addAvatarSvg} />
+            </View>
+            <Text style={styleAuth.titleAuth(isLogin)}>
               {!isLogin ? "Реєстрація" : "Увійти"}
             </Text>
             {!isLogin && (
@@ -84,15 +89,7 @@ const AuthComp = ({ isLogin }) => {
                   setInputOnFocus((prev) => ({ ...prev, login: false }))
                 }
                 onSubmitEditing={keyboardHide}
-                style={{
-                  ...styles.textInput,
-                  borderColor: !inputOnFocus.login
-                    ? color.border
-                    : color.accent,
-                  backgroundColor: !inputOnFocus.login
-                    ? color.bg_secondary
-                    : color.bg,
-                }}
+                style={styleAuth.inputAuth({ inputOnFocus, type: "login" })}
               />
             )}
             <TextInput
@@ -112,20 +109,9 @@ const AuthComp = ({ isLogin }) => {
                 setInputOnFocus((prev) => ({ ...prev, email: false }))
               }
               onSubmitEditing={keyboardHide}
-              style={{
-                ...styles.textInput,
-                borderColor: !inputOnFocus.email ? color.border : color.accent,
-                backgroundColor: !inputOnFocus.email
-                  ? color.bg_secondary
-                  : color.bg,
-              }}
+              style={styleAuth.inputAuth({ inputOnFocus, type: "email" })}
             />
-            <View
-              style={{
-                position: "relative",
-                transformOrigin: "top",
-              }}
-            >
+            <View style={styleAuth.passwordBox}>
               <TextInput
                 placeholder="Пароль"
                 placeholderTextColor={color.placeholder}
@@ -147,29 +133,14 @@ const AuthComp = ({ isLogin }) => {
                 }}
                 onSubmitEditing={keyboardHide}
                 style={{
-                  ...styles.textInput,
+                  ...styleAuth.inputAuth({ inputOnFocus, type: "password" }),
                   marginBottom: 43,
-                  borderColor: !inputOnFocus.password
-                    ? color.border
-                    : color.accent,
-                  backgroundColor: !inputOnFocus.password
-                    ? color.bg_secondary
-                    : color.bg,
                 }}
               />
-              <TouchableOpacity
-                style={{
-                  position: "absolute",
-                  right: 16,
-                  top: 16,
-                }}
-              >
+              <TouchableOpacity style={styleAuth.showPassword}>
                 <Text
                   onPress={onPress}
-                  style={{
-                    ...styles.text,
-                    color: color.secondary,
-                  }}
+                  style={{ ...styles.text, color: color.secondary }}
                 >
                   Показати
                 </Text>
@@ -177,19 +148,8 @@ const AuthComp = ({ isLogin }) => {
             </View>
           </View>
         </KeyboardAvoidingView>
-        <View
-          style={{
-            backgroundColor: color.bg,
-            paddingHorizontal: 16,
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity
-            onPress={onPress}
-            style={{
-              ...styles.button,
-            }}
-          >
+        <View style={styleAuth.submitBox}>
+          <TouchableOpacity onPress={onPress} style={styles.button}>
             <Text style={{ ...styles.text, color: color.bg }}>
               {!isLogin ? "Зареєструватися" : "Увійти"}
             </Text>
@@ -200,14 +160,7 @@ const AuthComp = ({ isLogin }) => {
             <Text style={{ ...styles.text, color: color.secondary }}>
               {!isLogin ? "Вже є акаунт? " : "Немає акаунту? "}
             </Text>
-            <Text
-              onPress={onPress}
-              style={{
-                ...styles.text,
-                color: color.secondary,
-                textDecorationLine: "underline",
-              }}
-            >
+            <Text onPress={onPress} style={styleAuth.changeAuth}>
               {!isLogin ? "Увійти" : "Зареєструватися"}
             </Text>
           </View>
@@ -219,3 +172,47 @@ const AuthComp = ({ isLogin }) => {
 };
 
 export default AuthComp;
+
+const styleAuth = {
+  avatarBox: {
+    backgroundColor: color.bg_secondary,
+    position: "absolute",
+    top: -60,
+    left: "50%",
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+    transform: [{ translateX: -60 }],
+    zIndex: 1,
+  },
+  titleAuth: (isLogin) => ({
+    ...styles.title,
+    marginBottom: 32,
+    marginTop: !isLogin ? 92 : 32,
+  }),
+
+  inputAuth: ({ inputOnFocus, type }) => ({
+    ...styles.textInput,
+    borderColor: !inputOnFocus[type] ? color.border : color.accent,
+    backgroundColor: !inputOnFocus[type] ? color.bg_secondary : color.bg,
+  }),
+  passwordBox: {
+    position: "relative",
+    transformOrigin: "top",
+  },
+  showPassword: {
+    position: "absolute",
+    right: 16,
+    top: 16,
+  },
+  submitBox: {
+    backgroundColor: color.bg,
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
+  changeAuth: {
+    ...styles.text,
+    color: color.secondary,
+    textDecorationLine: "underline",
+  },
+};
