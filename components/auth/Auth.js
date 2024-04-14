@@ -45,6 +45,18 @@ const AuthComp = ({ isLogin }) => {
     alert("так сильно не тисни))");
   };
 
+  const onSubmit = () => {
+    if (isLogin) {
+      const { email } = auth;
+      console.log(email);
+      alert("твій email: " + email);
+    } else {
+      const { email, login } = auth;
+      alert("привіт " + login + "твій email: " + email);
+      console.log(email, login);
+    }
+  };
+
   const onBlur = (e) => {
     const { placeholder } = e._dispatchInstances.memoizedProps;
     setInputOnFocus((prev) => ({ ...prev, [placeholder]: false }));
@@ -169,7 +181,7 @@ const AuthComp = ({ isLogin }) => {
         </KeyboardAvoidingView>
         <View style={styleAuth.submitBox}>
           <TouchableOpacity
-            onPress={onPress}
+            onPress={onSubmit}
             activeOpacity={0.6}
             style={styles.button}
           >
