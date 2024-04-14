@@ -30,15 +30,9 @@ const initialReg = {
   password: "",
 };
 
-const initialFocus = {
-  login: false,
-  email: false,
-  password: false,
-};
-
 const AuthComp = ({ isLogin }) => {
   const [auth, setAuth] = useState(isLogin ? initialLogin : initialReg);
-  const [inputOnFocus, setInputOnFocus] = useState(initialFocus);
+  const [inputOnFocus, setInputOnFocus] = useState({});
   const [isAvatarAdd, setIsAvatarAdd] = useState(false);
 
   const [isPasswordHide, setIsPasswordHide] = useState(false);
@@ -49,6 +43,22 @@ const AuthComp = ({ isLogin }) => {
 
   const onPress = () => {
     alert("так сильно не тисни))");
+  };
+
+  const onBlur = (e) => {
+    const { placeholder } = e._dispatchInstances.memoizedProps;
+    setInputOnFocus((prev) => ({ ...prev, [placeholder]: false }));
+  };
+
+  const onFocus = (e) => {
+    // console.log(
+    //   "🚀 ~ e:",
+    //   e._dispatchInstances.memoizedProps.textContentType,
+    //   e._dispatchInstances.memoizedProps.autoComplete,
+    //   e._dispatchInstances.memoizedProps.placeholder
+    // );
+    const { placeholder } = e._dispatchInstances.memoizedProps;
+    setInputOnFocus((prev) => ({ ...prev, [placeholder]: true }));
   };
 
   return (
@@ -93,14 +103,13 @@ const AuthComp = ({ isLogin }) => {
                 onChangeText={(value) =>
                   setAuth((prev) => ({ ...prev, login: value }))
                 }
-                onFocus={() =>
-                  setInputOnFocus((prev) => ({ ...prev, login: true }))
-                }
-                onBlur={() =>
-                  setInputOnFocus((prev) => ({ ...prev, login: false }))
-                }
+                onFocus={(e) => onFocus(e)}
+                onBlur={(e) => onBlur(e)}
                 onSubmitEditing={keyboardHide}
-                style={styleAuth.inputAuth({ inputOnFocus, type: "login" })}
+                style={styleAuth.inputAuth({
+                  inputOnFocus,
+                  type: inputLoginProps.placeholder,
+                })}
               />
             )}
             <TextInput
@@ -109,14 +118,13 @@ const AuthComp = ({ isLogin }) => {
               onChangeText={(value) =>
                 setAuth((prev) => ({ ...prev, email: value }))
               }
-              onFocus={() =>
-                setInputOnFocus((prev) => ({ ...prev, email: true }))
-              }
-              onBlur={() =>
-                setInputOnFocus((prev) => ({ ...prev, email: false }))
-              }
+              onFocus={(e) => onFocus(e)}
+              onBlur={(e) => onBlur(e)}
               onSubmitEditing={keyboardHide}
-              style={styleAuth.inputAuth({ inputOnFocus, type: "email" })}
+              style={styleAuth.inputAuth({
+                inputOnFocus,
+                type: inputEmailProps.placeholder,
+              })}
             />
             <View style={styleAuth.passwordBox}>
               <TextInput
@@ -126,18 +134,22 @@ const AuthComp = ({ isLogin }) => {
                 onChangeText={(value) =>
                   setAuth((prev) => ({ ...prev, password: value }))
                 }
-                //? для того щоб не мерегтіло на IOS поле емаіл
-                onFocus={() => {
+                onFocus={(e) => {
+                  onFocus(e);
+                  //? для того щоб не мерегтіло на IOS поле емаіл
                   setIsPasswordHide(true);
-                  setInputOnFocus((prev) => ({ ...prev, password: true }));
                 }}
-                onBlur={() => {
+                onBlur={(e) => {
+                  onBlur(e);
+                  //? для того щоб не мерегтіло на IOS поле емаіл
                   auth.password === "" && setIsPasswordHide(false);
-                  setInputOnFocus((prev) => ({ ...prev, password: false }));
                 }}
                 onSubmitEditing={keyboardHide}
                 style={{
-                  ...styleAuth.inputAuth({ inputOnFocus, type: "password" }),
+                  ...styleAuth.inputAuth({
+                    inputOnFocus,
+                    type: inputPasswordProps.placeholder,
+                  }),
                   marginBottom: 43,
                 }}
               />
@@ -240,6 +252,7 @@ const inputLoginProps = {
   autoComplete: Platform.OS === "ios" ? "nickname" : "username-new",
   textContentType: "nickname",
   clearButtonMode: "always",
+  contextMenuHidden: true,
 };
 
 const inputEmailProps = {
@@ -254,5 +267,5 @@ const inputPasswordProps = {
   placeholder: "Пароль",
   placeholderTextColor: { ...color.placeholder },
   autoComplete: "new-password",
-  clearButtonMode: "always",
+  // clearButtonMode: "always",
 };
