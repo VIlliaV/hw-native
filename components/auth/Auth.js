@@ -11,8 +11,10 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
+
 import { styles } from "../../style/styles";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { color } from "../../style/color";
 import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
@@ -34,15 +36,18 @@ const AuthComp = ({ isLogin }) => {
   const [auth, setAuth] = useState(isLogin ? initialLogin : initialReg);
   const [inputOnFocus, setInputOnFocus] = useState({});
   const [isAvatarAdd, setIsAvatarAdd] = useState(false);
-
   const [isPasswordHide, setIsPasswordHide] = useState(false);
+
+  const navigation = useNavigation();
 
   const keyboardHide = () => {
     Keyboard.dismiss();
   };
 
-  const onPress = () => {
-    alert("так сильно не тисни))");
+  const handleAuth = () => {
+    isLogin
+      ? navigation.navigate("Registration")
+      : navigation.navigate("Login");
   };
 
   const onSubmit = () => {
@@ -63,12 +68,6 @@ const AuthComp = ({ isLogin }) => {
   };
 
   const onFocus = (e) => {
-    // console.log(
-    //   "🚀 ~ e:",
-    //   e._dispatchInstances.memoizedProps.textContentType,
-    //   e._dispatchInstances.memoizedProps.autoComplete,
-    //   e._dispatchInstances.memoizedProps.placeholder
-    // );
     const { placeholder } = e._dispatchInstances.memoizedProps;
     setInputOnFocus((prev) => ({ ...prev, [placeholder]: true }));
   };
@@ -195,7 +194,7 @@ const AuthComp = ({ isLogin }) => {
             <Text style={{ ...styles.text, color: color.secondary }}>
               {!isLogin ? "Вже є акаунт? " : "Немає акаунту? "}
             </Text>
-            <Text onPress={onPress} style={styleAuth.changeAuth}>
+            <Text onPress={handleAuth} style={styleAuth.changeAuth}>
               {!isLogin ? "Увійти" : "Зареєструватися"}
             </Text>
           </View>
@@ -236,6 +235,7 @@ const styleAuth = {
     borderColor: !inputOnFocus[type] ? color.border : color.accent,
     backgroundColor: !inputOnFocus[type] ? color.bg_secondary : color.bg,
   }),
+
   passwordBox: {
     position: "relative",
     transformOrigin: "top",

@@ -3,6 +3,8 @@ import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import RegistrationScreen from "./components/auth/RegistrationScreen";
 import LoginScreen from "./components/auth/LoginScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,12 +17,24 @@ export default function App() {
   if (!fontsLoaded) {
     return <Text>loading</Text>;
   }
+  const MainStack = createStackNavigator();
 
   return (
-    <View style={{ flex: 1 }}>
-      <RegistrationScreen />
-
-      {/* <LoginScreen /> */}
-    </View>
+    <NavigationContainer>
+      <View style={{ flex: 1 }}>
+        <MainStack.Navigator initialRouteName="Registration">
+          <MainStack.Screen
+            name="Registration"
+            component={RegistrationScreen}
+            options={{ headerShown: false }}
+          />
+          <MainStack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+        </MainStack.Navigator>
+      </View>
+    </NavigationContainer>
   );
 }
