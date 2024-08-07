@@ -1,5 +1,5 @@
+import "react-native-gesture-handler";
 import { Text, View } from "react-native";
-
 import { useFonts } from "expo-font";
 import RegistrationScreen from "./components/auth/RegistrationScreen";
 import LoginScreen from "./components/auth/LoginScreen";
