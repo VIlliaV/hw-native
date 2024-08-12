@@ -1,10 +1,10 @@
 import "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
-import RegistrationScreen from "./components/auth/RegistrationScreen";
-import LoginScreen from "./components/auth/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import RegistrationScreen from "./screens/authScreens/RegistrationScreen";
+import LoginScreen from "./screens/authScreens/LoginScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
