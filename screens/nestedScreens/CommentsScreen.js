@@ -1,5 +1,5 @@
 const CommentsScreen = () => {
-  return <div></div>;
+  return <></>;
 };
 
 export default CommentsScreen;

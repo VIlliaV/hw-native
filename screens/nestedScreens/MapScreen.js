@@ -1,5 +1,5 @@
 const MapScreen = () => {
-  return <div></div>;
+  return <></>;
 };
 
 export default MapScreen;
