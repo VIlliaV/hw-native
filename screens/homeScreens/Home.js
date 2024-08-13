@@ -9,6 +9,7 @@ import ProfileSVG from "../../components/SVGComponents/ProfileSVG";
 import { View, Text } from "react-native";
 import { styles } from "../../style/styles";
 import ExitButton from "../../components/buttons/ExitButton";
+import BackButton from "../../components/buttons/BackButton";
 
 const Home = () => {
   const HomeTab = createBottomTabNavigator();
@@ -31,7 +32,7 @@ const Home = () => {
           } else IconName = ProfileSVG;
 
           return (
-            <View style={styleHome.tab}>
+            <View style={styleHome.tab(color)}>
               <IconName fill={color} />
             </View>
           );
@@ -57,6 +58,7 @@ const Home = () => {
         component={CreatePostsScreen}
         options={{
           title: "Створити публікацію",
+          // headerLeft: () => <BackButton />,
         }}
       />
       <HomeTab.Screen
@@ -73,14 +75,14 @@ const Home = () => {
 export default Home;
 
 const styleHome = {
-  tab: {
+  tab: (color) => ({
     width: 70,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
     backgroundColor: color,
-  },
+  }),
   tabBarStyle: {
     height: 83,
     shadowColor: "rgba(0, 0, 0, 0.30)",
