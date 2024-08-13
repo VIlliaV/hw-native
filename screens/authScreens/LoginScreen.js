@@ -1,7 +1,7 @@
 import AuthComp from "../../components/auth/Auth";
 
-const LoginScreen = () => {
-  return <AuthComp isLogin={true} />;
+const LoginScreen = ({ route }) => {
+  return <AuthComp route={route} />;
 };
 
 export default LoginScreen;
