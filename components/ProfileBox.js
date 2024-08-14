@@ -1,16 +1,35 @@
-import { View, TouchableOpacity, Text, Platform } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Platform,
+  ImageBackground,
+  Image,
+} from "react-native";
 import { styles } from "../style/styles";
 import { color } from "../style/color";
 import AddSVG from "./SVGComponents/AddSVG";
 import DeleteSVG from "./SVGComponents/DeleteSVG";
 import { useState } from "react";
+import avatarImage from "../assets/image/avatarImage.jpg";
+import noPhoto from "../assets/image/noPhoto.jpg";
 
 const ProfileBox = ({ route, children }) => {
   const [isAvatarAdd, setIsAvatarAdd] = useState(false);
+
+  const avatar = isAvatarAdd ? avatarImage : noPhoto;
   return (
     <View style={styles.popUp}>
       {route.name !== "Login" && (
-        <View style={styleProfileBox.avatarBox}>
+        <View style={{ ...styleProfileBox.avatarBox }}>
+          <Image
+            source={avatar}
+            resizeMode="cover"
+            style={{
+              ...styles.image,
+              borderRadius: 16,
+            }}
+          />
           <View style={styleProfileBox.buttonAvatar(isAvatarAdd)}>
             <TouchableOpacity
               activeOpacity={0.6}
