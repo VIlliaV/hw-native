@@ -1,10 +1,11 @@
 import { Text, View } from "react-native";
+import HeadContainer from "../../components/HeadContainer";
 
 const PostsScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <HeadContainer>
       <Text>PostsScreen!</Text>
-    </View>
+    </HeadContainer>
   );
 };
 
