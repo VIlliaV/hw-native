@@ -1,11 +1,4 @@
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  Platform,
-  ImageBackground,
-  Image,
-} from "react-native";
+import { View, TouchableOpacity, Text, Image } from "react-native";
 import { styles } from "../style/styles";
 import { color } from "../style/color";
 import AddSVG from "./SVGComponents/AddSVG";
