@@ -71,8 +71,14 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto-Medium",
     fontSize: 17,
     fontStyle: "normal",
-    fontWeight: 500,
     lineHeight: 22,
     letterSpacing: -0.408,
+  },
+
+  subText: {
+    color: color.primary,
+    fontFamily: "Roboto-Medium",
+    fontSize: 13,
+    fontStyle: "normal",
   },
 });
