@@ -5,18 +5,40 @@ import { styles } from "../../style/styles";
 import { color } from "../../style/color";
 
 const Location = () => {
-  const location = "Ivano-Frankivs'k Region, Ukraine";
+  const city = "Ivano-Frankivs'k Region, ";
+  const country = "Ukraine";
   return (
-    <View style={{ flexDirection: "row", gap: 4, justifyContent: "center" }}>
+    <View
+      style={{
+        flexDirection: "row",
+        flexShrink: 1,
+        flexGrow: 0,
+        gap: 4,
+        alignItems: "center",
+      }}
+    >
       <LocationSVG />
-      <Text
+      <View
         style={{
-          ...styles.text,
-          color: color.primary,
+          flexDirection: "row",
+          flexShrink: 1,
+          flexGrow: 0,
+          flexWrap: "wrap",
         }}
       >
-        {location}
-      </Text>
+        <Text
+          style={{
+            ...styles.text,
+            textAlignVertical: "none",
+            color: color.primary,
+            textAlign: "right",
+            textDecorationLine: "underline",
+          }}
+        >
+          {city}
+          {country}
+        </Text>
+      </View>
     </View>
   );
 };

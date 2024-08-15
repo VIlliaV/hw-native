@@ -13,11 +13,12 @@ const Social = ({ amount = 5, social = "comment" }) => {
   const IconName = socialIcon[social];
 
   return (
-    <View style={{ flexDirection: "row", gap: 6, justifyContent: "center" }}>
+    <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
       <IconName amount={amount} />
       <Text
         style={{
           ...styles.text,
+          textAlignVertical: "none",
           color: amount > 0 ? color.primary : color.placeholder,
         }}
       >
