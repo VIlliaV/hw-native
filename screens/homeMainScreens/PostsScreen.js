@@ -1,7 +1,7 @@
 // import { Image, Text, View } from "react-native";
 import HeadContainer from "../../components/HeadContainer";
-import Post from "../../components/Posts/Post";
-import PostHolder from "../../components/Posts/PostHolder";
+import Post from "../../components/posts/Post";
+import PostHolder from "../../components/posts/PostHolder";
 
 const PostsScreen = () => {
   return (
