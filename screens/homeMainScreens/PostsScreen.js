@@ -1,12 +1,17 @@
-import { Text } from "react-native";
+// import { Image, Text, View } from "react-native";
 import HeadContainer from "../../components/HeadContainer";
+import Post from "../../components/Posts/Post";
+import PostHolder from "../../components/Posts/PostHolder";
 
 const PostsScreen = () => {
   return (
     <HeadContainer>
-      <Text>PostsScreen!</Text>
+      <PostHolder />
+      <Post />
     </HeadContainer>
   );
 };
 
 export default PostsScreen;
+
+const stylePosts = {};

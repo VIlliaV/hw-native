@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BackSVG from "../SVGComponents/BackSVG";
 
