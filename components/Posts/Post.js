@@ -1,6 +1,7 @@
 import { View, Image } from "react-native";
 import postPhoto from "../../assets/image/postPhoto.jpg";
 import { styles } from "../../style/styles";
+import Social from "../social/Social";
 
 const Post = () => {
   return (
@@ -17,6 +18,8 @@ const Post = () => {
           }}
         />
       </View>
+      <Social />
+      <Social social="like" amount={5} />
     </View>
   );
 };
