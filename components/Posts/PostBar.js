@@ -4,11 +4,20 @@ import Social from "../social/Social";
 import Location from "../social/Location";
 
 const PostBar = () => {
-  const amountLike = 0;
+  const amountLike = 10;
   return (
-    <View>
-      <Social />
-      {!!amountLike && <Social social="like" amount={amountLike} />}
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 4,
+      }}
+    >
+      <View style={{ flexDirection: "row", gap: 24 }}>
+        <Social />
+        {!!amountLike && <Social social="like" amount={amountLike} />}
+      </View>
+
       <Location />
     </View>
   );
