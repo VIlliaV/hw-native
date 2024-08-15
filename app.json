@@ -25,6 +25,18 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-font"]
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Inter-Medium.ttf",
+            "./assets/fonts/Roboto-Bold.ttf",
+            "./assets/fonts/Roboto-Medium.ttf",
+            "./assets/fonts/Roboto-Regular.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }
