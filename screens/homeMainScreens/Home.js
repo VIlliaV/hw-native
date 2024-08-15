@@ -24,12 +24,13 @@ const Home = () => {
         headerTitleStyle: styles.headerTitle,
         headerTitleAlign: "center",
         tabBarIcon: ({ color }) => {
-          let IconName;
-          if (route.name === "PostsScreen") {
-            IconName = PostsSVG;
-          } else if (route.name === "CreatePostsScreen") {
-            IconName = CreatePostSVG;
-          } else IconName = ProfileSVG;
+          const icons = {
+            PostsScreen: PostsSVG,
+            CreatePostsScreen: CreatePostSVG,
+            ProfileScreen: ProfileSVG,
+          };
+
+          const IconName = icons[route.name] || PostsSVG;
 
           return (
             <View style={styleHome.tab(color)}>
