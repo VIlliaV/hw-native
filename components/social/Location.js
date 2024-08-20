@@ -4,9 +4,9 @@ import { Text, View } from "react-native";
 import { styles } from "../../style/styles";
 import { color } from "../../style/color";
 
-const Location = () => {
-  const city = "Ivano-Frankivs'k Region, ";
-  const country = "Ukraine";
+const Location = ({ props }) => {
+  const { city, country } = props;
+
   return (
     <View
       style={{

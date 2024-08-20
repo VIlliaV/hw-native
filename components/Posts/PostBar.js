@@ -3,8 +3,9 @@ import { View } from "react-native";
 import Social from "../social/Social";
 import Location from "../social/Location";
 
-const PostBar = () => {
-  const amountLike = 10;
+const PostBar = ({ props }) => {
+  const { amountLike, amountComment } = props;
+
   return (
     <View
       style={{
@@ -14,11 +15,11 @@ const PostBar = () => {
       }}
     >
       <View style={{ flexDirection: "row", gap: 24 }}>
-        <Social />
+        <Social amount={amountComment} />
         {!!amountLike && <Social social="like" amount={amountLike} />}
       </View>
 
-      <Location />
+      <Location props={props} />
     </View>
   );
 };

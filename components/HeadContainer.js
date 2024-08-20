@@ -7,7 +7,8 @@ const HeadContainer = ({ children }) => {
       style={{
         backgroundColor: color.bg,
         paddingHorizontal: 16,
-        paddingVertical: 32,
+        paddingTop: 32,
+        paddingBottom: 84,
         minHeight: "100%",
       }}
     >
