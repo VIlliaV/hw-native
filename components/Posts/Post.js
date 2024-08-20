@@ -9,7 +9,6 @@ const jsonData = require("../../base/posts.json");
 const Post = () => {
   const { posts } = jsonData;
 
-  const nameOfPost = "data.name";
   return (
     <FlatList
       data={posts}

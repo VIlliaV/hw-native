@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "./screens/authScreens/RegistrationScreen";
 import LoginScreen from "./screens/authScreens/LoginScreen";
 import Home from "./screens/homeMainScreens/Home";
+import Nested from "./routes/Nested";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,6 +38,11 @@ export default function App() {
           <MainStack.Screen
             name="Home"
             component={Home}
+            options={{ headerShown: false }}
+          />
+          <MainStack.Screen
+            name="Nested"
+            component={Nested}
             options={{ headerShown: false }}
           />
         </MainStack.Navigator>

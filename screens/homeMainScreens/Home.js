@@ -59,7 +59,8 @@ const Home = () => {
         component={CreatePostsScreen}
         options={{
           title: "Створити публікацію",
-          // headerLeft: () => <BackButton />,
+          tabBarStyle: { display: "none" },
+          headerLeft: () => <BackButton />,
         }}
       />
       <HomeTab.Screen
