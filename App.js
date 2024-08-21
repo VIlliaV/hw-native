@@ -1,12 +1,8 @@
 import "react-native-gesture-handler";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { useFonts } from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import RegistrationScreen from "./screens/authScreens/RegistrationScreen";
-import LoginScreen from "./screens/authScreens/LoginScreen";
-import Home from "./screens/homeMainScreens/Home";
-import Nested from "./routes/Nested";
+
+import RootRouter from "./routes/RootRouter";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,34 +15,6 @@ export default function App() {
   if (!fontsLoaded) {
     return <Text>loading</Text>;
   }
-  const MainStack = createStackNavigator();
 
-  return (
-    <NavigationContainer>
-      <View style={{ flex: 1 }}>
-        <MainStack.Navigator initialRouteName="Registration">
-          <MainStack.Screen
-            name="Registration"
-            component={RegistrationScreen}
-            options={{ headerShown: false }}
-          />
-          <MainStack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <MainStack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <MainStack.Screen
-            name="Nested"
-            component={Nested}
-            options={{ headerShown: false }}
-          />
-        </MainStack.Navigator>
-      </View>
-    </NavigationContainer>
-  );
+  return <RootRouter />;
 }

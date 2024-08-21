@@ -1,15 +1,15 @@
-import ProfileScreen from "./ProfileScreen";
-import PostsScreen from "./PostsScreen";
-import CreatePostsScreen from "./CreatePostsScreen";
+import ProfileScreen from "../screens/homeMainScreens/ProfileScreen";
+import PostsScreen from "../screens/homeMainScreens/PostsScreen";
+import CreatePostsScreen from "../screens/homeMainScreens/CreatePostsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PostsSVG from "../../components/SVGComponents/PostsSVG";
-import { color } from "../../style/color";
-import CreatePostSVG from "../../components/SVGComponents/CreatePostSVG";
-import ProfileSVG from "../../components/SVGComponents/ProfileSVG";
+import PostsSVG from "../components/SVGComponents/PostsSVG";
+import { color } from "../style/color";
+import CreatePostSVG from "../components/SVGComponents/CreatePostSVG";
+import ProfileSVG from "../components/SVGComponents/ProfileSVG";
 import { View, Text } from "react-native";
-import { styles } from "../../style/styles";
-import ExitButton from "../../components/buttons/ExitButton";
-import BackButton from "../../components/buttons/BackButton";
+import { styles } from "../style/styles";
+import ExitButton from "../components/buttons/ExitButton";
+import BackButton from "../components/buttons/BackButton";
 
 const Home = () => {
   const HomeTab = createBottomTabNavigator();
