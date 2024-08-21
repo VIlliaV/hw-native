@@ -35,10 +35,10 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     color: color.primary,
-    backgroundColor: color.bg_secondary,
+    // backgroundColor: color.bg_secondary,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: color.border,
+    // borderColor: color.border,
   },
   button: {
     width: "100%",
@@ -81,4 +81,12 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     fontStyle: "normal",
   },
+  positionCenter: ({ width, height }) => ({
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: width,
+    height: height,
+    transform: [{ translateX: -width / 2 }, { translateY: -height / 2 }],
+  }),
 });
