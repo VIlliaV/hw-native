@@ -34,10 +34,8 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     color: color.primary,
-    // backgroundColor: color.bg_secondary,
     borderWidth: 1,
     borderRadius: 8,
-    // borderColor: color.border,
   },
   button: {
     width: "100%",

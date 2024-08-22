@@ -122,13 +122,9 @@ const AuthComp = ({ route }) => {
                     }
                     onFocus={() => {
                       setInputOnFocus(inputPasswordProps.placeholder);
-                      //? для того щоб не мерегтіло на IOS поле емаіл
-                      setIsPasswordHide(true);
                     }}
                     onBlur={() => {
                       setInputOnFocus(null);
-                      //? для того щоб не мерегтіло на IOS поле емаіл
-                      auth.password === "" && setIsPasswordHide(false);
                     }}
                     onSubmitEditing={keyboardHide}
                     style={{
@@ -136,7 +132,7 @@ const AuthComp = ({ route }) => {
                         inputOnFocus,
                         type: inputPasswordProps.placeholder,
                       }),
-                      marginBottom: 43,
+                      marginBottom: 0,
                     }}
                   />
                   <TouchableOpacity
@@ -197,11 +193,13 @@ const styleAuth = {
   passwordBox: {
     position: "relative",
     transformOrigin: "top",
+    marginBottom: 43,
   },
   showPassword: {
     position: "absolute",
     right: 16,
-    top: 16,
+    top: "50%",
+    transform: [{ translateY: -10 }],
   },
   submitBox: {
     backgroundColor: color.bg,

@@ -34,99 +34,104 @@ const CreatePostsScreen = () => {
 
   return (
     <HeadContainer>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "position" : "position"}
-      >
-        <View
-          style={{
-            position: "relative",
-            width: "100%",
-            height: 240,
-            marginBottom: 8,
-          }}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "position" : "position"}
         >
-          <Image
-            // source={}
-            resizeMode="cover"
-            style={{
-              ...styles.image,
-              borderRadius: 8,
-              borderWidth: 1,
-              borderColor: color.border,
-              backgroundColor: color.bg_secondary,
-            }}
-          />
           <View
             style={{
-              ...styles.positionCenter({ width: 60, height: 60 }),
-              borderRadius: 50,
-              backgroundColor: isPhotoAdd
-                ? "rgba(255, 255, 255, 0.3)"
-                : color.bg,
+              position: "relative",
+              width: "100%",
+              height: 240,
+              marginBottom: 8,
             }}
           >
+            <Image
+              // source={}
+              resizeMode="cover"
+              style={{
+                ...styles.image,
+                borderRadius: 8,
+                borderWidth: 1,
+                borderColor: color.border,
+                backgroundColor: color.bg_secondary,
+              }}
+            />
             <View
               style={{
-                ...styles.positionCenter({ width: 24, height: 24 }),
+                ...styles.positionCenter({ width: 60, height: 60 }),
+                borderRadius: 50,
+                backgroundColor: isPhotoAdd
+                  ? "rgba(255, 255, 255, 0.3)"
+                  : color.bg,
               }}
             >
-              <PlugCamera active={isPhotoAdd} />
+              <View
+                style={{
+                  ...styles.positionCenter({ width: 24, height: 24 }),
+                }}
+              >
+                <PlugCamera active={isPhotoAdd} />
+              </View>
             </View>
           </View>
-        </View>
-        <Text
-          style={{
-            ...styles.text,
-            color: color.placeholder,
-            marginBottom: 32,
-          }}
-        >
-          {isPhotoAdd ? "Редагувати фото" : "Завантажте фото"}
-        </Text>
-
-        <View>
-          <TextInput
-            {...inputNameProps}
-            value={createPostData.name}
-            onChangeText={(value) =>
-              setCreatePostData((prev) => ({ ...prev, name: value }))
-            }
-            onFocus={() => setInputOnFocus(inputNameProps.placeholder)}
-            onBlur={() => setInputOnFocus(null)}
-            onSubmitEditing={() => {
-              keyboardHide;
-              secondInputRef.current?.focus();
+          <Text
+            style={{
+              ...styles.text,
+              color: color.placeholder,
+              marginBottom: 32,
             }}
-            style={stylesPost.inputPost({
-              inputOnFocus,
-              type: inputNameProps.placeholder,
-            })}
-          />
-          <View style={{ ...stylesPost.locationBox, marginBottom: 16 }}>
+          >
+            {isPhotoAdd ? "Редагувати фото" : "Завантажте фото"}
+          </Text>
+
+          <View>
             <TextInput
-              ref={secondInputRef}
-              {...inputLocationProps}
-              value={createPostData.location}
+              {...inputNameProps}
+              value={createPostData.name}
               onChangeText={(value) =>
-                setCreatePostData((prev) => ({ ...prev, location: value }))
+                setCreatePostData((prev) => ({ ...prev, name: value }))
               }
-              onFocus={() => setInputOnFocus(inputLocationProps.placeholder)}
+              onFocus={() => setInputOnFocus(inputNameProps.placeholder)}
               onBlur={() => setInputOnFocus(null)}
-              onSubmitEditing={keyboardHide}
+              onSubmitEditing={() => {
+                keyboardHide;
+                secondInputRef.current?.focus();
+              }}
               style={stylesPost.inputPost({
                 inputOnFocus,
-                type: inputLocationProps.placeholder,
+                type: inputNameProps.placeholder,
               })}
             />
-            <View style={stylesPost.locationSvg}>
-              <LocationSVG />
+            <View style={stylesPost.locationBox}>
+              <TextInput
+                ref={secondInputRef}
+                {...inputLocationProps}
+                value={createPostData.location}
+                onChangeText={(value) =>
+                  setCreatePostData((prev) => ({ ...prev, location: value }))
+                }
+                onFocus={() => setInputOnFocus(inputLocationProps.placeholder)}
+                onBlur={() => setInputOnFocus(null)}
+                onSubmitEditing={keyboardHide}
+                style={{
+                  ...stylesPost.inputPost({
+                    inputOnFocus,
+                    type: inputLocationProps.placeholder,
+                  }),
+                  fontFamily: "Roboto-Regular",
+                  paddingLeft: 28,
+                }}
+              />
+              <View style={stylesPost.locationSvg}>
+                <LocationSVG />
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
 
-      {/* <Text
+        {/* <Text
         style={{
           position: "absolute",
 
@@ -138,6 +143,7 @@ const CreatePostsScreen = () => {
       >
         CreatePostsScreen!
       </Text> */}
+      </TouchableWithoutFeedback>
     </HeadContainer>
   );
 };
@@ -146,19 +152,19 @@ export default CreatePostsScreen;
 
 const stylesPost = {
   inputPost: ({ inputOnFocus, type }) => ({
-    ...styles.textInput,
     fontFamily: "Roboto-Medium",
-    borderWidth: 0,
+    fontSize: 16,
+    color: color.primary,
     borderBottomWidth: 1,
-    borderRadius: 0,
+    paddingVertical: 16,
     borderColor: inputOnFocus !== type ? color.border : color.accent,
     backgroundColor: color.bg,
-    marginBottom: 0,
   }),
 
   locationBox: {
     position: "relative",
     transformOrigin: "top",
+    marginBottom: 16,
   },
 
   locationSvg: {
