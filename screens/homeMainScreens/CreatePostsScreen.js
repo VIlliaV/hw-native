@@ -13,6 +13,7 @@ import { styles } from "../../style/styles";
 import { color } from "../../style/color";
 import PlugCamera from "../../components/SVGComponents/PlugCamera";
 import { useRef, useState } from "react";
+import LocationSVG from "../../components/SVGComponents/LocationSVG";
 
 const initial = {
   name: "",
@@ -35,7 +36,7 @@ const CreatePostsScreen = () => {
     <HeadContainer>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "position" : "height"}
+        behavior={Platform.OS === "ios" ? "position" : "position"}
       >
         <View
           style={{
@@ -102,21 +103,26 @@ const CreatePostsScreen = () => {
               type: inputNameProps.placeholder,
             })}
           />
-          <TextInput
-            ref={secondInputRef}
-            {...inputNameProps}
-            value={createPostData.name}
-            onChangeText={(value) =>
-              setCreatePostData((prev) => ({ ...prev, name: value }))
-            }
-            onFocus={() => setInputOnFocus(inputNameProps.placeholder)}
-            onBlur={() => setInputOnFocus(null)}
-            onSubmitEditing={keyboardHide}
-            style={stylesPost.inputPost({
-              inputOnFocus,
-              type: inputNameProps.placeholder,
-            })}
-          />
+          <View style={{ ...stylesPost.locationBox, marginBottom: 16 }}>
+            <TextInput
+              ref={secondInputRef}
+              {...inputLocationProps}
+              value={createPostData.location}
+              onChangeText={(value) =>
+                setCreatePostData((prev) => ({ ...prev, location: value }))
+              }
+              onFocus={() => setInputOnFocus(inputLocationProps.placeholder)}
+              onBlur={() => setInputOnFocus(null)}
+              onSubmitEditing={keyboardHide}
+              style={stylesPost.inputPost({
+                inputOnFocus,
+                type: inputLocationProps.placeholder,
+              })}
+            />
+            <View style={stylesPost.locationSvg}>
+              <LocationSVG />
+            </View>
+          </View>
         </View>
       </KeyboardAvoidingView>
 
@@ -147,10 +153,28 @@ const stylesPost = {
     borderRadius: 0,
     borderColor: inputOnFocus !== type ? color.border : color.accent,
     backgroundColor: color.bg,
+    marginBottom: 0,
   }),
+
+  locationBox: {
+    position: "relative",
+    transformOrigin: "top",
+  },
+
+  locationSvg: {
+    position: "absolute",
+    flex: 1,
+    top: "50%",
+    transform: [{ translateY: -12 }],
+  },
 };
 
 const inputNameProps = {
   placeholder: "Назва...",
-  placeholderTextColor: { ...color.placeholder },
+  placeholderTextColor: color.placeholder,
+};
+
+const inputLocationProps = {
+  placeholder: "Місцевість...",
+  placeholderTextColor: color.placeholder,
 };

@@ -29,7 +29,6 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     width: "100%",
-    // height: 51,
     padding: 16,
     marginBottom: 16,
     fontFamily: "Roboto-Regular",
