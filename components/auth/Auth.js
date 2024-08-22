@@ -217,7 +217,7 @@ const styleAuth = {
 
 const inputLoginProps = {
   placeholder: "Логін",
-  placeholderTextColor: { ...color.placeholder },
+  placeholderTextColor: color.placeholder,
   autoCapitalize: "none",
   autoComplete: Platform.OS === "ios" ? "nickname" : "username-new",
   textContentType: "nickname",
@@ -227,7 +227,7 @@ const inputLoginProps = {
 
 const inputEmailProps = {
   placeholder: "Адреса електронної пошти",
-  placeholderTextColor: { ...color.placeholder },
+  placeholderTextColor: color.placeholder,
   autoComplete: "email",
   inputMode: "email",
   clearButtonMode: "always",
@@ -235,7 +235,7 @@ const inputEmailProps = {
 
 const inputPasswordProps = {
   placeholder: "Пароль",
-  placeholderTextColor: { ...color.placeholder },
+  placeholderTextColor: color.placeholder,
   autoComplete: "new-password",
   // clearButtonMode: "always",
 };

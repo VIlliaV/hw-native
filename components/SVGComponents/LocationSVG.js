@@ -22,7 +22,7 @@ const LocationSVG = () => (
       fill-rule="evenodd"
       clip-rule="evenodd"
       d="M12 14C13.6569 14 15 12.6569 15 11C15 9.34315 13.6569 8 12 8C10.3431 8 9 9.34315 9 11C9 12.6569 10.3431 14 12 14Z"
-      stroke="#BDBDBD"
+      stroke={color.placeholder}
       stroke-linecap="round"
       stroke-linejoin="round"
     />
