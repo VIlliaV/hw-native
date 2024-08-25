@@ -22,32 +22,6 @@ import { useEffect, useState } from "react";
 const jsonCommentsData = require("../../base/comments.json");
 
 const CommentsScreen = () => {
-  // const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  // const [keyboardHeight, setKeyboardHeight] = useState(0);
-  // // console.log("🚀 ~ keyboardHeight:", keyboardHeight);
-
-  // useEffect(() => {
-  //   const keyboardDidShowListener = Keyboard.addListener(
-  //     "keyboardDidShow",
-  //     (e) => {
-  //       setKeyboardVisible(true);
-  //       setKeyboardHeight(e.endCoordinates.height);
-  //     }
-  //   );
-  //   const keyboardDidHideListener = Keyboard.addListener(
-  //     "keyboardDidHide",
-  //     () => {
-  //       setKeyboardVisible(false);
-  //       setKeyboardHeight(0);
-  //     }
-  //   );
-
-  //   return () => {
-  //     keyboardDidHideListener.remove();
-  //     keyboardDidShowListener.remove();
-  //   };
-  // }, []);
-
   const [comment, setComment] = useState("");
 
   const { comments } = jsonCommentsData;
@@ -61,6 +35,7 @@ const CommentsScreen = () => {
       >
         <FlatList
           data={comments}
+          style={{ minHeight: "100%" }}
           ListFooterComponent={
             <View
               style={{
@@ -147,17 +122,17 @@ const CommentsScreen = () => {
           style={{
             width: "100%",
             // styleAuth.passwordBox
-            borderWidth: 1,
+            // borderWidth: 1,
             position: "absolute",
-            bottom: 34,
+            bottom: 0,
             // left: "50%",
             // transform: [{ translateX: -35 }],
 
             // height: 50,
             // borderRadius: 20,
-            backgroundColor: "red",
+            backgroundColor: color.bg,
             // marginBottom: 34,
-            // paddingBottom: isKeyboardVisible ? 84 : 34,
+            paddingBottom: 34,
             // alignItems: "center",
             zIndex: 100,
           }}
@@ -165,6 +140,8 @@ const CommentsScreen = () => {
           <TextInput
             // {...inputPasswordProps}
             // secureTextEntry={isPasswordHide}
+            placeholder="Коментувати..."
+            placeholderTextColor={color.placeholder}
             value={comment}
             onChangeText={(value) => setComment(value)}
             // onFocus={() => {
@@ -179,8 +156,18 @@ const CommentsScreen = () => {
               //   inputOnFocus,
               //   type: inputPasswordProps.placeholder,
               // }),
-              ...styles.textInput,
-              marginBottom: 0,
+              width: "100%",
+              padding: 16,
+              // marginBottom: 16,
+              fontFamily: "Inter-Medium",
+              fontSize: 16,
+              color: color.primary,
+              borderColor: color.placeholder,
+              borderWidth: 1,
+              lineHeight: 19,
+              // marginBottom: 15,
+              height: 50,
+              borderRadius: 50,
             }}
           />
           {/* <TouchableOpacity
