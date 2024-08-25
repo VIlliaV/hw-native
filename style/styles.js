@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     color: color.primary,
     borderWidth: 1,
     borderRadius: 8,
+    lineHeight: 19,
   },
   button: {
     width: "100%",
