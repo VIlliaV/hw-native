@@ -25,6 +25,10 @@ const CommentsScreen = () => {
 
   const { comments } = jsonCommentsData;
 
+  const sendComment = () => {
+    Keyboard.dismiss();
+  };
+
   return (
     <HeadContainer>
       <KeyboardAvoidingView
@@ -51,51 +55,26 @@ const CommentsScreen = () => {
           renderItem={({ item }) => (
             <View
               style={{
-                gap: 16,
-                display: "flex",
                 flexDirection:
                   item.holderComment === "email@example.com"
                     ? "row-reverse"
                     : "row",
-                marginBottom: 24,
+                ...styleComments.flatItem,
               }}
             >
               <Image
                 source={avatar}
                 resizeMode="cover"
-                style={{
-                  borderRadius: 28,
-                  width: 28,
-                  height: 28,
-                }}
+                style={{ ...styleComments.avatar }}
               />
 
-              <View
-                style={{
-                  backgroundColor: " rgba(0, 0, 0, 0.03)",
-                  borderTopRightRadius: 6,
-                  borderBottomRightRadius: 6,
-                  borderBottomLeftRadius: 6,
-                  padding: 16,
-                  flex: 1,
-                }}
-              >
-                <Text
-                  style={{
-                    color: color.primary,
-                    fontFamily: "Roboto-Regular",
-                    fontSize: 13,
-                    lineHeight: 18,
-                    marginBottom: 8,
-                  }}
-                >
+              <View style={{ ...styleComments.commentBox }}>
+                <Text style={{ ...styleComments.commentText }}>
                   {item.comment}
                 </Text>
                 <Text
                   style={{
-                    color: color.placeholder,
-                    fontFamily: "Roboto-Regular",
-                    fontSize: 10,
+                    ...styleComments.commentDate,
                     textAlign:
                       item.holderComment === "email@example.com" ? "" : "right",
                   }}
@@ -108,50 +87,19 @@ const CommentsScreen = () => {
           keyExtractor={(item) => item.id}
         />
 
-        <View
-          style={{
-            width: "100%",
-            // styleAuth.passwordBox
-            // borderWidth: 1,
-            position: "absolute",
-            bottom: 0,
-
-            // height: 50,
-            // borderRadius: 20,
-            backgroundColor: color.bg,
-            // marginBottom: 34,
-            paddingBottom: 34,
-            // alignItems: "center",
-            zIndex: 100,
-          }}
-        >
+        <View style={{ ...styleComments.sendBox }}>
           <TextInput
             placeholder="Коментувати..."
             placeholderTextColor={color.placeholder}
             value={comment}
             onChangeText={(value) => setComment(value)}
-            onSubmitEditing={Keyboard.dismiss}
-            style={{
-              width: "100%",
-              height: 50,
-              padding: 16,
-              fontFamily: "Inter-Medium",
-              fontSize: 16,
-              color: color.primary,
-              borderColor: color.placeholder,
-              borderWidth: 1,
-              lineHeight: 19,
-              borderRadius: 50,
-            }}
+            onSubmitEditing={sendComment}
+            style={{ ...styleComments.sendInput }}
           />
           <TouchableOpacity
-            style={{
-              position: "absolute",
-              right: 8,
-              top: "50%",
-              transform: [{ translateY: -17 }],
-            }}
+            style={{ ...styleComments.sendSVG }}
             activeOpacity={0.6}
+            onPress={sendComment}
           >
             <SendSVG />
           </TouchableOpacity>
@@ -163,4 +111,71 @@ const CommentsScreen = () => {
 
 export default CommentsScreen;
 
-const styleComments = {};
+const styleComments = {
+  flatItem: {
+    gap: 16,
+    display: "flex",
+    marginBottom: 24,
+  },
+
+  avatar: { borderRadius: 28, width: 28, height: 28 },
+  commentBox: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: " rgba(0, 0, 0, 0.03)",
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6,
+    borderBottomLeftRadius: 6,
+  },
+  commentText: {
+    color: color.primary,
+    fontFamily: "Roboto-Regular",
+    fontSize: 13,
+    lineHeight: 18,
+    marginBottom: 8,
+  },
+  commentDate: {
+    color: color.placeholder,
+    fontFamily: "Roboto-Regular",
+    fontSize: 10,
+  },
+
+  sendBox: {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: color.bg,
+    paddingBottom: 34,
+    zIndex: 100,
+  },
+
+  sendInput: {
+    width: "100%",
+    height: 50,
+    padding: 16,
+    fontFamily: "Inter-Medium",
+    fontSize: 16,
+    color: color.primary,
+    borderColor: color.placeholder,
+    borderWidth: 1,
+    lineHeight: 19,
+    borderRadius: 50,
+  },
+
+  sendSVG: {
+    position: "absolute",
+    right: 8,
+    top: "50%",
+    transform: [{ translateY: -17 }],
+  },
+};
+
+const inputCommentProps = {
+  placeholder: "Коментувати...",
+  placeholderTextColor: color.placeholder,
+  autoCapitalize: "none",
+  autoComplete: Platform.OS === "ios" ? "nickname" : "username-new",
+  textContentType: "nickname",
+  clearButtonMode: "always",
+  contextMenuHidden: true,
+};
