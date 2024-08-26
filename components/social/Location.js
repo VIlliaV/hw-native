@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { styles } from "../../style/styles";
 import { color } from "../../style/color";
 
-const Location = ({ props }) => {
+const Location = ({ props, showCity = true }) => {
   const { city, country } = props;
 
   return (
@@ -35,7 +35,7 @@ const Location = ({ props }) => {
             textDecorationLine: "underline",
           }}
         >
-          {city}
+          {showCity && city}
           {country}
         </Text>
       </View>

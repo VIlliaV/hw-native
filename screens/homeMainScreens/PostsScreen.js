@@ -1,12 +1,12 @@
 import HeadContainer from "../../components/HeadContainer";
 import PostHolder from "../../components/posts/PostHolder";
-import Post from "../../components/posts/Post";
+import PostList from "../../components/posts/PostList";
 
 const PostsScreen = () => {
   return (
     <HeadContainer>
       <PostHolder />
-      <Post />
+      <PostList />
     </HeadContainer>
   );
 };

@@ -3,7 +3,7 @@ import { View } from "react-native";
 import Social from "../social/Social";
 import Location from "../social/Location";
 
-const PostBar = ({ props }) => {
+const PostBar = ({ props, showCity }) => {
   const { amountLike, amountComment } = props;
 
   return (
@@ -19,7 +19,7 @@ const PostBar = ({ props }) => {
         {!!amountLike && <Social social="like" amount={amountLike} />}
       </View>
 
-      <Location props={props} />
+      <Location props={props} showCity={showCity} />
     </View>
   );
 };
