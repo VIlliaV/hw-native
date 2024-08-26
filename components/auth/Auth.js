@@ -76,7 +76,7 @@ const AuthComp = ({ route }) => {
         style={{ ...styles.image, justifyContent: "flex-end" }}
       >
         <KeyboardAvoidingView
-          style={styles.popUp}
+          style={{ backgroundColor: color.bg }}
           behavior={Platform.OS === "ios" ? "padding" : "padding"}
         >
           <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -192,7 +192,7 @@ const styleAuth = {
 
   passwordBox: {
     position: "relative",
-    transformOrigin: "top",
+    // transformOrigin: "top",
     marginBottom: 43,
   },
   showPassword: {
