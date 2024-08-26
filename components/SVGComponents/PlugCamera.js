@@ -23,7 +23,7 @@ const PlugCamera = ({ active }) => {
       </G>
       <Defs>
         <ClipPath id="clip0_36_0">
-          <Rect width="24" height="24" fill="white" />
+          <Rect width="24" height="24" fill={color.bg} />
         </ClipPath>
       </Defs>
     </Svg>
