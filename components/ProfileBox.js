@@ -6,13 +6,19 @@ import DeleteSVG from "./SVGComponents/DeleteSVG";
 import { useState } from "react";
 import avatarImage from "../assets/image/avatarImage.jpg";
 import noPhoto from "../assets/image/noPhoto.jpg";
+import ExitButton from "./buttons/ExitButton";
 
-const ProfileBox = ({ route, children }) => {
+const ProfileBox = ({ route, children, style = {}, title }) => {
   const [isAvatarAdd, setIsAvatarAdd] = useState(false);
 
   const avatar = isAvatarAdd ? avatarImage : noPhoto;
   return (
-    <View style={styles.popUp}>
+    <View style={{ ...styles.popUp, ...style }}>
+      {route.name === "ProfileScreen" && (
+        <View style={styleProfileBox.exitButton}>
+          <ExitButton />
+        </View>
+      )}
       {route.name !== "Login" && (
         <View style={{ ...styleProfileBox.avatarBox }}>
           <Image
@@ -23,6 +29,7 @@ const ProfileBox = ({ route, children }) => {
               borderRadius: 16,
             }}
           />
+
           <View style={styleProfileBox.buttonAvatar(isAvatarAdd)}>
             <TouchableOpacity
               activeOpacity={0.6}
@@ -41,9 +48,7 @@ const ProfileBox = ({ route, children }) => {
           </View>
         </View>
       )}
-      <Text style={styleProfileBox.titleAuth(route.name)}>
-        {route.name !== "Login" ? "Реєстрація" : "Увійти"}
-      </Text>
+      <Text style={styleProfileBox.titleAuth(route.name)}>{title}</Text>
       <>{children}</>
     </View>
   );
@@ -60,7 +65,7 @@ const styleProfileBox = {
     width: 120,
     height: 120,
     borderRadius: 16,
-    transform: [{ translateX: -60 }],
+    transform: [{ translateX: -60 + 16 }],
     zIndex: 1,
   },
   buttonAvatar: (isAvatarAdd) => ({
@@ -73,4 +78,10 @@ const styleProfileBox = {
     marginBottom: 32,
     marginTop: routeName !== "Login" ? 92 : 32,
   }),
+
+  exitButton: {
+    position: "absolute",
+    top: 22,
+    right: 0,
+  },
 };

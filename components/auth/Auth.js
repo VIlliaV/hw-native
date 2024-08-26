@@ -58,6 +58,8 @@ const AuthComp = ({ route }) => {
     navigation.navigate("Home");
   };
 
+  const title = route?.name !== "Login" ? "Реєстрація" : "Увійти";
+
   // const onBlur = (e) => {
   //   const { placeholder } = e._dispatchInstances.memoizedProps;
   //   setInputOnFocus((prev) => ({ ...prev, [placeholder]: false }));
@@ -76,12 +78,16 @@ const AuthComp = ({ route }) => {
         style={{ ...styles.bg_image, justifyContent: "flex-end" }}
       >
         <KeyboardAvoidingView
-          style={{ backgroundColor: color.bg }}
+          style={{
+            backgroundColor: color.bg,
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+          }}
           behavior={Platform.OS === "ios" ? "padding" : "padding"}
         >
           <TouchableWithoutFeedback onPress={keyboardHide}>
             <View>
-              <ProfileBox route={route}>
+              <ProfileBox route={route} title={title}>
                 {route.name !== "Login" && (
                   <TextInput
                     {...inputLoginProps}
