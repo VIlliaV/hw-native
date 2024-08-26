@@ -20,9 +20,6 @@ const Post = () => {
               resizeMode="cover"
               style={{
                 ...styles.image,
-                borderRadius: 8,
-                width: "100%",
-                height: 240,
               }}
             />
           </View>

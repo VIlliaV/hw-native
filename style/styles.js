@@ -8,16 +8,19 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   image: {
+    position: "relative",
+    width: "100%",
+    height: 240,
+    borderRadius: 8,
+  },
+  bg_image: {
     flex: 1,
     position: "relative",
-    // justifyContent: "flex-start",
   },
   popUp: {
     position: "relative",
     backgroundColor: color.bg,
     paddingHorizontal: 16,
-    // paddingTop: 32,
-
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },

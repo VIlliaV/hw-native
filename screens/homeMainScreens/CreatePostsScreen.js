@@ -53,8 +53,6 @@ const CreatePostsScreen = () => {
             <View
               style={{
                 position: "relative",
-                width: "100%",
-                height: 240,
                 marginBottom: 8,
                 overflow: "hidden",
               }}
@@ -64,7 +62,6 @@ const CreatePostsScreen = () => {
                 resizeMode="cover"
                 style={{
                   ...styles.image,
-                  borderRadius: 8,
                   borderWidth: 1,
                   borderColor: color.border,
                   backgroundColor: color.bg_secondary,

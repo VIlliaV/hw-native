@@ -19,7 +19,7 @@ const ProfileBox = ({ route, children }) => {
             source={avatar}
             resizeMode="cover"
             style={{
-              ...styles.image,
+              ...styles.bg_image,
               borderRadius: 16,
             }}
           />

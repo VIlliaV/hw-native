@@ -16,6 +16,7 @@ import { formatDate } from "../../utils/formatDate";
 import { color } from "../../style/color";
 import avatar from "../../assets/image/avatarImage.jpg";
 import { useState } from "react";
+import SendSVG from "../../components/SVGComponents/SendSVG";
 
 const jsonCommentsData = require("../../base/comments.json");
 
@@ -35,21 +36,14 @@ const CommentsScreen = () => {
           data={comments}
           style={{ minHeight: "100%" }}
           ListFooterComponent={
-            <View
-              style={{
-                height: 50,
-                marginBottom: 34,
-              }}
-            ></View>
+            <View style={{ height: 50, marginBottom: 34 }}></View>
           }
           ListHeaderComponent={
             <Image
               source={postPhoto}
               resizeMode="cover"
               style={{
-                borderRadius: 8,
-                width: "100%",
-                height: 240,
+                ...styles.image,
                 marginBottom: 32,
               }}
             />
@@ -150,21 +144,17 @@ const CommentsScreen = () => {
               borderRadius: 50,
             }}
           />
-          {/* <TouchableOpacity
-            style={
-              {
-                // styleAuth.showPassword
-              }
-            }
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 8,
+              top: "50%",
+              transform: [{ translateY: -17 }],
+            }}
             activeOpacity={0.6}
           >
-            <Text
-              onPress={() => {}}
-              style={{ ...styles.text, color: color.secondary }}
-            >
-              текст
-            </Text>
-          </TouchableOpacity> */}
+            <SendSVG />
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </HeadContainer>
@@ -172,3 +162,5 @@ const CommentsScreen = () => {
 };
 
 export default CommentsScreen;
+
+const styleComments = {};

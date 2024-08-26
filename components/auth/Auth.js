@@ -73,7 +73,7 @@ const AuthComp = ({ route }) => {
       <ImageBackground
         source={Platform.OS === "ios" ? back_ground_2x : back_ground}
         resizeMode="cover"
-        style={{ ...styles.image, justifyContent: "flex-end" }}
+        style={{ ...styles.bg_image, justifyContent: "flex-end" }}
       >
         <KeyboardAvoidingView
           style={{ backgroundColor: color.bg }}
