@@ -1,10 +1,44 @@
-import { Text, View } from "react-native";
+import { FlatList, ImageBackground, Platform, Text, View } from "react-native";
+import back_ground from "../../assets/image/Photo BG.webp";
+import back_ground_2x from "../../assets/image/Photo BGx2.webp";
+import ProfileBox from "../../components/ProfileBox";
+import { styles } from "../../style/styles";
+import Post from "../../components/posts/Post";
+import { color } from "../../style/color";
 
-const ProfileScreen = () => {
+const jsonData = require("../../base/posts.json");
+
+const ProfileScreen = ({ route }) => {
+  const { posts } = jsonData;
+  const nameHolderPost = "Natali Romanova";
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>ProfileScreen!</Text>
-    </View>
+    <>
+      <ImageBackground
+        source={Platform.OS === "ios" ? back_ground_2x : back_ground}
+        resizeMode="cover"
+        style={{
+          ...styles.bg_image,
+          justifyContent: "flex-end",
+        }}
+      >
+        {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
+        <ProfileBox
+          route={route}
+          style={{ height: "85%", backgroundColor: color.bg }}
+          title={nameHolderPost}
+        >
+          <FlatList
+            data={posts}
+            // ListFooterComponent={
+            //   <View style={{ height: 0, marginBottom: 0 }}></View>
+            // }
+            renderItem={({ item }) => <Post item={item} showCity={false} />}
+            keyExtractor={(item) => item.id}
+          />
+        </ProfileBox>
+        {/* </View> */}
+      </ImageBackground>
+    </>
   );
 };
 
