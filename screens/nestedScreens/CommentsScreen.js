@@ -93,7 +93,9 @@ const CommentsScreen = () => {
             placeholderTextColor={color.placeholder}
             value={comment}
             onChangeText={(value) => setComment(value)}
-            onSubmitEditing={sendComment}
+            multiline={true}
+            textAlignVertical="top"
+            // onSubmitEditing={sendComment}
             style={{ ...styleComments.sendInput }}
           />
           <TouchableOpacity
@@ -147,12 +149,14 @@ const styleComments = {
     backgroundColor: color.bg,
     paddingBottom: 34,
     zIndex: 100,
+    overflow: "hidden",
   },
 
   sendInput: {
     width: "100%",
-    height: 50,
+    maxHeight: 100,
     padding: 16,
+    paddingRight: 50,
     fontFamily: "Inter-Medium",
     fontSize: 16,
     color: color.primary,
@@ -160,6 +164,7 @@ const styleComments = {
     borderWidth: 1,
     lineHeight: 19,
     borderRadius: 50,
+    overflow: "hidden",
   },
 
   sendSVG: {
