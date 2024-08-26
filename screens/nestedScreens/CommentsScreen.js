@@ -1,5 +1,4 @@
 import {
-  Button,
   FlatList,
   Image,
   Keyboard,
@@ -8,7 +7,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import HeadContainer from "../../components/HeadContainer";
@@ -17,7 +15,7 @@ import { styles } from "../../style/styles";
 import { formatDate } from "../../utils/formatDate";
 import { color } from "../../style/color";
 import avatar from "../../assets/image/avatarImage.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const jsonCommentsData = require("../../base/comments.json");
 
@@ -49,10 +47,9 @@ const CommentsScreen = () => {
               source={postPhoto}
               resizeMode="cover"
               style={{
-                ...styles.image,
                 borderRadius: 8,
                 width: "100%",
-                // height: 240,
+                height: 240,
                 marginBottom: 32,
               }}
             />
@@ -116,7 +113,6 @@ const CommentsScreen = () => {
           )}
           keyExtractor={(item) => item.id}
         />
-        {/* </View> */}
 
         <View
           style={{
@@ -125,8 +121,6 @@ const CommentsScreen = () => {
             // borderWidth: 1,
             position: "absolute",
             bottom: 0,
-            // left: "50%",
-            // transform: [{ translateX: -35 }],
 
             // height: 50,
             // borderRadius: 20,
@@ -138,35 +132,21 @@ const CommentsScreen = () => {
           }}
         >
           <TextInput
-            // {...inputPasswordProps}
-            // secureTextEntry={isPasswordHide}
             placeholder="Коментувати..."
             placeholderTextColor={color.placeholder}
             value={comment}
             onChangeText={(value) => setComment(value)}
-            // onFocus={() => {
-            //   setInputOnFocus(inputPasswordProps.placeholder);
-            // }}
-            // onBlur={() => {
-            //   setInputOnFocus(null);
-            // }}
             onSubmitEditing={Keyboard.dismiss}
             style={{
-              // ...styleAuth.inputAuth({
-              //   inputOnFocus,
-              //   type: inputPasswordProps.placeholder,
-              // }),
               width: "100%",
+              height: 50,
               padding: 16,
-              // marginBottom: 16,
               fontFamily: "Inter-Medium",
               fontSize: 16,
               color: color.primary,
               borderColor: color.placeholder,
               borderWidth: 1,
               lineHeight: 19,
-              // marginBottom: 15,
-              height: 50,
               borderRadius: 50,
             }}
           />
