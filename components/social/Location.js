@@ -1,12 +1,13 @@
 import React from "react";
 import LocationSVG from "../SVGComponents/LocationSVG";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../../style/styles";
 import { color } from "../../style/color";
+import { useNavigation } from "@react-navigation/native";
 
 const Location = ({ props, showCity = true }) => {
   const { city, country } = props;
-
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -17,7 +18,13 @@ const Location = ({ props, showCity = true }) => {
         alignItems: "center",
       }}
     >
-      <LocationSVG />
+      <TouchableOpacity
+        // style={{ ...styleComments.sendSVG }}
+        activeOpacity={0.6}
+        onPress={() => navigation.navigate("Nested", { screen: "MapScreen" })}
+      >
+        <LocationSVG />
+      </TouchableOpacity>
       <View
         style={{
           flexDirection: "row",
