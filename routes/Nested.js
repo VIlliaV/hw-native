@@ -21,10 +21,10 @@ const Nested = () => {
       <NestedStack.Screen
         name="MapScreen"
         component={MapScreen}
-
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          title: "Карта",
+          headerLeft: () => <BackButton />,
+        }}
       />
       <NestedStack.Screen
         name="CommentsScreen"

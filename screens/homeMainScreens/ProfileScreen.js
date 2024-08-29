@@ -3,7 +3,7 @@ import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
 import ProfileBox from "../../components/ProfileBox";
 import { styles } from "../../style/styles";
-import Post from "../../components/posts/Post";
+import Post from "../../components/post/Post";
 import { color } from "../../style/color";
 
 const jsonData = require("../../base/posts.json");
