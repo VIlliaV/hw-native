@@ -1,5 +1,4 @@
 import {
-  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -12,11 +11,11 @@ import {
 import HeadContainer from "../../components/HeadContainer";
 import { styles } from "../../style/styles";
 import { color } from "../../style/color";
-import PlugCamera from "../../components/SVGComponents/PlugCamera";
 import { useRef, useState } from "react";
 import LocationSVG from "../../components/SVGComponents/LocationSVG";
 import { useNavigation } from "@react-navigation/native";
 import TrashSVG from "../../components/SVGComponents/TrashSVG";
+import PostPicture from "../../components/createPost/PostPicture";
 
 const initial = {
   name: "",
@@ -50,41 +49,7 @@ const CreatePostsScreen = () => {
             style={{ flex: 1, marginBottom: 100 }}
             behavior={Platform.OS === "ios" ? "position" : "position"}
           >
-            <View
-              style={{
-                position: "relative",
-                marginBottom: 8,
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                // source={}
-                resizeMode="cover"
-                style={{
-                  ...styles.image,
-                  borderWidth: 1,
-                  borderColor: color.border,
-                  backgroundColor: color.bg_secondary,
-                }}
-              />
-              <View
-                style={{
-                  ...styles.positionCenter({ width: 60, height: 60 }),
-                  borderRadius: 50,
-                  backgroundColor: isPhotoAdd
-                    ? "rgba(255, 255, 255, 0.3)"
-                    : color.bg,
-                }}
-              >
-                <View
-                  style={{
-                    ...styles.positionCenter({ width: 24, height: 24 }),
-                  }}
-                >
-                  <PlugCamera active={isPhotoAdd} />
-                </View>
-              </View>
-            </View>
+            <PostPicture isPhotoAdd={isPhotoAdd} />
             <Text
               style={{
                 ...styles.text,
