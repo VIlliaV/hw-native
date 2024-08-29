@@ -1,32 +1,72 @@
-import { Image, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { styles } from "../../style/styles";
 import PlugCamera from "../SVGComponents/PlugCamera";
 import { color } from "../../style/color";
 
+import { CameraView, useCameraPermissions } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import { useEffect, useState } from "react";
+import Permission from "../notification/Permission";
+
 const PostPicture = ({ isPhotoAdd }) => {
+  const [statusCamera, cameraPermission] = useCameraPermissions();
+  const [statusLibrary, libraryPermission] = MediaLibrary.usePermissions();
+  const [cameraRef, setCameraRef] = useState(null);
+  const [havePicture, setHavePicture] = useState(null);
+
+  if (!statusCamera || !statusLibrary) {
+    return <View />;
+  }
+
+  if (!statusCamera.granted) {
+    return <Permission text="камеру" permissionFunction={cameraPermission} />;
+  }
+
+  if (!statusLibrary.granted) {
+    return (
+      <Permission
+        text="доступ до фотографій"
+        permissionFunction={libraryPermission}
+      />
+    );
+  }
+
   return (
-    <View
+    <CameraView
+      ref={setCameraRef}
       style={{
         position: "relative",
         marginBottom: 8,
         overflow: "hidden",
+        minHeight: 240,
       }}
+      facing={"back"}
+      //   active={false}
     >
-      <Image
-        // source={}
-        resizeMode="cover"
-        style={{
-          ...styles.image,
-          borderWidth: 1,
-          borderColor: color.border,
-          backgroundColor: color.bg_secondary,
+      {havePicture && (
+        <Image
+          source={{ uri: havePicture }}
+          resizeMode="cover"
+          style={{
+            ...styles.image,
+            borderWidth: 1,
+            borderColor: color.border,
+            backgroundColor: color.bg_secondary,
+          }}
+        />
+      )}
+      <TouchableOpacity
+        onPress={async () => {
+          if (cameraRef) {
+            const { uri } = await cameraRef.takePictureAsync();
+            setHavePicture(uri);
+            await MediaLibrary.createAssetAsync(uri);
+          }
         }}
-      />
-      <View
         style={{
           ...styles.positionCenter({ width: 60, height: 60 }),
           borderRadius: 50,
-          backgroundColor: isPhotoAdd ? "rgba(255, 255, 255, 0.3)" : color.bg,
+          backgroundColor: havePicture ? "rgba(255, 255, 255, 0.3)" : color.bg,
         }}
       >
         <View
@@ -34,10 +74,10 @@ const PostPicture = ({ isPhotoAdd }) => {
             ...styles.positionCenter({ width: 24, height: 24 }),
           }}
         >
-          <PlugCamera active={isPhotoAdd} />
+          <PlugCamera active={havePicture} />
         </View>
-      </View>
-    </View>
+      </TouchableOpacity>
+    </CameraView>
   );
 };
 
