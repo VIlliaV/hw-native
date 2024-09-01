@@ -19,7 +19,13 @@ const PostPicture = ({ isPhotoAdd }) => {
   }
 
   if (!statusCamera.granted) {
-    return <Permission text="камеру" permissionFunction={cameraPermission} />;
+    return (
+      <Permission
+        text="камеру"
+        permissionFunction={cameraPermission}
+        status={statusCamera.status}
+      />
+    );
   }
 
   if (!statusLibrary.granted) {
@@ -27,6 +33,7 @@ const PostPicture = ({ isPhotoAdd }) => {
       <Permission
         text="доступ до фотографій"
         permissionFunction={libraryPermission}
+        status={statusLibrary.status}
       />
     );
   }

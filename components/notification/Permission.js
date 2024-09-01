@@ -2,11 +2,21 @@ import React from "react";
 import { Button, Text, View } from "react-native";
 import { color } from "../../style/color";
 
-const Permission = ({ text, permissionFunction = () => {} }) => {
+const Permission = ({
+  text,
+  permissionFunction = () => {},
+  status = "denied",
+}) => {
   return (
     <View style={stylePermission.container}>
       <Text style={stylePermission.message}>потрібен дозвіл на {text}</Text>
-      <Button onPress={permissionFunction} title="надати дозвіл" />
+      {status === "denied" ? (
+        <Text style={stylePermission.message}>
+          змініть дозвіл на {text} в налаштуваннях{" "}
+        </Text>
+      ) : (
+        <Button onPress={permissionFunction} title="надати дозвіл" />
+      )}
     </View>
   );
 };
