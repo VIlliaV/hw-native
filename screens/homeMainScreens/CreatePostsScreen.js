@@ -19,17 +19,16 @@ import PostPicture from "../../components/createPost/PostPicture";
 
 const initial = {
   name: "",
-  location: "",
+  description: "",
   photo: "",
 };
 
 const CreatePostsScreen = () => {
   const [createPostData, setCreatePostData] = useState(initial);
   const [inputOnFocus, setInputOnFocus] = useState({});
+  const [isPhotoAdd, setIsPhotoAdd] = useState(false);
 
   const navigation = useNavigation();
-
-  const isPhotoAdd = false;
 
   const keyboardHide = () => {
     Keyboard.dismiss();
@@ -49,7 +48,10 @@ const CreatePostsScreen = () => {
             style={{ flex: 1, marginBottom: 100 }}
             behavior={Platform.OS === "ios" ? "position" : "position"}
           >
-            <PostPicture isPhotoAdd={isPhotoAdd} />
+            <PostPicture
+              setIsPhotoAdd={setIsPhotoAdd}
+              isPhotoAdd={isPhotoAdd}
+            />
             <Text
               style={{
                 ...styles.text,
@@ -83,9 +85,12 @@ const CreatePostsScreen = () => {
                 <TextInput
                   ref={secondInputRef}
                   {...inputLocationProps}
-                  value={createPostData.location}
+                  value={createPostData.description}
                   onChangeText={(value) =>
-                    setCreatePostData((prev) => ({ ...prev, location: value }))
+                    setCreatePostData((prev) => ({
+                      ...prev,
+                      description: value,
+                    }))
                   }
                   onFocus={() =>
                     setInputOnFocus(inputLocationProps.placeholder)
@@ -130,6 +135,7 @@ const CreatePostsScreen = () => {
           <TouchableOpacity
             onPress={() => {
               setCreatePostData(initial);
+              setIsPhotoAdd(false);
             }}
             activeOpacity={0.6}
             style={{

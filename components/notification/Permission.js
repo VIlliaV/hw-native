@@ -12,7 +12,7 @@ const Permission = ({
       <Text style={stylePermission.message}>потрібен дозвіл на {text}</Text>
       {status === "denied" ? (
         <Text style={stylePermission.message}>
-          змініть дозвіл на {text} в налаштуваннях{" "}
+          змініть дозвіл на {text} в налаштуваннях
         </Text>
       ) : (
         <Button onPress={permissionFunction} title="надати дозвіл" />
@@ -31,7 +31,7 @@ const stylePermission = {
     flex: 1,
     justifyContent: "center",
     backgroundColor: color.bg,
-    zIndex: 1,
+    zIndex: 1000,
     borderWidth: 1,
     borderColor: color.placeholder,
   },
