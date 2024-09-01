@@ -6,7 +6,6 @@ import { color } from "../../style/color";
 import { CameraView } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { useState } from "react";
-// import Permission from "../notification/Permission";
 
 const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
   const [cameraRef, setCameraRef] = useState(null);

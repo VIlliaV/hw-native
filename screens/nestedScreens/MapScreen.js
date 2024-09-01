@@ -21,7 +21,6 @@ const MapScreen = () => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
-      console.log("🚀 ~ coords:", coords);
       setLocation(coords);
     };
     getLocation();
