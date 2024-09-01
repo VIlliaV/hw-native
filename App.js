@@ -3,6 +3,9 @@ import { Text } from "react-native";
 import { useFonts } from "expo-font";
 
 import RootRouter from "./routes/RootRouter";
+import store from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -16,5 +19,14 @@ export default function App() {
     return <Text>loading</Text>;
   }
 
-  return <RootRouter />;
+  return (
+    <Provider store={store.store}>
+      <PersistGate
+        loading={<Text>Loading...</Text>}
+        persistor={store.persistor}
+      >
+        <RootRouter />
+      </PersistGate>
+    </Provider>
+  );
 }

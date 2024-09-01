@@ -11,6 +11,14 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "../../config";
+
 import { styles } from "../../style/styles";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -31,7 +39,7 @@ const initialReg = {
 };
 
 const AuthComp = ({ route }) => {
-  const [auth, setAuth] = useState(
+  const [authData, setAuthData] = useState(
     route.name === "Login" ? initialLogin : initialReg
   );
   const [inputOnFocus, setInputOnFocus] = useState(null);
@@ -49,12 +57,24 @@ const AuthComp = ({ route }) => {
       : navigation.navigate("Login");
   };
 
+  const registerDB = async ({ email, password }) => {
+    console.log("🚀 ~ email, password:", email, password);
+    try {
+      const test = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("🚀 ~ test:", test);
+    } catch (error) {
+      console.log("🚀 ~ error:", error);
+      throw error;
+    }
+  };
+
   const onSubmit = () => {
-    // if (route.name === "Login") {
-    //   const { email } = auth;
-    // } else {
-    //   const { email, login } = auth;
-    // }
+    if (route.name === "Login") {
+      const { email } = authData;
+    } else {
+      console.log("object");
+      registerDB(authData);
+    }
     navigation.navigate("Home");
   };
 
@@ -91,9 +111,9 @@ const AuthComp = ({ route }) => {
                 {route.name !== "Login" && (
                   <TextInput
                     {...inputLoginProps}
-                    value={auth.login}
+                    value={authData.login}
                     onChangeText={(value) =>
-                      setAuth((prev) => ({ ...prev, login: value }))
+                      setAuthData((prev) => ({ ...prev, login: value }))
                     }
                     onFocus={() => setInputOnFocus(inputLoginProps.placeholder)}
                     onBlur={() => setInputOnFocus(null)}
@@ -106,9 +126,9 @@ const AuthComp = ({ route }) => {
                 )}
                 <TextInput
                   {...inputEmailProps}
-                  value={auth.email}
+                  value={authData.email}
                   onChangeText={(value) =>
-                    setAuth((prev) => ({ ...prev, email: value }))
+                    setAuthData((prev) => ({ ...prev, email: value }))
                   }
                   onFocus={() => setInputOnFocus(inputEmailProps.placeholder)}
                   onBlur={() => setInputOnFocus(null)}
@@ -122,9 +142,9 @@ const AuthComp = ({ route }) => {
                   <TextInput
                     {...inputPasswordProps}
                     secureTextEntry={isPasswordHide}
-                    value={auth.password}
+                    value={authData.password}
                     onChangeText={(value) =>
-                      setAuth((prev) => ({ ...prev, password: value }))
+                      setAuthData((prev) => ({ ...prev, password: value }))
                     }
                     onFocus={() => {
                       setInputOnFocus(inputPasswordProps.placeholder);
