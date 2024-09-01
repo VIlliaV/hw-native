@@ -34,7 +34,8 @@ const CreatePostsScreen = () => {
   const [statusLocation, requestPermission] =
     Location.useForegroundPermissions();
   const [createPostData, setCreatePostData] = useState(initial);
-  const [location, setLocation] = useState(null);
+  // const [location, setLocation] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   const [inputOnFocus, setInputOnFocus] = useState({});
   const [isPhotoAdd, setIsPhotoAdd] = useState(false);
@@ -45,18 +46,15 @@ const CreatePostsScreen = () => {
     Keyboard.dismiss();
   };
 
-  const getLocation = async () => {
+  const onSubmit = async () => {
+    setIsFetching(true);
     const location = await Location.getCurrentPositionAsync({});
     const coords = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     };
-    setLocation(coords);
-  };
-
-  const onSubmit = () => {
-    getLocation();
-    console.log("🚀 ~ createPostData:", createPostData, isPhotoAdd, location);
+    console.log("🚀 ~ createPostData:", createPostData, isPhotoAdd, coords);
+    setIsFetching(false);
     isPhotoAdd && navigation.navigate("PostsScreen");
   };
 
@@ -99,7 +97,7 @@ const CreatePostsScreen = () => {
       );
     }
   }
-
+  if (isFetching) return <Text style={styles.text}>Чекайте...</Text>;
   return (
     <HeadContainer>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
