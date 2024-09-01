@@ -3,39 +3,13 @@ import { styles } from "../../style/styles";
 import PlugCamera from "../SVGComponents/PlugCamera";
 import { color } from "../../style/color";
 
-import { CameraView, useCameraPermissions } from "expo-camera";
+import { CameraView } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { useState } from "react";
-import Permission from "../notification/Permission";
+// import Permission from "../notification/Permission";
 
 const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
-  const [statusCamera, cameraPermission] = useCameraPermissions();
-  const [statusLibrary, libraryPermission] = MediaLibrary.usePermissions();
   const [cameraRef, setCameraRef] = useState(null);
-
-  if (!statusCamera || !statusLibrary) {
-    return <View />;
-  }
-
-  if (!statusCamera.granted) {
-    return (
-      <Permission
-        text="камеру"
-        permissionFunction={cameraPermission}
-        status={statusCamera.status}
-      />
-    );
-  }
-
-  if (!statusLibrary.granted) {
-    return (
-      <Permission
-        text="доступ до фотографій"
-        permissionFunction={libraryPermission}
-        status={statusLibrary.status}
-      />
-    );
-  }
 
   return (
     <View

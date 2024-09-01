@@ -17,6 +17,11 @@ import { useNavigation } from "@react-navigation/native";
 import TrashSVG from "../../components/SVGComponents/TrashSVG";
 import PostPicture from "../../components/createPost/PostPicture";
 
+import { useCameraPermissions } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
+import Permission from "../../components/notification/Permission";
+
 const initial = {
   name: "",
   description: "",
@@ -24,7 +29,13 @@ const initial = {
 };
 
 const CreatePostsScreen = () => {
+  const [statusCamera, cameraPermission] = useCameraPermissions();
+  const [statusLibrary, libraryPermission] = MediaLibrary.usePermissions();
+  const [statusLocation, requestPermission] =
+    Location.useForegroundPermissions();
   const [createPostData, setCreatePostData] = useState(initial);
+  const [location, setLocation] = useState(null);
+
   const [inputOnFocus, setInputOnFocus] = useState({});
   const [isPhotoAdd, setIsPhotoAdd] = useState(false);
 
@@ -34,11 +45,60 @@ const CreatePostsScreen = () => {
     Keyboard.dismiss();
   };
 
+  const getLocation = async () => {
+    const location = await Location.getCurrentPositionAsync({});
+    const coords = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    setLocation(coords);
+  };
+
   const onSubmit = () => {
+    getLocation();
+    console.log("🚀 ~ createPostData:", createPostData, isPhotoAdd, location);
     isPhotoAdd && navigation.navigate("PostsScreen");
   };
 
   const secondInputRef = useRef(null);
+
+  if (!statusCamera || !statusLibrary || !statusLocation) {
+    return <View />;
+  }
+
+  if (!statusCamera.granted) {
+    return (
+      <Permission
+        text="камеру"
+        permissionFunction={cameraPermission}
+        status={statusCamera.status}
+      />
+    );
+  }
+
+  if (!statusLibrary.granted) {
+    return (
+      <Permission
+        text="доступ до фотографій"
+        permissionFunction={libraryPermission}
+        status={statusLibrary.status}
+      />
+    );
+  }
+
+  if (!statusLocation.granted) {
+    if (statusLocation.status === "undetermined") {
+      requestPermission();
+    } else {
+      return (
+        <Permission
+          text="локацію"
+          // permissionFunction={requestPermission}
+          status={statusLocation.status}
+        />
+      );
+    }
+  }
 
   return (
     <HeadContainer>
