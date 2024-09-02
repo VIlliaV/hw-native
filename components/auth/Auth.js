@@ -58,22 +58,20 @@ const AuthComp = ({ route }) => {
   };
 
   const registerDB = async ({ email, password }) => {
-    console.log("🚀 ~ email, password:", email, password);
     try {
       const test = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("🚀 ~ test:", test);
     } catch (error) {
-      console.log("🚀 ~ error:", error);
+      console.log("🚀 ~ error:", error.code);
       throw error;
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (route.name === "Login") {
       const { email } = authData;
     } else {
       console.log("object");
-      registerDB(authData);
+      await registerDB(authData);
     }
     navigation.navigate("Home");
   };
