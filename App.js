@@ -1,8 +1,10 @@
 import "react-native-gesture-handler";
 import { Text } from "react-native";
 import { useFonts } from "expo-font";
+import Toast from "react-native-toast-message";
 
 import RootRouter from "./routes/RootRouter";
+
 import store from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
@@ -26,6 +28,7 @@ export default function App() {
         persistor={store.persistor}
       >
         <RootRouter />
+        <Toast />
       </PersistGate>
     </Provider>
   );
