@@ -17,6 +17,9 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
+
+import Toast from "react-native-toast-message";
+
 import { auth } from "../../config";
 
 import { styles } from "../../style/styles";
@@ -51,29 +54,63 @@ const AuthComp = ({ route }) => {
     Keyboard.dismiss();
   };
 
+  const autoCompletePassword =
+    route.name === "Login"
+      ? Platform.OS === "ios"
+        ? "current-password"
+        : "password"
+      : Platform.OS === "ios"
+      ? "new-password"
+      : "password-new";
+
   const handleAuth = () => {
     route.name === "Login"
-      ? navigation.navigate("Registration")
-      : navigation.navigate("Login");
+      ? navigation.push("Registration")
+      : navigation.push("Login");
   };
 
   const registerDB = async ({ email, password }) => {
     try {
-      const test = await createUserWithEmailAndPassword(auth, email, password);
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return credentials.user;
     } catch (error) {
-      console.log("🚀 ~ error:", error.code);
+      throw error;
+    }
+  };
+
+  const loginDB = async ({ email, password }) => {
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return credentials.user;
+    } catch (error) {
       throw error;
     }
   };
 
   const onSubmit = async () => {
-    if (route.name === "Login") {
-      const { email } = authData;
-    } else {
-      console.log("object");
-      await registerDB(authData);
+    try {
+      if (route.name === "Login") {
+        await loginDB(authData);
+      } else {
+        await registerDB(authData);
+      }
+      navigation.navigate("Home");
+    } catch (error) {
+      const { code } = error;
+      Toast.show({
+        type: "error",
+        text1: "Помилка ",
+        text2: `${code}`,
+      });
     }
-    navigation.navigate("Home");
   };
 
   const title = route?.name !== "Login" ? "Реєстрація" : "Увійти";
@@ -139,6 +176,7 @@ const AuthComp = ({ route }) => {
                 <View style={styleAuth.passwordBox}>
                   <TextInput
                     {...inputPasswordProps}
+                    autoComplete={autoCompletePassword}
                     secureTextEntry={isPasswordHide}
                     value={authData.password}
                     onChangeText={(value) =>
@@ -258,6 +296,6 @@ const inputEmailProps = {
 const inputPasswordProps = {
   placeholder: "Пароль",
   placeholderTextColor: color.placeholder,
-  autoComplete: "new-password",
+
   // clearButtonMode: "always",
 };
