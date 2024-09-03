@@ -5,9 +5,9 @@ import Toast from "react-native-toast-message";
 
 import RootRouter from "./routes/RootRouter";
 
-import store from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import store from "./redux/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
