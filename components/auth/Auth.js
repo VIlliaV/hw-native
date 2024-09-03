@@ -11,16 +11,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-} from "firebase/auth";
-
 import Toast from "react-native-toast-message";
-
-import { auth } from "../../config";
 
 import { styles } from "../../style/styles";
 import { useState } from "react";
@@ -29,6 +20,7 @@ import { color } from "../../style/color";
 import back_ground from "../../assets/image/Photo BG.webp";
 import back_ground_2x from "../../assets/image/Photo BGx2.webp";
 import ProfileBox from "../ProfileBox";
+import useAuth from "../../utils/hooks/useAuth";
 
 const initialLogin = {
   email: "",
@@ -36,12 +28,13 @@ const initialLogin = {
 };
 
 const initialReg = {
-  login: "",
+  displayName: "",
   email: "",
   password: "",
 };
 
 const AuthComp = ({ route }) => {
+  const { registerDB, loginDB, updateUserProfile } = useAuth();
   const [authData, setAuthData] = useState(
     route.name === "Login" ? initialLogin : initialReg
   );
@@ -69,45 +62,23 @@ const AuthComp = ({ route }) => {
       : navigation.push("Login");
   };
 
-  const registerDB = async ({ email, password }) => {
-    try {
-      const credentials = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      return credentials.user;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const loginDB = async ({ email, password }) => {
-    try {
-      const credentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      return credentials.user;
-    } catch (error) {
-      throw error;
-    }
-  };
-
   const onSubmit = async () => {
     try {
       if (route.name === "Login") {
         await loginDB(authData);
+        setAuthData(initialLogin);
       } else {
         await registerDB(authData);
+        const { displayName } = authData;
+        await updateUserProfile({ displayName });
+        setAuthData(initialReg);
       }
       navigation.navigate("Home");
     } catch (error) {
-      const { code } = error;
+      const { code, text1 } = error;
       Toast.show({
         type: "error",
-        text1: "Помилка ",
+        text1: `${text1}`,
         text2: `${code}`,
       });
     }
@@ -146,9 +117,9 @@ const AuthComp = ({ route }) => {
                 {route.name !== "Login" && (
                   <TextInput
                     {...inputLoginProps}
-                    value={authData.login}
+                    value={authData.displayName}
                     onChangeText={(value) =>
-                      setAuthData((prev) => ({ ...prev, login: value }))
+                      setAuthData((prev) => ({ ...prev, displayName: value }))
                     }
                     onFocus={() => setInputOnFocus(inputLoginProps.placeholder)}
                     onBlur={() => setInputOnFocus(null)}

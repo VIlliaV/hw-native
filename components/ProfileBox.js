@@ -8,8 +8,13 @@ import avatarImage from "../assets/image/avatarImage.jpg";
 import noPhoto from "../assets/image/noPhoto.jpg";
 import ExitButton from "./buttons/ExitButton";
 
+import useAuth from "../utils/hooks/useAuth";
+
 const ProfileBox = ({ route, children, style = {}, title }) => {
   const [isAvatarAdd, setIsAvatarAdd] = useState(false);
+  const { currentUser } = useAuth();
+
+  const displayName = currentUser?.displayName;
 
   const avatar = isAvatarAdd ? avatarImage : noPhoto;
   return (
@@ -48,7 +53,9 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
           </View>
         </View>
       )}
-      <Text style={styleProfileBox.titleAuth(route.name)}>{title}</Text>
+      <Text style={styleProfileBox.titleAuth(route.name)}>
+        {title ? title : displayName}
+      </Text>
       <>{children}</>
     </View>
   );

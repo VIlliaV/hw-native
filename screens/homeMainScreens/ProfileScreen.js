@@ -10,7 +10,7 @@ const jsonData = require("../../base/posts.json");
 
 const ProfileScreen = ({ route }) => {
   const { posts } = jsonData;
-  const nameHolderPost = "Natali Romanova";
+
   return (
     <>
       <ImageBackground
@@ -25,7 +25,6 @@ const ProfileScreen = ({ route }) => {
         <ProfileBox
           route={route}
           style={{ height: "85%", backgroundColor: color.bg }}
-          title={nameHolderPost}
         >
           <FlatList
             data={posts}
