@@ -1,8 +1,10 @@
 import { Image, Text, View } from 'react-native';
 import { styles } from '../../style/styles';
 import avatar from '../../assets/image/avatarImage.jpg';
-
+import { useAuth } from '../../utils/hooks/useAuth';
 const PostHolder = () => {
+  const { user } = useAuth();
+  const { displayName, email } = user;
   return (
     <View style={{ flexDirection: 'row', gap: 8, marginBottom: 32 }}>
       <View style={{ width: 60, height: 60 }}>
@@ -18,8 +20,8 @@ const PostHolder = () => {
         />
       </View>
       <View style={{ justifyContent: 'center' }}>
-        <Text style={styles.subText}>Natali Romanova</Text>
-        <Text style={styleHolder.subtext}>email@example.com</Text>
+        <Text style={styles.subText}>{displayName}</Text>
+        <Text style={styleHolder.subtext}>{email}</Text>
       </View>
     </View>
   );
