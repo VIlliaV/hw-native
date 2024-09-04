@@ -7,32 +7,31 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-} from "react-native";
-import HeadContainer from "../../components/HeadContainer";
-import { styles } from "../../style/styles";
-import { color } from "../../style/color";
-import { useRef, useState } from "react";
-import LocationSVG from "../../components/SVGComponents/LocationSVG";
-import { useNavigation } from "@react-navigation/native";
-import TrashSVG from "../../components/SVGComponents/TrashSVG";
-import PostPicture from "../../components/createPost/PostPicture";
+} from 'react-native';
+import HeadContainer from '../../components/HeadContainer';
+import { styles } from '../../style/styles';
+import { color } from '../../style/color';
+import { useRef, useState } from 'react';
+import LocationSVG from '../../components/SVGComponents/LocationSVG';
+import { useNavigation } from '@react-navigation/native';
+import TrashSVG from '../../components/SVGComponents/TrashSVG';
+import PostPicture from '../../components/createPost/PostPicture';
 
-import { useCameraPermissions } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
-import * as Location from "expo-location";
-import Permission from "../../components/notification/Permission";
+import { useCameraPermissions } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
+import * as Location from 'expo-location';
+import Permission from '../../components/notification/Permission';
 
 const initial = {
-  name: "",
-  description: "",
-  photo: "",
+  name: '',
+  description: '',
+  photo: '',
 };
 
 const CreatePostsScreen = () => {
   const [statusCamera, cameraPermission] = useCameraPermissions();
   const [statusLibrary, libraryPermission] = MediaLibrary.usePermissions();
-  const [statusLocation, requestPermission] =
-    Location.useForegroundPermissions();
+  const [statusLocation, requestPermission] = Location.useForegroundPermissions();
   const [createPostData, setCreatePostData] = useState(initial);
   // const [location, setLocation] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -53,9 +52,8 @@ const CreatePostsScreen = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     };
-    console.log("🚀 ~ createPostData:", createPostData, isPhotoAdd, coords);
     setIsFetching(false);
-    isPhotoAdd && navigation.navigate("PostsScreen");
+    isPhotoAdd && navigation.navigate('PostsScreen');
   };
 
   const secondInputRef = useRef(null);
@@ -65,27 +63,17 @@ const CreatePostsScreen = () => {
   }
 
   if (!statusCamera.granted) {
-    return (
-      <Permission
-        text="камеру"
-        permissionFunction={cameraPermission}
-        status={statusCamera.status}
-      />
-    );
+    return <Permission text="камеру" permissionFunction={cameraPermission} status={statusCamera.status} />;
   }
 
   if (!statusLibrary.granted) {
     return (
-      <Permission
-        text="доступ до фотографій"
-        permissionFunction={libraryPermission}
-        status={statusLibrary.status}
-      />
+      <Permission text="доступ до фотографій" permissionFunction={libraryPermission} status={statusLibrary.status} />
     );
   }
 
   if (!statusLocation.granted) {
-    if (statusLocation.status === "undetermined") {
+    if (statusLocation.status === 'undetermined') {
       requestPermission();
     } else {
       return (
@@ -104,12 +92,9 @@ const CreatePostsScreen = () => {
         <View style={{ flex: 1 }}>
           <KeyboardAvoidingView
             style={{ flex: 1, marginBottom: 100 }}
-            behavior={Platform.OS === "ios" ? "position" : "position"}
+            behavior={Platform.OS === 'ios' ? 'position' : 'position'}
           >
-            <PostPicture
-              setIsPhotoAdd={setIsPhotoAdd}
-              isPhotoAdd={isPhotoAdd}
-            />
+            <PostPicture setIsPhotoAdd={setIsPhotoAdd} isPhotoAdd={isPhotoAdd} />
             <Text
               style={{
                 ...styles.text,
@@ -118,16 +103,14 @@ const CreatePostsScreen = () => {
                 lineHeight: 19,
               }}
             >
-              {isPhotoAdd ? "Редагувати фото" : "Завантажте фото"}
+              {isPhotoAdd ? 'Редагувати фото' : 'Завантажте фото'}
             </Text>
 
             <View>
               <TextInput
                 {...inputNameProps}
                 value={createPostData.name}
-                onChangeText={(value) =>
-                  setCreatePostData((prev) => ({ ...prev, name: value }))
-                }
+                onChangeText={value => setCreatePostData(prev => ({ ...prev, name: value }))}
                 onFocus={() => setInputOnFocus(inputNameProps.placeholder)}
                 onBlur={() => setInputOnFocus(null)}
                 onSubmitEditing={() => {
@@ -144,15 +127,13 @@ const CreatePostsScreen = () => {
                   ref={secondInputRef}
                   {...inputLocationProps}
                   value={createPostData.description}
-                  onChangeText={(value) =>
-                    setCreatePostData((prev) => ({
+                  onChangeText={value =>
+                    setCreatePostData(prev => ({
                       ...prev,
                       description: value,
                     }))
                   }
-                  onFocus={() =>
-                    setInputOnFocus(inputLocationProps.placeholder)
-                  }
+                  onFocus={() => setInputOnFocus(inputLocationProps.placeholder)}
                   onBlur={() => setInputOnFocus(null)}
                   onSubmitEditing={keyboardHide}
                   style={{
@@ -160,7 +141,7 @@ const CreatePostsScreen = () => {
                       inputOnFocus,
                       type: inputLocationProps.placeholder,
                     }),
-                    fontFamily: "Roboto-Regular",
+                    fontFamily: 'Roboto-Regular',
                     paddingLeft: 28,
                     marginBottom: 0,
                   }}
@@ -176,7 +157,7 @@ const CreatePostsScreen = () => {
             activeOpacity={0.6}
             style={{
               ...styles.button,
-              position: "absolute",
+              position: 'absolute',
               top: 447,
               backgroundColor: isPhotoAdd ? color.accent : color.bg_secondary,
             }}
@@ -215,7 +196,7 @@ export default CreatePostsScreen;
 
 const stylesPost = {
   inputPost: ({ inputOnFocus, type }) => ({
-    fontFamily: "Roboto-Medium",
+    fontFamily: 'Roboto-Medium',
     fontSize: 16,
     height: 50,
     color: color.primary,
@@ -227,37 +208,37 @@ const stylesPost = {
   }),
 
   locationBox: {
-    position: "relative",
-    transformOrigin: "top",
+    position: 'relative',
+    transformOrigin: 'top',
     // marginBottom: 32,
   },
 
   locationSvg: {
-    position: "absolute",
+    position: 'absolute',
     flex: 1,
-    top: "50%",
+    top: '50%',
     transform: [{ translateY: -12 }],
   },
 
   trashButton: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    left: "50%",
+    left: '50%',
     transform: [{ translateX: -35 }],
     width: 70,
     height: 40,
     borderRadius: 20,
     marginBottom: 34,
-    alignItems: "center",
+    alignItems: 'center',
   },
 };
 
 const inputNameProps = {
-  placeholder: "Назва...",
+  placeholder: 'Назва...',
   placeholderTextColor: color.placeholder,
 };
 
 const inputLocationProps = {
-  placeholder: "Місцевість...",
+  placeholder: 'Місцевість...',
   placeholderTextColor: color.placeholder,
 };

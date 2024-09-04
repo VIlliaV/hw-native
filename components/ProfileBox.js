@@ -1,30 +1,29 @@
-import { View, TouchableOpacity, Text, Image } from "react-native";
-import { styles } from "../style/styles";
-import { color } from "../style/color";
-import AddSVG from "./SVGComponents/AddSVG";
-import DeleteSVG from "./SVGComponents/DeleteSVG";
-import { useState } from "react";
-import avatarImage from "../assets/image/avatarImage.jpg";
-import noPhoto from "../assets/image/noPhoto.jpg";
-import ExitButton from "./buttons/ExitButton";
-
-import useAuth from "../utils/hooks/useAuth";
+import { View, TouchableOpacity, Text, Image } from 'react-native';
+import { styles } from '../style/styles';
+import { color } from '../style/color';
+import AddSVG from './SVGComponents/AddSVG';
+import DeleteSVG from './SVGComponents/DeleteSVG';
+import { useState } from 'react';
+import avatarImage from '../assets/image/avatarImage.jpg';
+import noPhoto from '../assets/image/noPhoto.jpg';
+import ExitButton from './buttons/ExitButton';
+import { useAuth } from '../utils/hooks/useAuth';
 
 const ProfileBox = ({ route, children, style = {}, title }) => {
   const [isAvatarAdd, setIsAvatarAdd] = useState(false);
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
 
-  const displayName = currentUser?.displayName;
+  const displayName = user?.displayName;
 
   const avatar = isAvatarAdd ? avatarImage : noPhoto;
   return (
     <View style={{ ...styles.popUp, ...style }}>
-      {route.name === "ProfileScreen" && (
+      {route.name === 'ProfileScreen' && (
         <View style={styleProfileBox.exitButton}>
           <ExitButton />
         </View>
       )}
-      {route.name !== "Login" && (
+      {route.name !== 'Login' && (
         <View style={{ ...styleProfileBox.avatarBox }}>
           <Image
             source={avatar}
@@ -36,26 +35,17 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
           />
 
           <View style={styleProfileBox.buttonAvatar(isAvatarAdd)}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              onPress={() => setIsAvatarAdd(!isAvatarAdd)}
-            >
+            <TouchableOpacity activeOpacity={0.6} onPress={() => setIsAvatarAdd(!isAvatarAdd)}>
               {!isAvatarAdd ? (
                 <AddSVG fill={color.accent} bg={color.bg} />
               ) : (
-                <DeleteSVG
-                  fill={color.placeholder}
-                  bg={color.bg}
-                  border={color.border}
-                />
+                <DeleteSVG fill={color.placeholder} bg={color.bg} border={color.border} />
               )}
             </TouchableOpacity>
           </View>
         </View>
       )}
-      <Text style={styleProfileBox.titleAuth(route.name)}>
-        {title ? title : displayName}
-      </Text>
+      <Text style={styleProfileBox.titleAuth(route.name)}>{title ? title : displayName}</Text>
       <>{children}</>
     </View>
   );
@@ -66,28 +56,28 @@ export default ProfileBox;
 const styleProfileBox = {
   avatarBox: {
     backgroundColor: color.bg_secondary,
-    position: "absolute",
+    position: 'absolute',
     top: -60,
-    left: "50%",
+    left: '50%',
     width: 120,
     height: 120,
     borderRadius: 16,
     transform: [{ translateX: -60 + 16 }],
     zIndex: 1,
   },
-  buttonAvatar: (isAvatarAdd) => ({
-    position: "absolute",
+  buttonAvatar: isAvatarAdd => ({
+    position: 'absolute',
     bottom: isAvatarAdd ? 8 : 14,
     right: isAvatarAdd ? -18 : -13,
   }),
-  titleAuth: (routeName) => ({
+  titleAuth: routeName => ({
     ...styles.title,
     marginBottom: 32,
-    marginTop: routeName !== "Login" ? 92 : 32,
+    marginTop: routeName !== 'Login' ? 92 : 32,
   }),
 
   exitButton: {
-    position: "absolute",
+    position: 'absolute',
     top: 22,
     right: 0,
   },

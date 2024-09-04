@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+import { StatusBar } from 'expo-status-bar';
 import {
   Text,
   TextInput,
@@ -9,35 +9,33 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
-} from "react-native";
+} from 'react-native';
 
-import Toast from "react-native-toast-message";
-
-import { styles } from "../../style/styles";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { color } from "../../style/color";
-import back_ground from "../../assets/image/Photo BG.webp";
-import back_ground_2x from "../../assets/image/Photo BGx2.webp";
-import ProfileBox from "../ProfileBox";
-import useAuth from "../../utils/hooks/useAuth";
+import { styles } from '../../style/styles';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { color } from '../../style/color';
+import back_ground from '../../assets/image/Photo BG.webp';
+import back_ground_2x from '../../assets/image/Photo BGx2.webp';
+import ProfileBox from '../ProfileBox';
+import { useDispatch } from 'react-redux';
+import { loginUser, registerUser, updateUserProfile } from '../../redux/auth/authOperations';
 
 const initialLogin = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 const initialReg = {
-  displayName: "",
-  email: "",
-  password: "",
+  displayName: '',
+  email: '',
+  password: '',
 };
 
 const AuthComp = ({ route }) => {
-  const { registerDB, loginDB, updateUserProfile } = useAuth();
-  const [authData, setAuthData] = useState(
-    route.name === "Login" ? initialLogin : initialReg
-  );
+  const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
+  const dispatch = useDispatch();
+
   const [inputOnFocus, setInputOnFocus] = useState(null);
   const [isPasswordHide, setIsPasswordHide] = useState(false);
 
@@ -48,43 +46,34 @@ const AuthComp = ({ route }) => {
   };
 
   const autoCompletePassword =
-    route.name === "Login"
-      ? Platform.OS === "ios"
-        ? "current-password"
-        : "password"
-      : Platform.OS === "ios"
-      ? "new-password"
-      : "password-new";
+    route.name === 'Login'
+      ? Platform.OS === 'ios'
+        ? 'current-password'
+        : 'password'
+      : Platform.OS === 'ios'
+      ? 'new-password'
+      : 'password-new';
 
   const handleAuth = () => {
-    route.name === "Login"
-      ? navigation.push("Registration")
-      : navigation.push("Login");
+    route.name === 'Login' ? navigation.push('Registration') : navigation.push('Login');
   };
 
   const onSubmit = async () => {
     try {
-      if (route.name === "Login") {
-        await loginDB(authData);
+      if (route.name === 'Login') {
+        await dispatch(loginUser(authData)).unwrap();
         setAuthData(initialLogin);
       } else {
-        await registerDB(authData);
+        await dispatch(registerUser(authData)).unwrap();
         const { displayName } = authData;
-        await updateUserProfile({ displayName });
+        await dispatch(updateUserProfile({ displayName })).unwrap();
         setAuthData(initialReg);
       }
-      navigation.navigate("Home");
-    } catch (error) {
-      const { code, text1 } = error;
-      Toast.show({
-        type: "error",
-        text1: `${text1}`,
-        text2: `${code}`,
-      });
-    }
+      navigation.navigate('Home');
+    } catch (error) {}
   };
 
-  const title = route?.name !== "Login" ? "Реєстрація" : "Увійти";
+  const title = route?.name !== 'Login' ? 'Реєстрація' : 'Увійти';
 
   // const onBlur = (e) => {
   //   const { placeholder } = e._dispatchInstances.memoizedProps;
@@ -99,9 +88,9 @@ const AuthComp = ({ route }) => {
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
-        source={Platform.OS === "ios" ? back_ground_2x : back_ground}
+        source={Platform.OS === 'ios' ? back_ground_2x : back_ground}
         resizeMode="cover"
-        style={{ ...styles.bg_image, justifyContent: "flex-end" }}
+        style={{ ...styles.bg_image, justifyContent: 'flex-end' }}
       >
         <KeyboardAvoidingView
           style={{
@@ -109,18 +98,16 @@ const AuthComp = ({ route }) => {
             borderTopLeftRadius: 25,
             borderTopRightRadius: 25,
           }}
-          behavior={Platform.OS === "ios" ? "padding" : "padding"}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
         >
           <TouchableWithoutFeedback onPress={keyboardHide}>
             <View>
               <ProfileBox route={route} title={title}>
-                {route.name !== "Login" && (
+                {route.name !== 'Login' && (
                   <TextInput
                     {...inputLoginProps}
                     value={authData.displayName}
-                    onChangeText={(value) =>
-                      setAuthData((prev) => ({ ...prev, displayName: value }))
-                    }
+                    onChangeText={value => setAuthData(prev => ({ ...prev, displayName: value }))}
                     onFocus={() => setInputOnFocus(inputLoginProps.placeholder)}
                     onBlur={() => setInputOnFocus(null)}
                     onSubmitEditing={keyboardHide}
@@ -133,9 +120,7 @@ const AuthComp = ({ route }) => {
                 <TextInput
                   {...inputEmailProps}
                   value={authData.email}
-                  onChangeText={(value) =>
-                    setAuthData((prev) => ({ ...prev, email: value }))
-                  }
+                  onChangeText={value => setAuthData(prev => ({ ...prev, email: value }))}
                   onFocus={() => setInputOnFocus(inputEmailProps.placeholder)}
                   onBlur={() => setInputOnFocus(null)}
                   onSubmitEditing={keyboardHide}
@@ -150,9 +135,7 @@ const AuthComp = ({ route }) => {
                     autoComplete={autoCompletePassword}
                     secureTextEntry={isPasswordHide}
                     value={authData.password}
-                    onChangeText={(value) =>
-                      setAuthData((prev) => ({ ...prev, password: value }))
-                    }
+                    onChangeText={value => setAuthData(prev => ({ ...prev, password: value }))}
                     onFocus={() => {
                       setInputOnFocus(inputPasswordProps.placeholder);
                     }}
@@ -168,15 +151,12 @@ const AuthComp = ({ route }) => {
                       marginBottom: 0,
                     }}
                   />
-                  <TouchableOpacity
-                    style={styleAuth.showPassword}
-                    activeOpacity={0.6}
-                  >
+                  <TouchableOpacity style={styleAuth.showPassword} activeOpacity={0.6}>
                     <Text
                       onPress={() => setIsPasswordHide(!isPasswordHide)}
                       style={{ ...styles.text, color: color.secondary }}
                     >
-                      {isPasswordHide ? "Показати" : "Сховати"}
+                      {isPasswordHide ? 'Показати' : 'Сховати'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -185,26 +165,22 @@ const AuthComp = ({ route }) => {
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
         <View style={styleAuth.submitBox}>
-          <TouchableOpacity
-            onPress={onSubmit}
-            activeOpacity={0.6}
-            style={styles.button}
-          >
+          <TouchableOpacity onPress={onSubmit} activeOpacity={0.6} style={styles.button}>
             <Text style={{ ...styles.text, color: color.bg }}>
-              {route.name !== "Login" ? "Зареєструватися" : "Увійти"}
+              {route.name !== 'Login' ? 'Зареєструватися' : 'Увійти'}
             </Text>
           </TouchableOpacity>
           <View
             style={{
-              marginBottom: route.name !== "Login" ? 78 : 144,
-              flexDirection: "row",
+              marginBottom: route.name !== 'Login' ? 78 : 144,
+              flexDirection: 'row',
             }}
           >
             <Text style={{ ...styles.text, color: color.secondary }}>
-              {route.name !== "Login" ? "Вже є акаунт? " : "Немає акаунту? "}
+              {route.name !== 'Login' ? 'Вже є акаунт? ' : 'Немає акаунту? '}
             </Text>
             <Text onPress={handleAuth} style={styleAuth.changeAuth}>
-              {route.name !== "Login" ? "Увійти" : "Зареєструватися"}
+              {route.name !== 'Login' ? 'Увійти' : 'Зареєструватися'}
             </Text>
           </View>
         </View>
@@ -224,48 +200,48 @@ const styleAuth = {
   }),
 
   passwordBox: {
-    position: "relative",
+    position: 'relative',
     // transformOrigin: "top",
     marginBottom: 43,
   },
   showPassword: {
-    position: "absolute",
+    position: 'absolute',
     right: 16,
-    top: "50%",
+    top: '50%',
     transform: [{ translateY: -10 }],
   },
   submitBox: {
     backgroundColor: color.bg,
     paddingHorizontal: 16,
-    alignItems: "center",
+    alignItems: 'center',
   },
   changeAuth: {
     ...styles.text,
     color: color.secondary,
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
 };
 
 const inputLoginProps = {
-  placeholder: "Логін",
+  placeholder: 'Логін',
   placeholderTextColor: color.placeholder,
-  autoCapitalize: "none",
-  autoComplete: Platform.OS === "ios" ? "nickname" : "username-new",
-  textContentType: "nickname",
-  clearButtonMode: "always",
+  autoCapitalize: 'none',
+  autoComplete: Platform.OS === 'ios' ? 'nickname' : 'username-new',
+  textContentType: 'nickname',
+  clearButtonMode: 'always',
   contextMenuHidden: true,
 };
 
 const inputEmailProps = {
-  placeholder: "Адреса електронної пошти",
+  placeholder: 'Адреса електронної пошти',
   placeholderTextColor: color.placeholder,
-  autoComplete: "email",
-  inputMode: "email",
-  clearButtonMode: "always",
+  autoComplete: 'email',
+  inputMode: 'email',
+  clearButtonMode: 'always',
 };
 
 const inputPasswordProps = {
-  placeholder: "Пароль",
+  placeholder: 'Пароль',
   placeholderTextColor: color.placeholder,
 
   // clearButtonMode: "always",
