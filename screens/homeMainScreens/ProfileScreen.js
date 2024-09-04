@@ -1,12 +1,12 @@
-import { FlatList, ImageBackground, Platform, Text, View } from "react-native";
-import back_ground from "../../assets/image/Photo BG.webp";
-import back_ground_2x from "../../assets/image/Photo BGx2.webp";
-import ProfileBox from "../../components/ProfileBox";
-import { styles } from "../../style/styles";
-import Post from "../../components/post/Post";
-import { color } from "../../style/color";
+import { FlatList, ImageBackground, Platform, Text, View } from 'react-native';
+import back_ground from '../../assets/image/Photo BG.webp';
+import back_ground_2x from '../../assets/image/Photo BGx2.webp';
+import ProfileBox from '../../components/ProfileBox';
+import { styles } from '../../style/styles';
+import Post from '../../components/post/Post';
+import { color } from '../../style/color';
 
-const jsonData = require("../../base/posts.json");
+const jsonData = require('../../base/posts.json');
 
 const ProfileScreen = ({ route }) => {
   const { posts } = jsonData;
@@ -14,25 +14,22 @@ const ProfileScreen = ({ route }) => {
   return (
     <>
       <ImageBackground
-        source={Platform.OS === "ios" ? back_ground_2x : back_ground}
+        source={Platform.OS === 'ios' ? back_ground_2x : back_ground}
         resizeMode="cover"
         style={{
           ...styles.bg_image,
-          justifyContent: "flex-end",
+          justifyContent: 'flex-end',
         }}
       >
         {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
-        <ProfileBox
-          route={route}
-          style={{ height: "85%", backgroundColor: color.bg }}
-        >
+        <ProfileBox route={route} style={{ height: '85%', backgroundColor: color.bg }}>
           <FlatList
             data={posts}
             // ListFooterComponent={
             //   <View style={{ height: 0, marginBottom: 0 }}></View>
             // }
             renderItem={({ item }) => <Post item={item} showCity={false} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={item => item.id}
           />
         </ProfileBox>
         {/* </View> */}

@@ -1,12 +1,12 @@
-import { View } from "react-native";
-import { color } from "../style/color";
+import { View } from 'react-native';
+import { color } from '../style/color';
 
 const HeadContainer = ({ children }) => {
   return (
     <View
       style={{
         flex: 1,
-        position: "relative",
+        position: 'relative',
         backgroundColor: color.bg,
         paddingHorizontal: 16,
         paddingTop: 32,

@@ -1,9 +1,9 @@
-import React from "react";
-import CommentsScreen from "../screens/nestedScreens/CommentsScreen";
-import MapScreen from "../screens/nestedScreens/MapScreen";
-import { createStackNavigator } from "@react-navigation/stack";
-import { styles } from "../style/styles";
-import BackButton from "../components/buttons/BackButton";
+import React from 'react';
+import CommentsScreen from '../screens/nestedScreens/CommentsScreen';
+import MapScreen from '../screens/nestedScreens/MapScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import { styles } from '../style/styles';
+import BackButton from '../components/buttons/BackButton';
 
 const Nested = () => {
   const NestedStack = createStackNavigator();
@@ -15,14 +15,14 @@ const Nested = () => {
           height: 88,
         },
         headerTitleStyle: styles.headerTitle,
-        headerTitleAlign: "center",
+        headerTitleAlign: 'center',
       }}
     >
       <NestedStack.Screen
         name="MapScreen"
         component={MapScreen}
         options={{
-          title: "Карта",
+          title: 'Карта',
           headerLeft: () => <BackButton />,
         }}
       />
@@ -30,7 +30,7 @@ const Nested = () => {
         name="CommentsScreen"
         component={CommentsScreen}
         options={{
-          title: "Коментарі",
+          title: 'Коментарі',
           headerLeft: () => <BackButton />,
         }}
       />

@@ -1,14 +1,8 @@
-import Svg, { Path } from "react-native-svg";
-import { color } from "../../style/color";
+import Svg, { Path } from 'react-native-svg';
+import { color } from '../../style/color';
 
-const TrashSVG = (props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-  >
+const TrashSVG = props => (
+  <Svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Path
       d="M3 6H5H21"
       stroke={props.active ? color.bg : color.placeholder}

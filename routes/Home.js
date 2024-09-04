@@ -1,15 +1,15 @@
-import ProfileScreen from "../screens/homeMainScreens/ProfileScreen";
-import PostsScreen from "../screens/homeMainScreens/PostsScreen";
-import CreatePostsScreen from "../screens/homeMainScreens/CreatePostsScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PostsSVG from "../components/SVGComponents/PostsSVG";
-import { color } from "../style/color";
-import CreatePostSVG from "../components/SVGComponents/CreatePostSVG";
-import ProfileSVG from "../components/SVGComponents/ProfileSVG";
-import { View, Text } from "react-native";
-import { styles } from "../style/styles";
-import ExitButton from "../components/buttons/ExitButton";
-import BackButton from "../components/buttons/BackButton";
+import ProfileScreen from '../screens/homeMainScreens/ProfileScreen';
+import PostsScreen from '../screens/homeMainScreens/PostsScreen';
+import CreatePostsScreen from '../screens/homeMainScreens/CreatePostsScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import PostsSVG from '../components/SVGComponents/PostsSVG';
+import { color } from '../style/color';
+import CreatePostSVG from '../components/SVGComponents/CreatePostSVG';
+import ProfileSVG from '../components/SVGComponents/ProfileSVG';
+import { View, Text } from 'react-native';
+import { styles } from '../style/styles';
+import ExitButton from '../components/buttons/ExitButton';
+import BackButton from '../components/buttons/BackButton';
 
 const Home = () => {
   const HomeTab = createBottomTabNavigator();
@@ -22,7 +22,7 @@ const Home = () => {
           height: 88,
         },
         headerTitleStyle: styles.headerTitle,
-        headerTitleAlign: "center",
+        headerTitleAlign: 'center',
         tabBarIcon: ({ color }) => {
           const icons = {
             PostsScreen: PostsSVG,
@@ -50,7 +50,7 @@ const Home = () => {
         name="PostsScreen"
         component={PostsScreen}
         options={{
-          title: "Публікації",
+          title: 'Публікації',
           headerRight: () => <ExitButton />,
         }}
       />
@@ -58,15 +58,15 @@ const Home = () => {
         name="CreatePostsScreen"
         component={CreatePostsScreen}
         options={{
-          title: "Створити публікацію",
+          title: 'Створити публікацію',
           tabBarStyle: {
-            position: "absolute",
+            position: 'absolute',
             width: 1,
             height: 1,
             margin: -1,
             padding: 0,
             border: 0,
-            overflow: "hidden",
+            overflow: 'hidden',
           },
           headerLeft: () => <BackButton />,
         }}
@@ -85,11 +85,11 @@ const Home = () => {
 export default Home;
 
 const styleHome = {
-  tab: (color) => ({
+  tab: color => ({
     width: 70,
     height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 100,
     backgroundColor: color,
   }),

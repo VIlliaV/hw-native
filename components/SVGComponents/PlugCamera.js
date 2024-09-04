@@ -1,16 +1,10 @@
-import * as React from "react";
-import Svg, { G, Path, Defs, Rect, ClipPath } from "react-native-svg";
-import { color } from "../../style/color";
+import * as React from 'react';
+import Svg, { G, Path, Defs, Rect, ClipPath } from 'react-native-svg';
+import { color } from '../../style/color';
 
 const PlugCamera = ({ active }) => {
   return (
-    <Svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-    >
+    <Svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <G clip-path="url(#clip0_36_0)">
         <Path
           d="M11.9998 15.2C13.7671 15.2 15.1998 13.7673 15.1998 12C15.1998 10.2327 13.7671 8.79999 11.9998 8.79999C10.2325 8.79999 8.7998 10.2327 8.7998 12C8.7998 13.7673 10.2325 15.2 11.9998 15.2Z"

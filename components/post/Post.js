@@ -1,8 +1,8 @@
-import { Image, Text, View } from "react-native";
-import { styles } from "../../style/styles";
-import postPhoto from "../../assets/image/postPhoto.jpg";
-import PostBar from "./PostBar";
-import { color } from "../../style/color";
+import { Image, Text, View } from 'react-native';
+import { styles } from '../../style/styles';
+import postPhoto from '../../assets/image/postPhoto.jpg';
+import PostBar from './PostBar';
+import { color } from '../../style/color';
 
 const Post = ({ item, showCity }) => {
   return (
@@ -18,7 +18,7 @@ const Post = ({ item, showCity }) => {
       </View>
       <Text
         style={{
-          fontFamily: "Roboto-Medium",
+          fontFamily: 'Roboto-Medium',
           fontSize: 16,
           color: color.primary,
         }}

@@ -1,21 +1,8 @@
-import * as React from "react";
-import Svg, { Circle, Path } from "react-native-svg";
-const DeleteSVG = (props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={37}
-    height={37}
-    fill="none"
-    {...props}
-  >
-    <Circle
-      cx={18.5}
-      cy={18.5}
-      r={12}
-      fill={props.bg}
-      stroke={props.border}
-      transform="rotate(-45 18.5 18.5)"
-    />
+import * as React from 'react';
+import Svg, { Circle, Path } from 'react-native-svg';
+const DeleteSVG = props => (
+  <Svg xmlns="http://www.w3.org/2000/svg" width={37} height={37} fill="none" {...props}>
+    <Circle cx={18.5} cy={18.5} r={12} fill={props.bg} stroke={props.border} transform="rotate(-45 18.5 18.5)" />
     <Path
       fill={props.fill}
       fillRule="evenodd"

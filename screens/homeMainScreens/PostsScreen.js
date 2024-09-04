@@ -1,6 +1,6 @@
-import HeadContainer from "../../components/HeadContainer";
-import PostHolder from "../../components/post/PostHolder";
-import PostList from "../../components/post/PostList";
+import HeadContainer from '../../components/HeadContainer';
+import PostHolder from '../../components/post/PostHolder';
+import PostList from '../../components/post/PostList';
 
 const PostsScreen = () => {
   return (

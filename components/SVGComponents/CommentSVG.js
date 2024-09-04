@@ -1,8 +1,8 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
-import { color } from "../../style/color";
+import * as React from 'react';
+import Svg, { Path } from 'react-native-svg';
+import { color } from '../../style/color';
 
-const CommentSVG = (props) => (
+const CommentSVG = props => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"

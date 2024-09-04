@@ -1,15 +1,9 @@
-import * as React from "react";
-import Svg, { Rect, Path } from "react-native-svg";
-import { color } from "../../style/color";
+import * as React from 'react';
+import Svg, { Rect, Path } from 'react-native-svg';
+import { color } from '../../style/color';
 
-const ProfileSVG = (props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-  >
+const ProfileSVG = props => (
+  <Svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Rect width="24" height="24" fill={props.fill} />
     <Path
       d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21"

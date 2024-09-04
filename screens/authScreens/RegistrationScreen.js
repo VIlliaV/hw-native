@@ -1,4 +1,4 @@
-import AuthComp from "../../components/auth/Auth";
+import AuthComp from '../../components/auth/Auth';
 
 const RegistrationScreen = ({ route }) => {
   return <AuthComp route={route} />;

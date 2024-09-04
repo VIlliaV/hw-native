@@ -1,11 +1,11 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { styles } from "../../style/styles";
-import PlugCamera from "../SVGComponents/PlugCamera";
-import { color } from "../../style/color";
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { styles } from '../../style/styles';
+import PlugCamera from '../SVGComponents/PlugCamera';
+import { color } from '../../style/color';
 
-import { CameraView } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
-import { useState } from "react";
+import { CameraView } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
+import { useState } from 'react';
 
 const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
   const [cameraRef, setCameraRef] = useState(null);
@@ -13,9 +13,9 @@ const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
   return (
     <View
       style={{
-        position: "relative",
+        position: 'relative',
         marginBottom: 8,
-        overflow: "hidden",
+        overflow: 'hidden',
         minHeight: 240,
       }}
     >
@@ -33,7 +33,7 @@ const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
       ) : (
         <CameraView
           ref={setCameraRef}
-          facing={"back"}
+          facing={'back'}
           style={{
             minHeight: 240,
           }}
@@ -55,7 +55,7 @@ const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
         style={{
           ...styles.positionCenter({ width: 60, height: 60 }),
           borderRadius: 50,
-          backgroundColor: isPhotoAdd ? "rgba(255, 255, 255, 0.3)" : color.bg,
+          backgroundColor: isPhotoAdd ? 'rgba(255, 255, 255, 0.3)' : color.bg,
         }}
       >
         <View
