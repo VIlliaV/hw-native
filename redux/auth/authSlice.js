@@ -26,6 +26,14 @@ const handleRejected = (state, { payload }) => {
 const authSlice = createSlice({
   name: 'auth',
   initialState: authInitialState,
+  reducers: {
+    setUser(state, { payload }) {
+      state.user = payload;
+    },
+    clearUser(state) {
+      state.user = {};
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(updateUserProfile.fulfilled, (state, { payload }) => {
@@ -45,5 +53,5 @@ const authSlice = createSlice({
       );
   },
 });
-
+export const { setUser, clearUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;

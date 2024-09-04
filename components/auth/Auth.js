@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { styles } from '../../style/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { color } from '../../style/color';
 import back_ground from '../../assets/image/Photo BG.webp';
@@ -20,6 +20,10 @@ import back_ground_2x from '../../assets/image/Photo BGx2.webp';
 import ProfileBox from '../ProfileBox';
 import { useDispatch } from 'react-redux';
 import { loginUser, registerUser, updateUserProfile } from '../../redux/auth/authOperations';
+import { auth } from '../../config';
+import { onAuthStateChanged } from 'firebase/auth';
+// import { useAuth } from '../../utils/hooks/useAuth';
+import { clearUser, setUser } from '../../redux/auth/authSlice';
 
 const initialLogin = {
   email: '',
@@ -33,6 +37,24 @@ const initialReg = {
 };
 
 const AuthComp = ({ route }) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        const userData = {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        };
+        dispatch(setUser(userData));
+        navigation.navigate('Home');
+      } else {
+        dispatch(clearUser());
+      }
+    });
+    return () => unsubscribe();
+  }, [auth]);
+
   const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
   const dispatch = useDispatch();
 

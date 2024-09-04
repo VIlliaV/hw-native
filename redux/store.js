@@ -4,11 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import rootReducer from "./rootReducer";
 import { authReducer } from './auth/authSlice';
 
-// const persistConfig = {
-//   key: "root",
-//   storage: AsyncStorage,
-// };
-
 const authPersistConfig = {
   key: 'auth',
   storage: AsyncStorage,
