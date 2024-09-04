@@ -1,17 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import rootReducer from "./rootReducer";
-import { authReducer } from "./auth/authSlice";
+import { authReducer } from './auth/authSlice';
 
 // const persistConfig = {
 //   key: "root",
@@ -19,9 +10,9 @@ import { authReducer } from "./auth/authSlice";
 // };
 
 const authPersistConfig = {
-  key: "auth",
+  key: 'auth',
   storage: AsyncStorage,
-  whitelist: ["token"],
+  whitelist: ['token'],
 };
 
 const rootReducer = combineReducers({
@@ -32,7 +23,7 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
