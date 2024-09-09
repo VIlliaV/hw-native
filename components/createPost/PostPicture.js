@@ -7,7 +7,7 @@ import { CameraView } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useState } from 'react';
 
-const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
+const PostPicture = ({ setCreatePostData, photoUri }) => {
   const [cameraRef, setCameraRef] = useState(null);
 
   return (
@@ -19,9 +19,9 @@ const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
         minHeight: 240,
       }}
     >
-      {isPhotoAdd ? (
+      {photoUri ? (
         <Image
-          source={{ uri: isPhotoAdd }}
+          source={{ uri: photoUri }}
           resizeMode="cover"
           style={{
             ...styles.image,
@@ -42,20 +42,20 @@ const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
       )}
       <TouchableOpacity
         onPress={async () => {
-          if (!isPhotoAdd) {
+          if (!photoUri) {
             if (cameraRef) {
               const { uri } = await cameraRef.takePictureAsync();
-              setIsPhotoAdd(uri);
+              setCreatePostData(prev => ({ ...prev, photoUri: uri }));
               await MediaLibrary.createAssetAsync(uri);
             }
           } else {
-            setIsPhotoAdd(false);
+            setCreatePostData(prev => ({ ...prev, photoUri: '' }));
           }
         }}
         style={{
           ...styles.positionCenter({ width: 60, height: 60 }),
           borderRadius: 50,
-          backgroundColor: isPhotoAdd ? 'rgba(255, 255, 255, 0.3)' : color.bg,
+          backgroundColor: photoUri ? 'rgba(255, 255, 255, 0.3)' : color.bg,
         }}
       >
         <View
@@ -63,7 +63,7 @@ const PostPicture = ({ setIsPhotoAdd, isPhotoAdd }) => {
             ...styles.positionCenter({ width: 24, height: 24 }),
           }}
         >
-          <PlugCamera active={isPhotoAdd} />
+          <PlugCamera active={photoUri} />
         </View>
       </TouchableOpacity>
     </View>

@@ -21,11 +21,12 @@ import { useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import Permission from '../../components/notification/Permission';
+import { uploadImageToFirebase } from '../../utils/firebase';
 
 const initial = {
   name: '',
   description: '',
-  photo: '',
+  photoUri: '',
 };
 
 const CreatePostsScreen = () => {
@@ -33,13 +34,12 @@ const CreatePostsScreen = () => {
   const [statusLibrary, libraryPermission] = MediaLibrary.usePermissions();
   const [statusLocation, requestPermission] = Location.useForegroundPermissions();
   const [createPostData, setCreatePostData] = useState(initial);
-  // const [location, setLocation] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-
   const [inputOnFocus, setInputOnFocus] = useState({});
-  const [isPhotoAdd, setIsPhotoAdd] = useState(false);
 
   const navigation = useNavigation();
+
+  const { photoUri } = createPostData;
 
   const keyboardHide = () => {
     Keyboard.dismiss();
@@ -52,8 +52,10 @@ const CreatePostsScreen = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     };
+    await uploadImageToFirebase(photoUri);
     setIsFetching(false);
-    isPhotoAdd && navigation.navigate('PostsScreen');
+    setCreatePostData(initial);
+    photoUri && navigation.navigate('PostsScreen');
   };
 
   const secondInputRef = useRef(null);
@@ -94,7 +96,7 @@ const CreatePostsScreen = () => {
             style={{ flex: 1, marginBottom: 100 }}
             behavior={Platform.OS === 'ios' ? 'position' : 'position'}
           >
-            <PostPicture setIsPhotoAdd={setIsPhotoAdd} isPhotoAdd={isPhotoAdd} />
+            <PostPicture setCreatePostData={setCreatePostData} photoUri={photoUri} />
             <Text
               style={{
                 ...styles.text,
@@ -103,7 +105,7 @@ const CreatePostsScreen = () => {
                 lineHeight: 19,
               }}
             >
-              {isPhotoAdd ? 'Редагувати фото' : 'Завантажте фото'}
+              {photoUri ? 'Редагувати фото' : 'Завантажте фото'}
             </Text>
 
             <View>
@@ -159,13 +161,13 @@ const CreatePostsScreen = () => {
               ...styles.button,
               position: 'absolute',
               top: 447,
-              backgroundColor: isPhotoAdd ? color.accent : color.bg_secondary,
+              backgroundColor: photoUri ? color.accent : color.bg_secondary,
             }}
           >
             <Text
               style={{
                 ...styles.text,
-                color: isPhotoAdd ? color.bg : color.placeholder,
+                color: photoUri ? color.bg : color.placeholder,
               }}
             >
               Опублікувати
@@ -174,16 +176,16 @@ const CreatePostsScreen = () => {
           <TouchableOpacity
             onPress={() => {
               setCreatePostData(initial);
-              setIsPhotoAdd(false);
+              // setIsPhotoAdd(false);
             }}
             activeOpacity={0.6}
             style={{
               ...stylesPost.trashButton,
-              backgroundColor: isPhotoAdd ? color.accent : color.bg_secondary,
+              backgroundColor: photoUri ? color.accent : color.bg_secondary,
             }}
           >
             <View style={styles.positionCenter({ width: 24, height: 24 })}>
-              <TrashSVG active={isPhotoAdd} />
+              <TrashSVG active={photoUri} />
             </View>
           </TouchableOpacity>
         </View>

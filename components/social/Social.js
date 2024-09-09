@@ -33,7 +33,7 @@ const Social = ({ amount = 5, social = 'comment' }) => {
         activeOpacity={0.6}
         // style={{
         //   ...stylesPost.trashButton,
-        //   backgroundColor: isPhotoAdd ? color.accent : color.bg_secondary,
+        //   backgroundColor: photoUri ? color.accent : color.bg_secondary,
         // }}
       >
         <IconName amount={amount} />
