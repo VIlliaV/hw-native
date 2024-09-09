@@ -22,6 +22,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import Permission from '../../components/notification/Permission';
 import { uploadImageToFirebase } from '../../utils/firebase';
+import Toast from 'react-native-toast-message';
 
 const initial = {
   name: '',
@@ -39,23 +40,31 @@ const CreatePostsScreen = () => {
 
   const navigation = useNavigation();
 
-  const { photoUri } = createPostData;
-
+  const { photoUri, name, description } = createPostData;
+  const readyToSubmit = photoUri && name && description;
   const keyboardHide = () => {
     Keyboard.dismiss();
   };
 
   const onSubmit = async () => {
-    setIsFetching(true);
-    const location = await Location.getCurrentPositionAsync({});
-    const coords = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-    await uploadImageToFirebase(photoUri);
-    setIsFetching(false);
-    setCreatePostData(initial);
-    photoUri && navigation.navigate('PostsScreen');
+    if (readyToSubmit) {
+      setIsFetching(true);
+      const location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      await uploadImageToFirebase(photoUri);
+      setIsFetching(false);
+      setCreatePostData(initial);
+      navigation.navigate('PostsScreen');
+    } else {
+      Toast.show({
+        type: 'info',
+        text1: 'Заповніть всі поля',
+        text2: `Заповніть поля і зробіть фото`,
+      });
+    }
   };
 
   const secondInputRef = useRef(null);
@@ -111,7 +120,7 @@ const CreatePostsScreen = () => {
             <View>
               <TextInput
                 {...inputNameProps}
-                value={createPostData.name}
+                value={name}
                 onChangeText={value => setCreatePostData(prev => ({ ...prev, name: value }))}
                 onFocus={() => setInputOnFocus(inputNameProps.placeholder)}
                 onBlur={() => setInputOnFocus(null)}
@@ -128,7 +137,7 @@ const CreatePostsScreen = () => {
                 <TextInput
                   ref={secondInputRef}
                   {...inputLocationProps}
-                  value={createPostData.description}
+                  value={description}
                   onChangeText={value =>
                     setCreatePostData(prev => ({
                       ...prev,
@@ -155,19 +164,20 @@ const CreatePostsScreen = () => {
             </View>
           </KeyboardAvoidingView>
           <TouchableOpacity
+            disabled={!readyToSubmit}
             onPress={onSubmit}
             activeOpacity={0.6}
             style={{
               ...styles.button,
               position: 'absolute',
               top: 447,
-              backgroundColor: photoUri ? color.accent : color.bg_secondary,
+              backgroundColor: readyToSubmit ? color.accent : color.bg_secondary,
             }}
           >
             <Text
               style={{
                 ...styles.text,
-                color: photoUri ? color.bg : color.placeholder,
+                color: readyToSubmit ? color.bg : color.placeholder,
               }}
             >
               Опублікувати
@@ -176,12 +186,11 @@ const CreatePostsScreen = () => {
           <TouchableOpacity
             onPress={() => {
               setCreatePostData(initial);
-              // setIsPhotoAdd(false);
             }}
             activeOpacity={0.6}
             style={{
               ...stylesPost.trashButton,
-              backgroundColor: photoUri ? color.accent : color.bg_secondary,
+              backgroundColor: photoUri || name || description ? color.accent : color.bg_secondary,
             }}
           >
             <View style={styles.positionCenter({ width: 24, height: 24 })}>
