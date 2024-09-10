@@ -21,8 +21,9 @@ import { useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import Permission from '../../components/notification/Permission';
-import { uploadImageToFirebase } from '../../utils/firebase';
+import { uploadImageToFirebase, writeDataToFirestore } from '../../utils/firebase';
 import Toast from 'react-native-toast-message';
+import { useAuth } from '../../utils/hooks/useAuth';
 
 const initial = {
   name: '',
@@ -40,6 +41,10 @@ const CreatePostsScreen = () => {
 
   const navigation = useNavigation();
 
+  const {
+    user: { uid },
+  } = useAuth();
+
   const { photoUri, name, description } = createPostData;
   const readyToSubmit = photoUri && name && description;
   const keyboardHide = () => {
@@ -47,23 +52,33 @@ const CreatePostsScreen = () => {
   };
 
   const onSubmit = async () => {
-    if (readyToSubmit) {
-      setIsFetching(true);
-      const location = await Location.getCurrentPositionAsync({});
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
-      await uploadImageToFirebase(photoUri);
-      setIsFetching(false);
-      setCreatePostData(initial);
-      navigation.navigate('PostsScreen');
-    } else {
+    try {
+      if (readyToSubmit) {
+        setIsFetching(true);
+        const location = await Location.getCurrentPositionAsync({});
+        const coords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        };
+        const urlPhoto = await uploadImageToFirebase(photoUri);
+        await writeDataToFirestore('posts', null, { name, description, urlPhoto, coords, owner: uid });
+        setIsFetching(false);
+        setCreatePostData(initial);
+        navigation.navigate('PostsScreen');
+      } else {
+        Toast.show({
+          type: 'info',
+          text1: 'Заповніть всі поля',
+          text2: `Заповніть поля і зробіть фото`,
+        });
+      }
+    } catch (error) {
       Toast.show({
-        type: 'info',
-        text1: 'Заповніть всі поля',
-        text2: `Заповніть поля і зробіть фото`,
+        type: 'error',
+        text1: 'Помилка',
+        text2: `${error.code}`,
       });
+      setIsFetching(false);
     }
   };
 

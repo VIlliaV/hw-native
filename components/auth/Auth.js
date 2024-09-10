@@ -91,7 +91,7 @@ const AuthComp = ({ route }) => {
         await dispatch(updateUserProfile({ displayName })).unwrap();
         setAuthData(initialReg);
       }
-      navigation.navigate('Home');
+      // navigation.navigate('Home');
     } catch (error) {}
   };
 

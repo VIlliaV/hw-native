@@ -1,14 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '../../config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
+import { updateDataInFirestore, writeDataToFirestore } from '../../utils/firebase';
 
 export const registerUser = createAsyncThunk('auth/registerUser', async ({ email, password }, { rejectWithValue }) => {
   try {
     const credentials = await createUserWithEmailAndPassword(auth, email, password);
-    const { email: emailUser, displayName, photoURL, uid } = credentials.user;
-    return { emailUser, displayName, photoURL, uid };
+    const { email: emailUser, uid } = credentials.user;
+    await writeDataToFirestore('users', uid, { emailUser, uid });
+    return { emailUser, uid };
   } catch (error) {
-    return rejectWithValue(error.code);
+    const errorToast = error.code || error.message;
+    return rejectWithValue(errorToast);
   }
 });
 
@@ -18,7 +21,8 @@ export const loginUser = createAsyncThunk('auth/loginUser', async ({ email, pass
     const { email: emailUser, displayName, photoURL, uid } = credentials.user;
     return { emailUser, displayName, photoURL, uid };
   } catch (error) {
-    return rejectWithValue(error.code);
+    const errorToast = error.code || error.message;
+    return rejectWithValue(errorToast);
   }
 });
 
@@ -27,9 +31,11 @@ export const updateUserProfile = createAsyncThunk('auth/updateUserProfile', asyn
   if (user) {
     try {
       await updateProfile(user, update);
+      await updateDataInFirestore('users', user.uid, update);
       return update;
     } catch (error) {
-      return rejectWithValue(error.code);
+      const errorToast = error.code || error.message;
+      return rejectWithValue(errorToast);
     }
   }
   return rejectWithValue('Користувач не знайдений');
@@ -39,6 +45,7 @@ export const signOutUser = createAsyncThunk('auth/signOutUser', async (_, { reje
   try {
     await signOut(auth);
   } catch (error) {
-    return rejectWithValue(error.code);
+    const errorToast = error.code || error.message;
+    return rejectWithValue(errorToast);
   }
 });
