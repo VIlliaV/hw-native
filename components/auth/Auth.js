@@ -38,6 +38,7 @@ const initialReg = {
 };
 
 const AuthComp = ({ route }) => {
+  const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
@@ -57,7 +58,6 @@ const AuthComp = ({ route }) => {
   }, [auth]);
 
   const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
-  const dispatch = useDispatch();
 
   const [inputOnFocus, setInputOnFocus] = useState(null);
   const [isPasswordHide, setIsPasswordHide] = useState(false);

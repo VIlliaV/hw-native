@@ -2,14 +2,15 @@ import { Image, Text, View } from 'react-native';
 import { styles } from '../../style/styles';
 import avatar from '../../assets/image/avatarImage.jpg';
 import { useAuth } from '../../utils/hooks/useAuth';
+import noPhoto from '../../assets/image/noPhoto.jpg';
 const PostHolder = () => {
   const { user } = useAuth();
-  const { displayName, email } = user;
+  const { displayName, email, photoURL } = user;
   return (
     <View style={{ flexDirection: 'row', gap: 8, marginBottom: 32 }}>
       <View style={{ width: 60, height: 60 }}>
         <Image
-          source={avatar}
+          source={photoURL ? { uri: photoURL } : noPhoto}
           resizeMode="cover"
           style={{
             ...styles.image,

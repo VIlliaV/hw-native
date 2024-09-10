@@ -12,9 +12,10 @@ import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
 import { uploadImageToFirebase } from '../utils/firebase';
 
-const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {}, authData }) => {
-  const [isAvatarAdd, setIsAvatarAdd] = useState(null);
+const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {}, authData = {} }) => {
   const { user } = useAuth();
+  const [isAvatarAdd, setIsAvatarAdd] = useState(user?.photoURL || null);
+
   const [image, setImage] = useState(null);
   // console.log('🚀 ~ image:', image);
 

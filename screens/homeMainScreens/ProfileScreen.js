@@ -5,11 +5,18 @@ import ProfileBox from '../../components/ProfileBox';
 import { styles } from '../../style/styles';
 import Post from '../../components/post/Post';
 import { color } from '../../style/color';
+import { updateUserProfile } from '../../redux/auth/authOperations';
+import { useDispatch } from 'react-redux';
 
 const jsonData = require('../../base/posts.json');
 
 const ProfileScreen = ({ route }) => {
   const { posts } = jsonData;
+  const dispatch = useDispatch();
+
+  const changeAvatar = async photoURL => {
+    await dispatch(updateUserProfile({ ...photoURL })).unwrap();
+  };
 
   return (
     <>
@@ -22,7 +29,7 @@ const ProfileScreen = ({ route }) => {
         }}
       >
         {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
-        <ProfileBox route={route} style={{ height: '85%', backgroundColor: color.bg }}>
+        <ProfileBox route={route} changeAvatar={changeAvatar} style={{ height: '85%', backgroundColor: color.bg }}>
           <FlatList
             data={posts}
             // ListFooterComponent={
