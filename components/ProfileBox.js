@@ -8,10 +8,34 @@ import avatarImage from '../assets/image/avatarImage.jpg';
 import noPhoto from '../assets/image/noPhoto.jpg';
 import ExitButton from './buttons/ExitButton';
 import { useAuth } from '../utils/hooks/useAuth';
+import * as ImagePicker from 'expo-image-picker';
+import Toast from 'react-native-toast-message';
 
 const ProfileBox = ({ route, children, style = {}, title }) => {
-  const [isAvatarAdd, setIsAvatarAdd] = useState(false);
+  const [isAvatarAdd, setIsAvatarAdd] = useState(null);
   const { user } = useAuth();
+  const [image, setImage] = useState(null);
+  // console.log('🚀 ~ image:', image);
+
+  const pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setIsAvatarAdd(result.assets[0].uri);
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Спробуйте інше зображення',
+        text2: `${error.code}`,
+      });
+    }
+  };
 
   const displayName = user?.displayName;
 
@@ -26,7 +50,7 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
       {route.name !== 'Login' && (
         <View style={{ ...styleProfileBox.avatarBox }}>
           <Image
-            source={avatar}
+            source={isAvatarAdd ? { uri: isAvatarAdd } : noPhoto}
             resizeMode="cover"
             style={{
               ...styles.bg_image,
@@ -35,7 +59,12 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
           />
 
           <View style={styleProfileBox.buttonAvatar(isAvatarAdd)}>
-            <TouchableOpacity activeOpacity={0.6} onPress={() => setIsAvatarAdd(!isAvatarAdd)}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => {
+                isAvatarAdd ? setIsAvatarAdd(null) : pickImage();
+              }}
+            >
               {!isAvatarAdd ? (
                 <AddSVG fill={color.accent} bg={color.bg} />
               ) : (
