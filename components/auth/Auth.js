@@ -34,6 +34,7 @@ const initialReg = {
   displayName: '',
   email: '',
   password: '',
+  photoURL: '',
 };
 
 const AuthComp = ({ route }) => {
@@ -87,8 +88,8 @@ const AuthComp = ({ route }) => {
         setAuthData(initialLogin);
       } else {
         await dispatch(registerUser(authData)).unwrap();
-        const { displayName } = authData;
-        await dispatch(updateUserProfile({ displayName })).unwrap();
+        const { displayName, photoURL } = authData;
+        await dispatch(updateUserProfile({ displayName, photoURL })).unwrap();
         setAuthData(initialReg);
       }
       // navigation.navigate('Home');
@@ -124,7 +125,7 @@ const AuthComp = ({ route }) => {
         >
           <TouchableWithoutFeedback onPress={keyboardHide}>
             <View>
-              <ProfileBox route={route} title={title}>
+              <ProfileBox route={route} title={title} changeAvatar={setAuthData} authData={authData}>
                 {route.name !== 'Login' && (
                   <TextInput
                     {...inputLoginProps}

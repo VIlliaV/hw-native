@@ -10,8 +10,9 @@ import ExitButton from './buttons/ExitButton';
 import { useAuth } from '../utils/hooks/useAuth';
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
+import { uploadImageToFirebase } from '../utils/firebase';
 
-const ProfileBox = ({ route, children, style = {}, title }) => {
+const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {}, authData }) => {
   const [isAvatarAdd, setIsAvatarAdd] = useState(null);
   const { user } = useAuth();
   const [image, setImage] = useState(null);
@@ -27,6 +28,8 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
 
       if (!result.canceled) {
         setIsAvatarAdd(result.assets[0].uri);
+        const urlAvatar = await uploadImageToFirebase(result.assets[0].uri);
+        changeAvatar({ ...authData, photoURL: urlAvatar });
       }
     } catch (error) {
       Toast.show({
@@ -35,6 +38,11 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
         text2: `${error.code}`,
       });
     }
+  };
+
+  const pickNoImage = () => {
+    setIsAvatarAdd(null);
+    changeAvatar({ ...authData, photoURL: '' });
   };
 
   const displayName = user?.displayName;
@@ -62,7 +70,7 @@ const ProfileBox = ({ route, children, style = {}, title }) => {
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => {
-                isAvatarAdd ? setIsAvatarAdd(null) : pickImage();
+                isAvatarAdd ? pickNoImage() : pickImage();
               }}
             >
               {!isAvatarAdd ? (
