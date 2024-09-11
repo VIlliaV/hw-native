@@ -14,11 +14,12 @@ import { uploadImageToFirebase } from '../utils/firebase';
 
 const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {} }) => {
   const { user } = useAuth();
-  const [isAvatarAdd, setIsAvatarAdd] = useState(user?.photoURL || null);
+  const { photoURL, displayName } = user;
+  const [isAvatarAdd, setIsAvatarAdd] = useState(photoURL || null);
 
   useEffect(() => {
-    setIsAvatarAdd(user?.photoURL || null);
-  }, [user]);
+    setIsAvatarAdd(photoURL || null);
+  }, [photoURL]);
 
   const pickImage = async () => {
     try {
@@ -48,10 +49,12 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
 
   const pickNoImage = () => {
     setIsAvatarAdd(null);
-    changeAvatar(prev => ({ ...prev, photoURL: '' }));
+    if (route.name === 'ProfileScreen') {
+      changeAvatar({ photoURL: '' });
+    } else {
+      changeAvatar(prev => ({ ...prev, photoURL: '' }));
+    }
   };
-
-  const displayName = user?.displayName;
 
   return (
     <View style={{ ...styles.popUp, ...style }}>
