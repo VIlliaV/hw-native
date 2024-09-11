@@ -1,4 +1,4 @@
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../config';
 import Toast from 'react-native-toast-message';
 import { addDoc, collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
@@ -20,6 +20,19 @@ export const uploadImageToFirebase = async fileUri => {
     Toast.show({
       type: 'error',
       text1: 'Помилка завантаження файлу, спробуйте ще раз',
+      text2: `${error.message}`,
+    });
+  }
+};
+
+export const deleteImageFromFirebase = async fileUri => {
+  try {
+    const storageRef = ref(storage, fileUri);
+    await deleteObject(storageRef);
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Помилка видалення файлу, спробуйте ще раз',
       text2: `${error.message}`,
     });
   }

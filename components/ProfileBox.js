@@ -10,7 +10,7 @@ import ExitButton from './buttons/ExitButton';
 import { useAuth } from '../utils/hooks/useAuth';
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
-import { uploadImageToFirebase } from '../utils/firebase';
+import { deleteImageFromFirebase, uploadImageToFirebase } from '../utils/firebase';
 
 const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {} }) => {
   const { user } = useAuth();
@@ -47,7 +47,8 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
     }
   };
 
-  const pickNoImage = () => {
+  const pickNoImage = async () => {
+    await deleteImageFromFirebase(isAvatarAdd);
     setIsAvatarAdd(null);
     if (route.name === 'ProfileScreen') {
       changeAvatar({ photoURL: '' });
