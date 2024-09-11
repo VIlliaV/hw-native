@@ -3,7 +3,7 @@ import { styles } from '../style/styles';
 import { color } from '../style/color';
 import AddSVG from './SVGComponents/AddSVG';
 import DeleteSVG from './SVGComponents/DeleteSVG';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import avatarImage from '../assets/image/avatarImage.jpg';
 import noPhoto from '../assets/image/noPhoto.jpg';
 import ExitButton from './buttons/ExitButton';
@@ -12,12 +12,13 @@ import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
 import { uploadImageToFirebase } from '../utils/firebase';
 
-const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {}, authData = {} }) => {
+const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {} }) => {
   const { user } = useAuth();
   const [isAvatarAdd, setIsAvatarAdd] = useState(user?.photoURL || null);
 
-  const [image, setImage] = useState(null);
-  // console.log('🚀 ~ image:', image);
+  useEffect(() => {
+    setIsAvatarAdd(user?.photoURL || null);
+  }, [user]);
 
   const pickImage = async () => {
     try {
@@ -30,7 +31,11 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
       if (!result.canceled) {
         setIsAvatarAdd(result.assets[0].uri);
         const urlAvatar = await uploadImageToFirebase(result.assets[0].uri);
-        changeAvatar({ ...authData, photoURL: urlAvatar });
+        if (route.name === 'ProfileScreen') {
+          changeAvatar({ photoURL: urlAvatar });
+        } else {
+          changeAvatar(prev => ({ ...prev, photoURL: urlAvatar }));
+        }
       }
     } catch (error) {
       Toast.show({
@@ -43,12 +48,11 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
 
   const pickNoImage = () => {
     setIsAvatarAdd(null);
-    changeAvatar({ ...authData, photoURL: '' });
+    changeAvatar(prev => ({ ...prev, photoURL: '' }));
   };
 
   const displayName = user?.displayName;
 
-  const avatar = isAvatarAdd ? avatarImage : noPhoto;
   return (
     <View style={{ ...styles.popUp, ...style }}>
       {route.name === 'ProfileScreen' && (

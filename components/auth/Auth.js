@@ -92,7 +92,6 @@ const AuthComp = ({ route }) => {
         await dispatch(updateUserProfile({ displayName, photoURL })).unwrap();
         setAuthData(initialReg);
       }
-      // navigation.navigate('Home');
     } catch (error) {}
   };
 
@@ -125,7 +124,7 @@ const AuthComp = ({ route }) => {
         >
           <TouchableWithoutFeedback onPress={keyboardHide}>
             <View>
-              <ProfileBox route={route} title={title} changeAvatar={setAuthData} authData={authData}>
+              <ProfileBox route={route} title={title} changeAvatar={setAuthData}>
                 {route.name !== 'Login' && (
                   <TextInput
                     {...inputLoginProps}

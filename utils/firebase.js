@@ -39,6 +39,15 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
   }
 };
 
+export const updateDataInFirestore = async (collectionName, docId, data) => {
+  try {
+    const ref = doc(db, collectionName, docId);
+    await updateDoc(ref, data);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDataFromFirestore = async () => {
   try {
     const snapshot = await getDocs(collection(db, 'posts'));
@@ -46,15 +55,6 @@ export const getDataFromFirestore = async () => {
     snapshot.forEach(doc => console.log(`${doc.id} =>`, doc.data()));
     // Повертаємо масив обʼєктів у довільній формі
     return snapshot.map(doc => ({ id: doc.id, data: doc.data() }));
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateDataInFirestore = async (collectionName, docId, data) => {
-  try {
-    const ref = doc(db, collectionName, docId);
-    await updateDoc(ref, data);
   } catch (error) {
     throw error;
   }
