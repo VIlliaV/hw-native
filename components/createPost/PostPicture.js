@@ -10,6 +10,18 @@ import { useState } from 'react';
 const PostPicture = ({ setCreatePostData, photoUri }) => {
   const [cameraRef, setCameraRef] = useState(null);
 
+  const takePicture = async () => {
+    if (!photoUri) {
+      if (cameraRef) {
+        const { uri } = await cameraRef.takePictureAsync();
+        setCreatePostData(prev => ({ ...prev, photoUri: uri }));
+        await MediaLibrary.createAssetAsync(uri);
+      }
+    } else {
+      setCreatePostData(prev => ({ ...prev, photoUri: '' }));
+    }
+  };
+
   return (
     <View
       style={{
@@ -41,16 +53,8 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
         ></CameraView>
       )}
       <TouchableOpacity
-        onPress={async () => {
-          if (!photoUri) {
-            if (cameraRef) {
-              const { uri } = await cameraRef.takePictureAsync();
-              setCreatePostData(prev => ({ ...prev, photoUri: uri }));
-              await MediaLibrary.createAssetAsync(uri);
-            }
-          } else {
-            setCreatePostData(prev => ({ ...prev, photoUri: '' }));
-          }
+        onPress={() => {
+          takePicture();
         }}
         style={{
           ...styles.positionCenter({ width: 60, height: 60 }),
