@@ -5,20 +5,42 @@ import { color } from '../../style/color';
 
 import { CameraView } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
+import * as Location from 'expo-location';
 import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 const PostPicture = ({ setCreatePostData, photoUri }) => {
   const [cameraRef, setCameraRef] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   const takePicture = async () => {
     if (!photoUri) {
       if (cameraRef) {
-        const { uri } = await cameraRef.takePictureAsync();
-        setCreatePostData(prev => ({ ...prev, photoUri: uri }));
-        await MediaLibrary.createAssetAsync(uri);
+        try {
+          const { uri } = await cameraRef.takePictureAsync();
+          setIsFetching(true);
+          const location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+          });
+          const coords = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          };
+          console.log('🚀 ~ coords:', coords);
+          setIsFetching(false);
+          await MediaLibrary.createAssetAsync(uri);
+          setCreatePostData(prev => ({ ...prev, photoUri: uri, coords }));
+        } catch (error) {
+          Toast.show({
+            type: 'error',
+            text1: 'Помилка',
+            text2: `${error.code}`,
+          });
+          setIsFetching(false);
+        }
       }
     } else {
-      setCreatePostData(prev => ({ ...prev, photoUri: '' }));
+      setCreatePostData(prev => ({ ...prev, photoUri: '', coords: {} }));
     }
   };
 
@@ -31,7 +53,9 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
         minHeight: 240,
       }}
     >
-      {photoUri ? (
+      {isFetching ? (
+        <Text style={styles.text}>Чекайте...</Text>
+      ) : photoUri ? (
         <Image
           source={{ uri: photoUri }}
           resizeMode="cover"

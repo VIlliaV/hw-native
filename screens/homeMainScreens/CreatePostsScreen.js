@@ -29,6 +29,7 @@ const initial = {
   name: '',
   description: '',
   photoUri: '',
+  coords: {},
 };
 
 const CreatePostsScreen = () => {
@@ -45,7 +46,7 @@ const CreatePostsScreen = () => {
     user: { uid },
   } = useAuth();
 
-  const { photoUri, name, description } = createPostData;
+  const { photoUri, name, description, coords } = createPostData;
   const readyToSubmit = photoUri && name && description;
   const keyboardHide = () => {
     Keyboard.dismiss();
@@ -55,11 +56,7 @@ const CreatePostsScreen = () => {
     try {
       if (readyToSubmit) {
         setIsFetching(true);
-        const location = await Location.getCurrentPositionAsync({});
-        const coords = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        };
+
         const urlPhoto = await uploadImageToFirebase(photoUri);
         await writeDataToFirestore('posts', null, { name, description, urlPhoto, coords, owner: uid });
         setIsFetching(false);
@@ -102,13 +99,7 @@ const CreatePostsScreen = () => {
     if (statusLocation.status === 'undetermined') {
       requestPermission();
     } else {
-      return (
-        <Permission
-          text="локацію"
-          // permissionFunction={requestPermission}
-          status={statusLocation.status}
-        />
-      );
+      return <Permission text="локацію" status={statusLocation.status} />;
     }
   }
   if (isFetching) return <Text style={styles.text}>Чекайте...</Text>;
