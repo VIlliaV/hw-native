@@ -6,7 +6,7 @@ import { color } from '../../style/color';
 import { useNavigation } from '@react-navigation/native';
 
 const Location = ({ props, showCity = true }) => {
-  const { city, country } = props;
+  const { description, country } = props;
   const navigation = useNavigation();
   return (
     <View
@@ -42,7 +42,7 @@ const Location = ({ props, showCity = true }) => {
             textDecorationLine: 'underline',
           }}
         >
-          {showCity && city}
+          {showCity && description}
           {country}
         </Text>
       </View>

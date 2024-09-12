@@ -64,10 +64,14 @@ export const updateDataInFirestore = async (collectionName, docId, data) => {
 export const getDataFromFirestore = async () => {
   try {
     const snapshot = await getDocs(collection(db, 'posts'));
-    // Перевіряємо у консолі отримані дані
-    snapshot.forEach(doc => console.log(`${doc.id} =>`, doc.data()));
-    // Повертаємо масив обʼєктів у довільній формі
-    return snapshot.map(doc => ({ id: doc.id, data: doc.data() }));
+
+    // snapshot.forEach(doc => console.log(`${doc.id} =>`, doc.data()));
+
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      data.id = doc.id;
+      return data;
+    });
   } catch (error) {
     throw error;
   }

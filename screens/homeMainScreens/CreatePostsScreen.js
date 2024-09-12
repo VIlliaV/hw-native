@@ -30,6 +30,7 @@ const initial = {
   description: '',
   photoUri: '',
   coords: {},
+  owner: '',
 };
 
 const CreatePostsScreen = () => {

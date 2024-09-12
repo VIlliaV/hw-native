@@ -5,7 +5,7 @@ import { color } from '../../style/color';
 import LikeSVG from '../SVGComponents/LikeSVG';
 import { useNavigation } from '@react-navigation/native';
 
-const Social = ({ amount = 5, social = 'comment' }) => {
+const Social = ({ amount = 0, social = 'comment' }) => {
   const navigation = useNavigation();
 
   const socialIcon = {

@@ -9,7 +9,7 @@ const Post = ({ item, showCity }) => {
     <View style={{ gap: 8, paddingBottom: 32 }}>
       <View style={{ height: 240 }}>
         <Image
-          source={postPhoto}
+          source={{ uri: item.urlPhoto }}
           resizeMode="cover"
           style={{
             ...styles.image,
@@ -23,7 +23,7 @@ const Post = ({ item, showCity }) => {
           color: color.primary,
         }}
       >
-        {item.nameOfPost}
+        {item.name}
       </Text>
       <PostBar props={item} showCity={showCity} />
     </View>
