@@ -64,9 +64,6 @@ export const updateDataInFirestore = async (collectionName, docId, data) => {
 export const getDataFromFirestore = async () => {
   try {
     const snapshot = await getDocs(collection(db, 'posts'));
-
-    // snapshot.forEach(doc => console.log(`${doc.id} =>`, doc.data()));
-
     return snapshot.docs.map(doc => {
       const data = doc.data();
       data.id = doc.id;

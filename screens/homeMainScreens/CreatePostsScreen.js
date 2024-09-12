@@ -31,6 +31,8 @@ const initial = {
   photoUri: '',
   coords: {},
   owner: '',
+  like: [],
+  comments: [],
 };
 
 const CreatePostsScreen = () => {

@@ -3,6 +3,7 @@ import { FlatList } from 'react-native';
 import Post from './Post';
 import { getDataFromFirestore } from '../../utils/firebase';
 import { useEffect, useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 // const jsonData = require('../../base/posts.json');
 
@@ -13,7 +14,11 @@ const PostList = ({ showCity = true }) => {
       const postsData = await getDataFromFirestore();
       setPosts(postsData);
     } catch (error) {
-      console.log('🚀 ~ error:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Помилка отримання постів',
+        text2: `${error.code}`,
+      });
     }
   };
 
