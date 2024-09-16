@@ -4,24 +4,41 @@ import { styles } from '../../style/styles';
 import { color } from '../../style/color';
 import LikeSVG from '../SVGComponents/LikeSVG';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../utils/hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { updateDataInFirestore } from '../../utils/firebase';
 
-const Social = ({ amount = 0, social = 'comment' }) => {
+const Social = ({ data = [], social = 'comment', idPost }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {
+    user: { uid },
+  } = useAuth();
 
   const socialIcon = {
     comment: CommentSVG,
     like: LikeSVG,
   };
 
-  const handleSocial = () => {
+  let activeIcon;
+  if (social === 'comment') {
+    activeIcon = data?.length > 0;
+  } else if (social === 'like') {
+    activeIcon = data.includes(uid);
+  }
+
+  const handleSocial = async () => {
     if (social === 'comment') {
       navigation.navigate('Nested', { screen: 'CommentsScreen' });
     }
     if (social === 'like') {
-      amount += 1;
+      const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];
+      await updateDataInFirestore('posts', idPost, { like: update });
+      // activeIcon ?  await dispatch(updateUserProfile({ displayName, photoURL })).unwrap() :  await dispatch(updateUserProfile({ displayName, photoURL })).unwrap();;
     }
   };
 
+  console.log('🚀 ~ activeIcon:', activeIcon);
   const IconName = socialIcon[social];
 
   return (
@@ -36,17 +53,17 @@ const Social = ({ amount = 0, social = 'comment' }) => {
         //   backgroundColor: photoUri ? color.accent : color.bg_secondary,
         // }}
       >
-        <IconName amount={amount} />
+        <IconName activeIcon={activeIcon} />
       </TouchableOpacity>
 
       <Text
         style={{
           ...styles.text,
           textAlignVertical: 'none',
-          color: amount > 0 ? color.primary : color.placeholder,
+          color: data?.length > 0 ? color.primary : color.placeholder,
         }}
       >
-        {amount}
+        {data?.length}
       </Text>
     </View>
   );

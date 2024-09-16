@@ -3,7 +3,8 @@ import Social from '../social/Social';
 import Location from '../social/Location';
 
 const PostBar = ({ props, showCity }) => {
-  const { like = [1, 2], comments } = props;
+  console.log('🚀 ~ props:', props);
+  const { like = [1, 2], comments, id } = props;
 
   return (
     <View
@@ -14,8 +15,8 @@ const PostBar = ({ props, showCity }) => {
       }}
     >
       <View style={{ flexDirection: 'row', gap: 24 }}>
-        <Social amount={comments?.length} />
-        <Social social="like" amount={like?.length} />
+        <Social data={comments} idPost={id} />
+        <Social social="like" data={like} idPost={id} />
       </View>
 
       <Location props={props} showCity={showCity} />
