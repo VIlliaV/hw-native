@@ -1,7 +1,7 @@
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../config';
 import Toast from 'react-native-toast-message';
-import { addDoc, collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
 
 const uriToBlob = async uri => {
   const response = await fetch(uri);
@@ -45,7 +45,8 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
       await setDoc(ref, data);
     } else {
       const ref = collection(db, collectionName);
-      await addDoc(ref, data);
+      const postRef = await addDoc(ref, data);
+      return postRef.id;
     }
   } catch (error) {
     throw error;
@@ -69,6 +70,18 @@ export const getDataFromFirestore = async () => {
       data.id = doc.id;
       return data;
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getItemFromFirestore = async (collectionName, docId) => {
+  try {
+    const docRef = doc(db, collectionName, docId);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    if (!data) throw new Error('doc not found');
+    return data;
   } catch (error) {
     throw error;
   }
