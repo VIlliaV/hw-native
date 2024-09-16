@@ -24,6 +24,8 @@ import Permission from '../../components/notification/Permission';
 import { uploadImageToFirebase, writeDataToFirestore } from '../../utils/firebase';
 import Toast from 'react-native-toast-message';
 import { useAuth } from '../../utils/hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { addPost } from '../../redux/posts/postOperations';
 
 const initial = {
   name: '',
@@ -42,6 +44,7 @@ const CreatePostsScreen = () => {
   const [createPostData, setCreatePostData] = useState(initial);
   const [isFetching, setIsFetching] = useState(false);
   const [inputOnFocus, setInputOnFocus] = useState({});
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -61,7 +64,8 @@ const CreatePostsScreen = () => {
         setIsFetching(true);
 
         const urlPhoto = await uploadImageToFirebase(photoUri);
-        await writeDataToFirestore('posts', null, { name, description, urlPhoto, coords, owner: uid });
+        // await writeDataToFirestore('posts', null, { name, description, urlPhoto, coords, owner: uid });
+        await dispatch(addPost({ name, description, urlPhoto, coords, owner: uid })).unwrap();
         setIsFetching(false);
         setCreatePostData(initial);
         navigation.navigate('PostsScreen');

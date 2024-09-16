@@ -3,6 +3,7 @@ import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import rootReducer from "./rootReducer";
 import { authReducer } from './auth/authSlice';
+import { postsReducer } from './posts/postSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -11,7 +12,7 @@ const authPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  //   contacts: contactsReducer,
+  posts: postsReducer,
   //   filter: filterReducer,
   auth: persistReducer(authPersistConfig, authReducer),
 });

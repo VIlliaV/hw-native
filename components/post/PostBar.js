@@ -3,7 +3,6 @@ import Social from '../social/Social';
 import Location from '../social/Location';
 
 const PostBar = ({ props, showCity }) => {
-  console.log('🚀 ~ props:', props);
   const { like = [1, 2], comments, id } = props;
 
   return (

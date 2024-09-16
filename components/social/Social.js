@@ -38,7 +38,6 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
     }
   };
 
-  console.log('🚀 ~ activeIcon:', activeIcon);
   const IconName = socialIcon[social];
 
   return (

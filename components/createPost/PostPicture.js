@@ -26,7 +26,6 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
           };
-          console.log('🚀 ~ coords:', coords);
           setIsFetching(false);
           await MediaLibrary.createAssetAsync(uri);
           setCreatePostData(prev => ({ ...prev, photoUri: uri, coords }));
