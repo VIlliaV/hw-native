@@ -10,7 +10,17 @@ const Location = ({ props, showCity = true }) => {
 
   const navigation = useNavigation();
   return (
-    <View
+    // <View
+    //   style={{
+    //     flexDirection: 'row',
+    //     flexShrink: 1,
+    //     flexGrow: 0,
+    //     gap: 4,
+    //     alignItems: 'center',
+    //   }}
+    // >
+    <TouchableOpacity
+      // style={{ ...styleComments.sendSVG }}
       style={{
         flexDirection: 'row',
         flexShrink: 1,
@@ -18,16 +28,12 @@ const Location = ({ props, showCity = true }) => {
         gap: 4,
         alignItems: 'center',
       }}
+      activeOpacity={0.6}
+      onPress={() =>
+        navigation.navigate('Nested', { screen: 'MapScreen', params: { markerCoords: coords, description, name } })
+      }
     >
-      <TouchableOpacity
-        // style={{ ...styleComments.sendSVG }}
-        activeOpacity={0.6}
-        onPress={() =>
-          navigation.navigate('Nested', { screen: 'MapScreen', params: { markerCoords: coords, description, name } })
-        }
-      >
-        <LocationSVG />
-      </TouchableOpacity>
+      <LocationSVG />
       <View
         style={{
           flexDirection: 'row',
@@ -49,7 +55,8 @@ const Location = ({ props, showCity = true }) => {
           {country}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
+    // </View>
   );
 };
 
