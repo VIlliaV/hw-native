@@ -26,6 +26,7 @@ import Toast from 'react-native-toast-message';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../redux/posts/postOperations';
+import { fetchDataFromCoordinates } from '../../utils/api/fetchData';
 
 const initial = {
   name: '',
@@ -35,6 +36,7 @@ const initial = {
   owner: '',
   like: [],
   comments: [],
+  country: '',
 };
 
 const CreatePostsScreen = () => {
@@ -53,7 +55,7 @@ const CreatePostsScreen = () => {
   } = useAuth();
 
   const { photoUri, name, description, coords } = createPostData;
-  const readyToSubmit = photoUri && name && description;
+  const readyToSubmit = photoUri && name;
   const keyboardHide = () => {
     Keyboard.dismiss();
   };
@@ -63,7 +65,11 @@ const CreatePostsScreen = () => {
       if (readyToSubmit) {
         setIsFetching(true);
         const urlPhoto = await uploadImageToFirebase(photoUri);
-        await dispatch(addPost({ name, description, urlPhoto, coords, owner: uid })).unwrap();
+        const { country, region } = await fetchDataFromCoordinates(coords.latitude, coords.longitude);
+        const descriptionOrRegion = description || region;
+        await dispatch(
+          addPost({ name, description: descriptionOrRegion, urlPhoto, coords, owner: uid, country })
+        ).unwrap();
         setIsFetching(false);
         setCreatePostData(initial);
         navigation.navigate('PostsScreen');
@@ -78,7 +84,7 @@ const CreatePostsScreen = () => {
       Toast.show({
         type: 'error',
         text1: 'Помилка',
-        text2: `${error.code}`,
+        text2: `${error.code || error.message}`,
       });
       setIsFetching(false);
     }

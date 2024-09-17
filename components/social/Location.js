@@ -45,7 +45,7 @@ const Location = ({ props, showCity = true }) => {
             textDecorationLine: 'underline',
           }}
         >
-          {showCity && description}
+          {showCity && `${description}, `}
           {country}
         </Text>
       </View>
