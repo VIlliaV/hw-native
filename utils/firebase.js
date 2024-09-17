@@ -1,7 +1,18 @@
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../config';
 import Toast from 'react-native-toast-message';
-import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  query,
+  where,
+  serverTimestamp,
+} from 'firebase/firestore';
 
 const uriToBlob = async uri => {
   const response = await fetch(uri);
@@ -42,10 +53,10 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
   try {
     if (docID) {
       const ref = doc(db, collectionName, docID);
-      await setDoc(ref, data);
+      await setDoc(ref, { ...data, createdAt: serverTimestamp() });
     } else {
       const ref = collection(db, collectionName);
-      const postRef = await addDoc(ref, data);
+      const postRef = await addDoc(ref, { ...data, createdAt: serverTimestamp() });
       return postRef.id;
     }
   } catch (error) {
@@ -67,6 +78,7 @@ export const getDataFromFirestore = async collectionName => {
     const snapshot = await getDocs(collection(db, collectionName));
     return snapshot.docs.map(doc => {
       const data = doc.data();
+      data.createdAt = data.createdAt.toMillis();
       data.id = doc.id;
       return data;
     });
@@ -80,14 +92,10 @@ export const getQueryDataFromFirestore = async (collectionName, key, value) => {
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => {
     const data = doc.data();
+    data.createdAt = data.createdAt.toMillis();
     data.id = doc.id;
     return data;
   });
-
-  // querySnapshot.forEach(doc => {
-  //   // doc.data() is never undefined for query doc snapshots
-  //   console.log(doc.id, ' => ', doc.data());
-  // });
 };
 
 export const getItemFromFirestore = async (collectionName, docId) => {
