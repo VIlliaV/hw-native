@@ -2,7 +2,7 @@ import { FlatList } from 'react-native';
 
 import Post from './Post';
 import { getDataFromFirestore } from '../../utils/firebase';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { usePosts } from '../../utils/hooks/usePosts';
 
@@ -10,9 +10,10 @@ import { usePosts } from '../../utils/hooks/usePosts';
 
 const PostList = ({ showCity = true }) => {
   const { posts } = usePosts();
+  const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
   return (
     <FlatList
-      data={posts}
+      data={sortedPosts}
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}

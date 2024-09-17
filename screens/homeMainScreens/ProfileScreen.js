@@ -19,6 +19,7 @@ const ProfileScreen = ({ route }) => {
   const dispatch = useDispatch();
 
   const postsOwner = posts.filter(post => post.owner === user.uid);
+  postsOwner.sort((a, b) => b.createdAt - a.createdAt);
 
   // getQueryDataFromFirestore('posts', 'owner', 'UTQjHAVytld3L5Yo2UQ2wjKErkz2');
 

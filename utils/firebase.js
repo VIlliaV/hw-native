@@ -56,8 +56,10 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
       await setDoc(ref, { ...data, createdAt: serverTimestamp() });
     } else {
       const ref = collection(db, collectionName);
+      const createdAt = Date.now();
       const postRef = await addDoc(ref, { ...data, createdAt: serverTimestamp() });
-      return postRef.id;
+
+      return { id: postRef.id, createdAt };
     }
   } catch (error) {
     throw error;
