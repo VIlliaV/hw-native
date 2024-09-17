@@ -15,7 +15,7 @@ const ProfileScreen = ({ route }) => {
   const dispatch = useDispatch();
 
   const changeAvatar = async photoURL => {
-    await dispatch(updateUserProfile({ ...photoURL })).unwrap();
+    dispatch(updateUserProfile({ ...photoURL }));
   };
 
   return (

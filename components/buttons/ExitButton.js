@@ -13,9 +13,9 @@ const ExitButton = () => {
   const onPress = async () => {
     try {
       await dispatch(signOutUser()).unwrap();
-    } catch (error) {}
 
-    navigation.navigate('Login');
+      navigation.navigate('Login');
+    } catch (error) {}
   };
 
   return (
