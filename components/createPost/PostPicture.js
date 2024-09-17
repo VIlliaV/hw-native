@@ -8,10 +8,13 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
+import { useIsFocused } from '@react-navigation/native';
+import noPhoto from '../../assets/image/noPhoto.jpg';
 
 const PostPicture = ({ setCreatePostData, photoUri }) => {
   const [cameraRef, setCameraRef] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const isFocused = useIsFocused();
 
   const takePicture = async () => {
     if (!photoUri) {
@@ -54,9 +57,9 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
     >
       {isFetching ? (
         <Text style={styles.text}>Чекайте...</Text>
-      ) : photoUri ? (
+      ) : photoUri || !isFocused ? (
         <Image
-          source={{ uri: photoUri }}
+          source={photoUri ? { uri: photoUri } : noPhoto}
           resizeMode="cover"
           style={{
             ...styles.image,
