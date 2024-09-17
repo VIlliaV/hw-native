@@ -6,7 +6,8 @@ import { color } from '../../style/color';
 import { useNavigation } from '@react-navigation/native';
 
 const Location = ({ props, showCity = true }) => {
-  const { description, country } = props;
+  const { description, country = 'Ukraine', coords, name } = props;
+
   const navigation = useNavigation();
   return (
     <View
@@ -21,7 +22,9 @@ const Location = ({ props, showCity = true }) => {
       <TouchableOpacity
         // style={{ ...styleComments.sendSVG }}
         activeOpacity={0.6}
-        onPress={() => navigation.navigate('Nested', { screen: 'MapScreen' })}
+        onPress={() =>
+          navigation.navigate('Nested', { screen: 'MapScreen', params: { markerCoords: coords, description, name } })
+        }
       >
         <LocationSVG />
       </TouchableOpacity>

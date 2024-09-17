@@ -4,16 +4,20 @@ import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
 // import avatarImage from "../../assets/image/avatarPNG.png";
 import { color } from '../../style/color';
+import { useRoute } from '@react-navigation/native';
 
 const MapScreen = () => {
+  const {
+    params: { markerCoords, name, description },
+  } = useRoute();
   const [location, setLocation] = useState(null);
 
-  const name = 'marker';
-  const description = 'description';
-  const locationMarker = {
-    latitude: 49.81122943769388,
-    longitude: 24.024978248853097,
-  };
+  // const name = 'marker';
+  // const description = 'description';
+  // const locationMarker = {
+  //   latitude: 49.81122943769388,
+  //   longitude: 24.024978248853097,
+  // };
   useEffect(() => {
     const getLocation = async () => {
       const location = await Location.getCurrentPositionAsync({});
@@ -26,13 +30,15 @@ const MapScreen = () => {
     getLocation();
   }, []);
 
+  const startPosition = markerCoords || location;
+
   return (
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
         // provider="google"
         region={{
-          ...locationMarker,
+          ...startPosition,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
@@ -56,7 +62,7 @@ const MapScreen = () => {
             pinColor={color.accent}
           />
         )}
-        {locationMarker && <Marker title={name} coordinate={locationMarker} description={description} />}
+        {markerCoords && <Marker title={name} coordinate={markerCoords} description={description} />}
       </MapView>
     </View>
   );

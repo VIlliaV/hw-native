@@ -3,7 +3,7 @@ import Social from '../social/Social';
 import Location from '../social/Location';
 
 const PostBar = ({ props, showCity }) => {
-  const { like = [1, 2], comments, id } = props;
+  const { like, comments, id } = props;
 
   return (
     <View
