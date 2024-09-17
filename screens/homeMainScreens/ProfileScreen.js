@@ -7,12 +7,20 @@ import Post from '../../components/post/Post';
 import { color } from '../../style/color';
 import { updateUserProfile } from '../../redux/auth/authOperations';
 import { useDispatch } from 'react-redux';
+import { getQueryDataFromFirestore } from '../../utils/firebase';
+import { usePosts } from '../../utils/hooks/usePosts';
+import { useAuth } from '../../utils/hooks/useAuth';
 
 const jsonData = require('../../base/posts.json');
 
 const ProfileScreen = ({ route }) => {
-  const { posts } = jsonData;
+  const { posts } = usePosts();
+  const { user } = useAuth();
   const dispatch = useDispatch();
+
+  const postsOwner = posts.filter(post => post.owner === user.uid);
+
+  // getQueryDataFromFirestore('posts', 'owner', 'UTQjHAVytld3L5Yo2UQ2wjKErkz2');
 
   const changeAvatar = async photoURL => {
     dispatch(updateUserProfile({ ...photoURL }));
@@ -31,7 +39,7 @@ const ProfileScreen = ({ route }) => {
         {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
         <ProfileBox route={route} changeAvatar={changeAvatar} style={{ height: '85%', backgroundColor: color.bg }}>
           <FlatList
-            data={posts}
+            data={postsOwner}
             // ListFooterComponent={
             //   <View style={{ height: 0, marginBottom: 0 }}></View>
             // }
