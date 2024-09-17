@@ -18,6 +18,21 @@ const MapScreen = () => {
   //   latitude: 49.81122943769388,
   //   longitude: 24.024978248853097,
   // };
+
+  // const fetchRegionFromCoordinates = async (latitude, longitude) => {
+  //   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`;
+
+  //   try {
+  //     let response = await fetch(url);
+  //     let data = await response.json();
+  //     const region = data.address.state || data.address.province || data.address.region;
+  //     console.log('🚀 ~ data.address:', data.address.country);
+  //     console.log('Region:', region);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+
   useEffect(() => {
     const getLocation = async () => {
       const location = await Location.getCurrentPositionAsync({});
@@ -25,6 +40,7 @@ const MapScreen = () => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
+      // fetchRegionFromCoordinates(coords.latitude, coords.longitude);
       setLocation(coords);
     };
     getLocation();
