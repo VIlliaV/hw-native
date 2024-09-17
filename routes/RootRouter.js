@@ -17,7 +17,7 @@ const RootRouter = () => {
   const MainStack = createStackNavigator();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchPosts('posts'));
   }, []);
 
   const { userError } = useAuth();
