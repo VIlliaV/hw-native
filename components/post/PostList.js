@@ -4,30 +4,12 @@ import Post from './Post';
 import { getDataFromFirestore } from '../../utils/firebase';
 import { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
+import { usePosts } from '../../utils/hooks/usePosts';
 
 // const jsonData = require('../../base/posts.json');
 
 const PostList = ({ showCity = true }) => {
-  const [posts, setPosts] = useState([]);
-  const getPostsData = async () => {
-    try {
-      const postsData = await getDataFromFirestore();
-      setPosts(postsData);
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Помилка отримання постів',
-        text2: `${error.code}`,
-      });
-    }
-  };
-
-  useEffect(() => {
-    getPostsData();
-  }, []);
-
-  console.log('🚀 ~ posts:', posts);
-
+  const { posts } = usePosts();
   return (
     <FlatList
       data={posts}

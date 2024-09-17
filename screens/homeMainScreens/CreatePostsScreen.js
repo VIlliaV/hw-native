@@ -62,9 +62,7 @@ const CreatePostsScreen = () => {
     try {
       if (readyToSubmit) {
         setIsFetching(true);
-
         const urlPhoto = await uploadImageToFirebase(photoUri);
-        // await writeDataToFirestore('posts', null, { name, description, urlPhoto, coords, owner: uid });
         await dispatch(addPost({ name, description, urlPhoto, coords, owner: uid })).unwrap();
         setIsFetching(false);
         setCreatePostData(initial);

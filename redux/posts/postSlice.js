@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { addPost, updatePost } from './postOperations';
+import { addPost, fetchPosts, updatePost } from './postOperations';
 // import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
 
 const postInitialState = {
@@ -37,6 +37,9 @@ const postsSlice = createSlice({
   //   },
   extraReducers: builder => {
     builder
+      .addCase(fetchPosts.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
       .addCase(updatePost.fulfilled, (state, { payload }) => {
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
         state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
@@ -44,9 +47,9 @@ const postsSlice = createSlice({
       .addCase(addPost.fulfilled, (state, { payload }) => {
         state.posts.push(payload);
       })
-      .addMatcher(isAnyOf(addPost.pending, updatePost.pending), handlePending)
+      .addMatcher(isAnyOf(addPost.pending, updatePost.pending, fetchPosts.pending), handlePending)
       //   .addMatcher(isAnyOf(registerUser.fulfilled, loginUser.fulfilled), handleFulfilled)
-      .addMatcher(isAnyOf(addPost.rejected, updatePost.rejected), handleRejected);
+      .addMatcher(isAnyOf(addPost.rejected, updatePost.rejected, fetchPosts.rejected), handleRejected);
   },
 });
 // export const { setUser, clearUser } = authSlice.actions;

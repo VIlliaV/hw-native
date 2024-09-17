@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getItemFromFirestore, updateDataInFirestore, writeDataToFirestore } from '../../utils/firebase';
+import {
+  getDataFromFirestore,
+  getItemFromFirestore,
+  updateDataInFirestore,
+  writeDataToFirestore,
+} from '../../utils/firebase';
 
 export const updatePost = createAsyncThunk('posts/updatePost', async ({ idPost, update }, { rejectWithValue }) => {
   try {
@@ -16,6 +21,16 @@ export const addPost = createAsyncThunk('posts/addPost', async (newPost, { rejec
   try {
     const idPost = await writeDataToFirestore('posts', null, newPost);
     return { ...newPost, id: idPost };
+  } catch (error) {
+    const errorToast = error.code || error.message;
+    return rejectWithValue(errorToast);
+  }
+});
+
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (_, { rejectWithValue }) => {
+  try {
+    const postsData = await getDataFromFirestore();
+    return postsData;
   } catch (error) {
     const errorToast = error.code || error.message;
     return rejectWithValue(errorToast);

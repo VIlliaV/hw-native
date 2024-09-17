@@ -9,20 +9,28 @@ import Nested from './Nested';
 import Home from './Home';
 import { useAuth } from '../utils/hooks/useAuth';
 import Toast from 'react-native-toast-message';
+import { usePosts } from '../utils/hooks/usePosts';
+import { useDispatch } from 'react-redux';
+import { fetchPosts } from '../redux/posts/postOperations';
 
 const RootRouter = () => {
   const MainStack = createStackNavigator();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
 
   const { userError } = useAuth();
+  const { postsError } = usePosts();
 
   useEffect(() => {
-    if (userError)
+    if (userError || postsError)
       Toast.show({
         type: 'error',
         text1: 'Помилка',
-        text2: `${userError}`,
+        text2: `${userError || postsError}`,
       });
-  }, [userError]);
+  }, [userError, postsError]);
 
   return (
     <NavigationContainer>
