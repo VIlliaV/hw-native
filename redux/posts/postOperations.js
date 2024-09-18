@@ -27,12 +27,12 @@ export const addPost = createAsyncThunk('posts/addPost', async (newPost, { rejec
   }
 });
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (collectionName, { rejectWithValue }) => {
-  try {
-    const postsData = await getDataFromFirestore(collectionName);
-    return postsData;
-  } catch (error) {
-    const errorToast = error.code || error.message;
-    return rejectWithValue(errorToast);
-  }
-});
+// export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (collectionName, { rejectWithValue }) => {
+//   try {
+//     const postsData = await getDataFromFirestore(collectionName);
+//     return postsData;
+//   } catch (error) {
+//     const errorToast = error.code || error.message;
+//     return rejectWithValue(errorToast);
+//   }
+// });

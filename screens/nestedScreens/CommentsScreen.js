@@ -17,11 +17,13 @@ import { color } from '../../style/color';
 import avatar from '../../assets/image/avatarImage.jpg';
 import { useState } from 'react';
 import SendSVG from '../../components/SVGComponents/SendSVG';
+import { useAuth } from '../../utils/hooks/useAuth';
 
 const jsonCommentsData = require('../../base/comments.json');
 
 const CommentsScreen = () => {
   const [comment, setComment] = useState('');
+  const { email } = useAuth();
 
   const { comments } = jsonCommentsData;
 

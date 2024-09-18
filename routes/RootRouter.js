@@ -11,13 +11,26 @@ import { useAuth } from '../utils/hooks/useAuth';
 import Toast from 'react-native-toast-message';
 import { usePosts } from '../utils/hooks/usePosts';
 import { useDispatch } from 'react-redux';
-import { fetchPosts } from '../redux/posts/postOperations';
+// import { fetchPosts } from '../redux/posts/postOperations';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { fetchPosts } from '../redux/posts/postSlice';
+import { db } from '../config';
 
 const RootRouter = () => {
   const MainStack = createStackNavigator();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchPosts('posts'));
+    const unsubscribe = onSnapshot(collection(db, 'posts'), snapshot => {
+      const postsData = snapshot.docs.map(doc => {
+        const data = doc.data();
+        // console.log('🚀 ~ data:', data);
+        data.createdAt = data.createdAt?.toMillis() || Date.now();
+        data.id = doc.id;
+        return data;
+      });
+      dispatch(fetchPosts(postsData));
+    });
+    return () => unsubscribe();
   }, []);
 
   const { userError } = useAuth();
