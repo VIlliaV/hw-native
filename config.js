@@ -10,16 +10,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  //   apiKey: "api-key",
-  //   authDomain: "project-id.firebaseapp.com",
-
   // databaseURL: "<https://native-viv.firebaseio.com>",
-
-  //   projectId: "project-id",
-  //   storageBucket: "project-id.appspot.com",
-  //   messagingSenderId: "sender-id",
-  //   appId: "app-id",
-  //   measurementId: "G-measurement-id",
   apiKey: 'AIzaSyA77j-BmjocvDvr93fFSa8qgLLZy8Ml9bU',
   authDomain: 'native-viv.firebaseapp.com',
   projectId: 'native-viv',
