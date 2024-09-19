@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { updateDataInFirestore } from '../../utils/firebase';
-import { updatePost } from '../../redux/posts/postOperations';
+import { updatePostLike } from '../../redux/posts/postOperations';
 
 const Social = ({ data = [], social = 'comment', idPost }) => {
   const navigation = useNavigation();
@@ -34,7 +34,7 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
     }
     if (social === 'like') {
       const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];
-      dispatch(updatePost({ idPost, update: { like: update } }));
+      dispatch(updatePostLike({ idPost, data: uid, isAdd: !activeIcon }));
     }
   };
 

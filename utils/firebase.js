@@ -12,6 +12,8 @@ import {
   query,
   where,
   serverTimestamp,
+  arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 
 const uriToBlob = async uri => {
@@ -71,6 +73,24 @@ export const updateDataInFirestore = async (collectionName, docId, data) => {
     const ref = doc(db, collectionName, docId);
     await updateDoc(ref, data);
   } catch (error) {
+    throw error;
+  }
+};
+
+export const updateArrDataInFirestore = async (collectionName, docId, keyPost, data, isAdd) => {
+  try {
+    const ref = doc(db, collectionName, docId);
+    if (isAdd) {
+      await updateDoc(ref, {
+        [keyPost]: arrayUnion(data),
+      });
+    } else {
+      await updateDoc(ref, {
+        [keyPost]: arrayRemove(data),
+      });
+    }
+  } catch (error) {
+    // console.log(error);
     throw error;
   }
 };

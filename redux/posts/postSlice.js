@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { addPost, fetchPosts, updatePost } from './postOperations';
+import { addPost, fetchPosts, updatePost, updatePostLike } from './postOperations';
 
 // import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
 
@@ -42,13 +42,23 @@ const postsSlice = createSlice({
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
         state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
       })
+      .addCase(updatePostLike.fulfilled, (state, { payload }) => {
+        findIndex = state.posts.findIndex(post => post.id === payload.idPost);
+        state.posts[findIndex].like = [...payload.update];
+      })
       .addCase(addPost.fulfilled, (state, { payload }) => {
         // console.log('🚀 ~ payload:', payload);
         state.posts.push(payload);
       })
-      .addMatcher(isAnyOf(addPost.pending, updatePost.pending, fetchPosts.pending), handlePending)
+      .addMatcher(
+        isAnyOf(addPost.pending, updatePost.pending, updatePostLike.pending, fetchPosts.pending),
+        handlePending
+      )
       //   .addMatcher(isAnyOf(registerUser.fulfilled, loginUser.fulfilled), handleFulfilled)
-      .addMatcher(isAnyOf(addPost.rejected, updatePost.rejected, fetchPosts.rejected), handleRejected);
+      .addMatcher(
+        isAnyOf(addPost.rejected, updatePost.rejected, updatePostLike.rejected, fetchPosts.rejected),
+        handleRejected
+      );
   },
 });
 // export const { fetchPosts } = postsSlice.actions;
