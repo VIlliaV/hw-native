@@ -72,6 +72,8 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
             style={{
               ...styles.bg_image,
               borderRadius: 16,
+              width: 120,
+              height: 120,
             }}
           />
 
