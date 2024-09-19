@@ -51,6 +51,7 @@ const Home = () => {
         component={PostsScreen}
         options={{
           title: 'Публікації',
+          // unmountOnBlur: true,
           headerRight: () => <ExitButton />,
         }}
       />

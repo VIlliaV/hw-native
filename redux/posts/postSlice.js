@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { addPost, updatePost } from './postOperations';
+import { addPost, fetchPosts, updatePost } from './postOperations';
+
 // import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
 
 const postInitialState = {
@@ -27,16 +28,16 @@ const handleRejected = (state, { payload }) => {
 const postsSlice = createSlice({
   name: 'posts',
   initialState: postInitialState,
-  reducers: {
-    fetchPosts(state, { payload }) {
-      state.posts = payload;
-    },
-  },
+  // reducers: {
+  //   fetchPosts(state, { payload }) {
+  //     state.posts = payload;
+  //   },
+  // },
   extraReducers: builder => {
     builder
-      // .addCase(fetchPosts.fulfilled, (state, { payload }) => {
-      //   state.posts = payload;
-      // })
+      .addCase(fetchPosts.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
       .addCase(updatePost.fulfilled, (state, { payload }) => {
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
         state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
@@ -45,10 +46,10 @@ const postsSlice = createSlice({
         // console.log('🚀 ~ payload:', payload);
         // state.posts.push(payload);
       })
-      .addMatcher(isAnyOf(addPost.pending, updatePost.pending), handlePending)
+      .addMatcher(isAnyOf(addPost.pending, updatePost.pending, fetchPosts.pending), handlePending)
       //   .addMatcher(isAnyOf(registerUser.fulfilled, loginUser.fulfilled), handleFulfilled)
-      .addMatcher(isAnyOf(addPost.rejected, updatePost.rejected), handleRejected);
+      .addMatcher(isAnyOf(addPost.rejected, updatePost.rejected, fetchPosts.rejected), handleRejected);
   },
 });
-export const { fetchPosts } = postsSlice.actions;
+// export const { fetchPosts } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;

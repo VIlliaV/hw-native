@@ -13,24 +13,15 @@ import { usePosts } from '../utils/hooks/usePosts';
 import { useDispatch } from 'react-redux';
 // import { fetchPosts } from '../redux/posts/postOperations';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { fetchPosts } from '../redux/posts/postSlice';
+// import { fetchPosts } from '../redux/posts/postSlice';
 import { db } from '../config';
+import { fetchPosts } from '../redux/posts/postOperations';
 
 const RootRouter = () => {
   const MainStack = createStackNavigator();
   const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'posts'), snapshot => {
-      const postsData = snapshot.docs.map(doc => {
-        const data = doc.data();
-        // console.log('🚀 ~ data:', data);
-        data.createdAt = data.createdAt?.toMillis() || Date.now();
-        data.id = doc.id;
-        return data;
-      });
-      dispatch(fetchPosts(postsData));
-    });
-    return () => unsubscribe();
+    dispatch(fetchPosts('posts'));
   }, []);
 
   const { userError } = useAuth();
