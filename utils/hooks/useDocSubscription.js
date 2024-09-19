@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../../config';
+import { useDispatch } from 'react-redux';
+import { updatePost } from '../../redux/posts/postOperations';
+import { actUpdatePost } from '../../redux/posts/postSlice';
 
 export const useDocSubscription = (collectionName, id, inView, delay = 3000) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let timer;
@@ -12,7 +17,9 @@ export const useDocSubscription = (collectionName, id, inView, delay = 3000) => 
     if (inView) {
       timer = setTimeout(() => {
         unsubscribe = onSnapshot(doc(db, collectionName, id), doc => {
-          console.log('Current data: ', doc.data());
+          const data = doc.data();
+          data.createdAt = data.createdAt?.toMillis() || Date.now();
+          dispatch(actUpdatePost({ idPost: id, update: data }));
         });
         setIsSubscribed(true);
       }, delay);

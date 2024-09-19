@@ -28,11 +28,16 @@ const handleRejected = (state, { payload }) => {
 const postsSlice = createSlice({
   name: 'posts',
   initialState: postInitialState,
-  // reducers: {
-  //   fetchPosts(state, { payload }) {
-  //     state.posts = payload;
-  //   },
-  // },
+  reducers: {
+    actUpdatePost(state, { payload }) {
+      findIndex = state.posts.findIndex(post => post.id === payload.idPost);
+      if (findIndex !== -1) {
+        state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
+      } else {
+        state.postError = 'Немає такої публікації';
+      }
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
@@ -40,11 +45,19 @@ const postsSlice = createSlice({
       })
       .addCase(updatePost.fulfilled, (state, { payload }) => {
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
-        state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
+        if (findIndex !== -1) {
+          state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
+        } else {
+          state.postError = 'Немає такої публікації';
+        }
       })
       .addCase(updatePostLike.fulfilled, (state, { payload }) => {
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
-        state.posts[findIndex].like = [...payload.update];
+        if (findIndex !== -1) {
+          state.posts[findIndex].like = [...payload.update];
+        } else {
+          state.postError = 'Немає такої публікації';
+        }
       })
       .addCase(addPost.fulfilled, (state, { payload }) => {
         // console.log('🚀 ~ payload:', payload);
@@ -61,5 +74,5 @@ const postsSlice = createSlice({
       );
   },
 });
-// export const { fetchPosts } = postsSlice.actions;
+export const { actUpdatePost } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;
