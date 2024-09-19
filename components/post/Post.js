@@ -1,15 +1,27 @@
 import { Image, Text, View } from 'react-native';
 import { styles } from '../../style/styles';
-import postPhoto from '../../assets/image/postPhoto.jpg';
 import PostBar from './PostBar';
 import { color } from '../../style/color';
 import noPhoto from '../../assets/image/noPhoto.png';
+import { InView } from 'react-native-intersection-observer';
+// import { useFirestoreSubscription } from '../../hooks/useFirestoreSubscription'; // підключаємо хук
+import { db } from '../../config';
+import { useDocSubscription } from '../../utils/hooks/useDocSubscription';
+import { useState } from 'react';
 
 const Post = ({ item, showCity }) => {
-  const { name, urlPhoto } = item;
+  const { name, urlPhoto, id } = item;
+
+  const [inView, setInView] = useState(false);
+
+  useDocSubscription('posts', id, inView);
+
+  const onViewChange = inView => {
+    setInView(inView);
+  };
 
   return (
-    <View style={{ gap: 8, paddingBottom: 32 }}>
+    <InView onChange={onViewChange} style={{ gap: 8, paddingBottom: 32 }}>
       <View style={{ height: 240 }}>
         <Image
           source={urlPhoto ? { uri: urlPhoto } : noPhoto}
@@ -29,7 +41,7 @@ const Post = ({ item, showCity }) => {
         {name}
       </Text>
       <PostBar props={item} showCity={showCity} />
-    </View>
+    </InView>
   );
 };
 

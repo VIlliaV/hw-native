@@ -10,6 +10,7 @@ import { db } from '../../config';
 import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
 // import { fetchPosts } from '../../redux/posts/postSlice';
+import { IOFlatList } from 'react-native-intersection-observer';
 
 const PostList = ({ showCity = true }) => {
   const { posts } = usePosts();
@@ -41,7 +42,7 @@ const PostList = ({ showCity = true }) => {
 
   const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
   return (
-    <FlatList
+    <IOFlatList
       data={sortedPosts}
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
