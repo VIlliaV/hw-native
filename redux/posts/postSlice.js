@@ -44,7 +44,7 @@ const postsSlice = createSlice({
       })
       .addCase(addPost.fulfilled, (state, { payload }) => {
         // console.log('🚀 ~ payload:', payload);
-        // state.posts.push(payload);
+        state.posts.push(payload);
       })
       .addMatcher(isAnyOf(addPost.pending, updatePost.pending, fetchPosts.pending), handlePending)
       //   .addMatcher(isAnyOf(registerUser.fulfilled, loginUser.fulfilled), handleFulfilled)
