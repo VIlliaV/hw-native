@@ -2,7 +2,7 @@ import { Image, Text, View } from 'react-native';
 import { styles } from '../../style/styles';
 import avatar from '../../assets/image/avatarImage.jpg';
 import { useAuth } from '../../utils/hooks/useAuth';
-import noPhoto from '../../assets/image/noPhoto.jpg';
+import noPhoto from '../../assets/image/noPhoto.png';
 const PostHolder = () => {
   const { user } = useAuth();
   const { displayName, email, photoURL } = user;

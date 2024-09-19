@@ -9,7 +9,7 @@ import * as Location from 'expo-location';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { useIsFocused } from '@react-navigation/native';
-import noPhoto from '../../assets/image/noPhoto.jpg';
+import noPhoto from '../../assets/image/noPhoto.png';
 
 const PostPicture = ({ setCreatePostData, photoUri }) => {
   const [cameraRef, setCameraRef] = useState(null);
