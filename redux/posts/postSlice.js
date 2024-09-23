@@ -37,11 +37,15 @@ const postsSlice = createSlice({
         state.postError = 'Немає такої публікації';
       }
     },
+    clearPosts(state, _) {
+      state.posts = [];
+    },
   },
   extraReducers: builder => {
     builder
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
-        state.posts = payload;
+        const { postData } = payload;
+        state.posts.push(...postData);
       })
       .addCase(updatePost.fulfilled, (state, { payload }) => {
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
@@ -73,5 +77,5 @@ const postsSlice = createSlice({
       );
   },
 });
-export const { actUpdatePost } = postsSlice.actions;
+export const { actUpdatePost, clearPosts } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;

@@ -45,10 +45,12 @@ export const addPost = createAsyncThunk('posts/addPost', async (newPost, { rejec
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async ({ collectionName, sort }, { rejectWithValue }) => {
+  async ({ collectionName, sort, lastVisible }, { rejectWithValue }) => {
     try {
-      const postsData = await getDataFromFirestore(collectionName, sort);
-      return postsData;
+      const { postData } = await getDataFromFirestore({ collectionName, sort, lastVisible });
+
+      // console.log('🚀 ~ data:', postData);
+      return { postData };
     } catch (error) {
       const errorToast = error.code || error.message;
       return rejectWithValue(errorToast);

@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { FlatList, Text } from 'react-native';
 
 import Post from './Post';
 
@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
 // import { fetchPosts } from '../../redux/posts/postSlice';
 import { IOFlatList } from 'react-native-intersection-observer';
-import { actUpdatePost } from '../../redux/posts/postSlice';
+import { actUpdatePost, clearPosts } from '../../redux/posts/postSlice';
 
 const PostList = ({ showCity = true }) => {
   const { posts } = usePosts();
@@ -34,9 +34,11 @@ const PostList = ({ showCity = true }) => {
   // }, []);
 
   const [refreshing, setRefreshing] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    dispatch(clearPosts());
     dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] }));
     setRefreshing(false);
   }, []);
@@ -57,6 +59,14 @@ const PostList = ({ showCity = true }) => {
     });
   };
 
+  const onEndReached = () => {
+    console.log('object scroll');
+    setLoadMore(true);
+    const lastDocId = posts[posts.length - 1]?.id;
+    dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'], lastVisible: lastDocId }));
+    setLoadMore(false);
+  };
+
   // const sortedPosts = [...posts].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
@@ -65,10 +75,15 @@ const PostList = ({ showCity = true }) => {
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}
+      ListFooterComponent={loadMore && <Text>чекай</Text>}
       refreshing={refreshing}
       onRefresh={onRefresh}
       onViewableItemsChanged={onViewableItemsChanged}
       viewabilityConfig={viewabilityConfig}
+      onEndReached={() => {
+        onEndReached();
+      }}
+      onEndReachedThreshold={0.5}
     />
   );
 };

@@ -16,6 +16,8 @@ import {
   arrayRemove,
   orderBy,
   Timestamp,
+  limit,
+  startAfter,
 } from 'firebase/firestore';
 
 const uriToBlob = async uri => {
@@ -97,16 +99,32 @@ export const updateArrDataInFirestore = async (collectionName, docId, keyPost, d
   }
 };
 
-export const getDataFromFirestore = async (collectionName, sort = []) => {
+export const getDataFromFirestore = async ({ collectionName, sort = [], pageLimit = 3, lastVisible = null }) => {
   try {
-    const q = query(collection(db, collectionName), sort.length > 0 && orderBy(...sort));
+    let constraints = [];
+    if (sort.length > 0) {
+      constraints.push(orderBy(...sort));
+    }
+    if (lastVisible) {
+      const docRef = doc(db, collectionName, lastVisible);
+      const docSnap = await getDoc(docRef);
+      constraints.push(startAfter(docSnap));
+    }
+    if (pageLimit !== 0) {
+      constraints.push(limit(pageLimit));
+    }
+
+    const q = query(collection(db, collectionName), ...constraints);
+
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => {
+    const postData = snapshot.docs.map(doc => {
       const data = doc.data();
       data.timestamp = data.timestamp.toMillis();
       data.id = doc.id;
       return data;
     });
+
+    return { postData };
   } catch (error) {
     throw error;
   }
