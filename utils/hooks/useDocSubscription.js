@@ -18,7 +18,7 @@ export const useDocSubscription = (collectionName, id, inView, delay = 3000) => 
       // timer = setTimeout(() => {
       unsubscribe = onSnapshot(doc(db, collectionName, id), doc => {
         const data = doc.data();
-        data.createdAt = data.createdAt?.toMillis() || Date.now();
+        data.timestamp = data.timestamp?.toMillis() || Date.now();
         dispatch(actUpdatePost({ idPost: id, update: data }));
       });
       setIsSubscribed(true);

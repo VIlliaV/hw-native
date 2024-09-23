@@ -60,7 +60,7 @@ const postsSlice = createSlice({
         }
       })
       .addCase(addPost.fulfilled, (state, { payload }) => {
-        state.posts.push(payload);
+        state.posts.unshift(payload);
       })
       .addMatcher(
         isAnyOf(addPost.pending, updatePost.pending, updatePostLike.pending, fetchPosts.pending),

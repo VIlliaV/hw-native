@@ -14,6 +14,8 @@ import {
   serverTimestamp,
   arrayUnion,
   arrayRemove,
+  orderBy,
+  Timestamp,
 } from 'firebase/firestore';
 
 const uriToBlob = async uri => {
@@ -55,13 +57,13 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
   try {
     if (docID) {
       const ref = doc(db, collectionName, docID);
-      await setDoc(ref, { ...data, createdAt: serverTimestamp() });
+      await setDoc(ref, { ...data, timestamp: serverTimestamp() });
     } else {
       const ref = collection(db, collectionName);
-      const createdAt = Date.now();
-      const postRef = await addDoc(ref, { ...data, createdAt: serverTimestamp() });
+      const timestamp = Date.now();
+      const postRef = await addDoc(ref, { ...data, timestamp: serverTimestamp() });
 
-      return { id: postRef.id, createdAt };
+      return { id: postRef.id, timestamp };
     }
   } catch (error) {
     throw error;
@@ -95,12 +97,13 @@ export const updateArrDataInFirestore = async (collectionName, docId, keyPost, d
   }
 };
 
-export const getDataFromFirestore = async collectionName => {
+export const getDataFromFirestore = async (collectionName, sort = []) => {
   try {
-    const snapshot = await getDocs(collection(db, collectionName));
+    const q = query(collection(db, collectionName), sort.length > 0 && orderBy(...sort));
+    const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => {
       const data = doc.data();
-      data.createdAt = data.createdAt.toMillis();
+      data.timestamp = data.timestamp.toMillis();
       data.id = doc.id;
       return data;
     });
@@ -114,7 +117,7 @@ export const getQueryDataFromFirestore = async (collectionName, key, value) => {
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => {
     const data = doc.data();
-    data.createdAt = data.createdAt.toMillis();
+    data.timestamp = data.timestamp.toMillis();
     data.id = doc.id;
     return data;
   });

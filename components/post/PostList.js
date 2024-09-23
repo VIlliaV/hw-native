@@ -21,7 +21,7 @@ const PostList = ({ showCity = true }) => {
   //   const unsubscribe = onSnapshot(collection(db, 'posts'), snapshot => {
   //     const postsData = snapshot.docs.map(doc => {
   //       const data = doc.data();
-  //       data.createdAt = data.createdAt?.toMillis() || Date.now();
+  //       data.timestamp = data.timestamp?.toMillis() || Date.now();
   //       data.id = doc.id;
   //       return data;
   //     });
@@ -37,7 +37,7 @@ const PostList = ({ showCity = true }) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    dispatch(fetchPosts('posts'));
+    dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] }));
     setRefreshing(false);
   }, []);
 
@@ -57,11 +57,11 @@ const PostList = ({ showCity = true }) => {
     });
   };
 
-  const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
+  // const sortedPosts = [...posts].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
     <FlatList
-      data={sortedPosts}
+      data={posts}
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}
