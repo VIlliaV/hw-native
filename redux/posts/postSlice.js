@@ -60,7 +60,6 @@ const postsSlice = createSlice({
         }
       })
       .addCase(addPost.fulfilled, (state, { payload }) => {
-        // console.log('🚀 ~ payload:', payload);
         state.posts.push(payload);
       })
       .addMatcher(

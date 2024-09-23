@@ -11,20 +11,20 @@ export const useDocSubscription = (collectionName, id, inView, delay = 3000) => 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let timer;
+    // let timer;
     let unsubscribe;
 
     if (inView) {
-      timer = setTimeout(() => {
-        unsubscribe = onSnapshot(doc(db, collectionName, id), doc => {
-          const data = doc.data();
-          data.createdAt = data.createdAt?.toMillis() || Date.now();
-          dispatch(actUpdatePost({ idPost: id, update: data }));
-        });
-        setIsSubscribed(true);
-      }, delay);
+      // timer = setTimeout(() => {
+      unsubscribe = onSnapshot(doc(db, collectionName, id), doc => {
+        const data = doc.data();
+        data.createdAt = data.createdAt?.toMillis() || Date.now();
+        dispatch(actUpdatePost({ idPost: id, update: data }));
+      });
+      setIsSubscribed(true);
+      // }, delay);
     } else {
-      clearTimeout(timer);
+      // clearTimeout(timer);
       if (unsubscribe) {
         unsubscribe();
         setIsSubscribed(false);
@@ -33,7 +33,8 @@ export const useDocSubscription = (collectionName, id, inView, delay = 3000) => 
     }
 
     return () => {
-      clearTimeout(timer);
+      // clearTimeout(timer);
+
       if (unsubscribe) {
         unsubscribe();
       }

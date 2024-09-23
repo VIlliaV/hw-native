@@ -6,8 +6,6 @@ export const fetchDataFromCoordinates = async (latitude, longitude) => {
     let data = await response.json();
     const region = data.address.state || data.address.province || data.address.region;
     const country = data.address.country;
-    // console.log('🚀 ~ data.address:', data.address.country);
-    // console.log('Region:', region);
     return { region, country };
   } catch (error) {
     console.error('Error:', error);

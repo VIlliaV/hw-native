@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
 // import { fetchPosts } from '../../redux/posts/postSlice';
 import { IOFlatList } from 'react-native-intersection-observer';
+import { actUpdatePost } from '../../redux/posts/postSlice';
 
 const PostList = ({ showCity = true }) => {
   const { posts } = usePosts();
@@ -40,15 +41,34 @@ const PostList = ({ showCity = true }) => {
     setRefreshing(false);
   }, []);
 
+  const viewabilityConfig = {
+    minimumViewTime: 3000,
+    viewAreaCoveragePercentThreshold: 20,
+  };
+
+  const onViewableItemsChanged = ({ changed, viewableItems }) => {
+    viewableItems.forEach(item => {
+      // console.log(item?.item.name, item?.isViewable);
+    });
+    changed.forEach(item => {
+      const data = { ...item?.item };
+      data.inView = item?.isViewable;
+      dispatch(actUpdatePost({ idPost: item?.item.id, update: data }));
+    });
+  };
+
   const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
+
   return (
-    <IOFlatList
+    <FlatList
       data={sortedPosts}
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}
       refreshing={refreshing}
       onRefresh={onRefresh}
+      onViewableItemsChanged={onViewableItemsChanged}
+      viewabilityConfig={viewabilityConfig}
     />
   );
 };

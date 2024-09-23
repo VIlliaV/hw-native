@@ -10,18 +10,19 @@ import { useDocSubscription } from '../../utils/hooks/useDocSubscription';
 import { useState } from 'react';
 
 const Post = ({ item, showCity }) => {
-  const { name, urlPhoto, id } = item;
-
-  const [inView, setInView] = useState(false);
+  const { name, urlPhoto, id, inView } = item;
 
   useDocSubscription('posts', id, inView);
 
-  const onViewChange = inView => {
-    setInView(inView);
-  };
+  // const onViewChange = inView => {
+  //   setInView(inView);
+  // };
 
   return (
-    <InView onChange={onViewChange} style={{ gap: 8, paddingBottom: 32 }}>
+    <View
+      // onChange={onViewChange}
+      style={{ gap: 8, paddingBottom: 32 }}
+    >
       <View style={{ height: 240 }}>
         <Image
           source={urlPhoto ? { uri: urlPhoto } : noPhoto}
@@ -41,7 +42,7 @@ const Post = ({ item, showCity }) => {
         {name}
       </Text>
       <PostBar props={item} showCity={showCity} />
-    </InView>
+    </View>
   );
 };
 
