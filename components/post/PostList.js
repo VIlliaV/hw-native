@@ -60,6 +60,7 @@ const PostList = ({ showCity = true }) => {
   };
 
   const onEndReached = () => {
+    if (loadMore) return;
     console.log('object scroll');
     setLoadMore(true);
     const lastDocId = posts[posts.length - 1]?.id;
