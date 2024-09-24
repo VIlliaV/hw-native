@@ -2,7 +2,7 @@ import { FlatList, Text } from 'react-native';
 
 import Post from './Post';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { usePosts } from '../../utils/hooks/usePosts';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -12,26 +12,23 @@ import { fetchPosts } from '../../redux/posts/postOperations';
 // import { fetchPosts } from '../../redux/posts/postSlice';
 import { IOFlatList } from 'react-native-intersection-observer';
 import { actUpdatePost, actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
 const PostList = ({ showCity = true }) => {
+  const route = useRoute();
+  const navigation = useNavigation();
+
   const { posts } = usePosts();
 
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const unsubscribe = onSnapshot(collection(db, 'posts'), snapshot => {
-  //     const postsData = snapshot.docs.map(doc => {
-  //       const data = doc.data();
-  //       data.timestamp = data.timestamp?.toMillis() || Date.now();
-  //       data.id = doc.id;
-  //       return data;
-  //     });
-  //     dispatch(fetchPosts(postsData));
-  //   });
-  //   return () => {
-  //     console.log('unScribe');
-  //     unsubscribe();
-  //   };
-  // }, []);
+
+  const flatListRef = useRef(null);
+  useEffect(() => {
+    if (route.params?.from === 'CreatePostScreen' && flatListRef.current) {
+      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+      navigation.setParams({ from: '' });
+    }
+  }, [route]);
 
   const [refreshing, setRefreshing] = useState(false);
   const [loadMore, setLoadMore] = useState(false);
@@ -54,8 +51,6 @@ const PostList = ({ showCity = true }) => {
       // console.log(item?.item.name, item?.isViewable);
     });
     changed.forEach(item => {
-      // const data = { ...item?.item };
-      // data.inView = item?.isViewable;
       dispatch(actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView' }));
     });
   };
@@ -73,10 +68,9 @@ const PostList = ({ showCity = true }) => {
     }
   };
 
-  // const sortedPosts = [...posts].sort((a, b) => b.timestamp - a.timestamp);
-
   return (
     <FlatList
+      ref={flatListRef}
       data={posts}
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}

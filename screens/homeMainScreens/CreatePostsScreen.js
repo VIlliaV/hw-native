@@ -72,7 +72,7 @@ const CreatePostsScreen = () => {
         ).unwrap();
         setIsFetching(false);
         setCreatePostData(initial);
-        navigation.navigate('PostsScreen');
+        navigation.navigate('PostsScreen', { from: 'CreatePostScreen' });
       } else {
         Toast.show({
           type: 'info',
