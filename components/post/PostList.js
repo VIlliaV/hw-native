@@ -59,10 +59,10 @@ const PostList = ({ showCity = true }) => {
     if (refreshing) return;
     setLoadMore(true);
     const lastDocId = posts[posts.length - 1]?.id || null;
-    const testData = await dispatch(
+    const fetchData = await dispatch(
       fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'], lastVisible: lastDocId })
     ).unwrap();
-    if (testData.postData.length === 0) {
+    if (fetchData.postData.length === 0) {
       setLoadMore('no more');
     } else {
       setLoadMore(false);

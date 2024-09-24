@@ -20,12 +20,12 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({ idPost, 
 
 export const updatePostLike = createAsyncThunk(
   'posts/updatePostLike',
-  async ({ idPost, data, isAdd }, { rejectWithValue }) => {
+  async ({ idPost, data, isAdd, stateForChange = 'posts' }, { rejectWithValue }) => {
     try {
       await updateArrDataInFirestore('posts', idPost, 'like', data, isAdd);
       const { like } = await getItemFromFirestore('posts', idPost);
 
-      return { idPost, update: like };
+      return { idPost, update: like, stateForChange };
     } catch (error) {
       const errorToast = error.code || error.message;
       return rejectWithValue(errorToast);

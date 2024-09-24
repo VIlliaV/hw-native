@@ -9,10 +9,10 @@ import { db } from '../../config';
 import { useDocSubscription } from '../../utils/hooks/useDocSubscription';
 import { useState } from 'react';
 
-const Post = ({ item, showCity }) => {
+const Post = ({ item, showCity, stateForChange = 'posts' }) => {
   const { name, urlPhoto, id, inView } = item;
 
-  useDocSubscription('posts', id, inView);
+  useDocSubscription('posts', id, inView, stateForChange);
 
   // const onViewChange = inView => {
   //   setInView(inView);
@@ -41,7 +41,7 @@ const Post = ({ item, showCity }) => {
       >
         {name}
       </Text>
-      <PostBar props={item} showCity={showCity} />
+      <PostBar props={item} showCity={showCity} stateForChange={stateForChange} />
     </View>
   );
 };

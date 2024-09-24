@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import Social from '../social/Social';
 import Location from '../social/Location';
 
-const PostBar = ({ props, showCity }) => {
+const PostBar = ({ props, showCity, stateForChange = 'posts' }) => {
   const { like, comments, id } = props;
 
   return (
@@ -15,7 +15,7 @@ const PostBar = ({ props, showCity }) => {
     >
       <View style={{ flexDirection: 'row', gap: 24 }}>
         <Social data={comments} idPost={id} />
-        <Social social="like" data={like} idPost={id} />
+        <Social social="like" data={like} idPost={id} stateForChange={stateForChange} />
       </View>
 
       <Location props={props} showCity={showCity} />
