@@ -38,6 +38,7 @@ const postsSlice = createSlice({
       }
     },
     actUpdatePostItem(state, { payload }) {
+      if (state.posts.length === 0) return;
       findIndex = state.posts.findIndex(post => post.id === payload.idPost);
       if (findIndex !== -1) {
         state.posts[findIndex][payload.key] = payload.update;
