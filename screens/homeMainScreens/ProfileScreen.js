@@ -10,14 +10,17 @@ import { useDispatch } from 'react-redux';
 import { getQueryDataFromFirestore } from '../../utils/firebase';
 import { usePosts } from '../../utils/hooks/usePosts';
 import { useAuth } from '../../utils/hooks/useAuth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchPostsOwners } from '../../redux/posts/postOperations';
+import { actUpdatePostItem, actUpdatePostOwnerItem } from '../../redux/posts/postSlice';
 
 const jsonData = require('../../base/posts.json');
 
 const ProfileScreen = ({ route }) => {
   const { postsOwners } = usePosts();
   const { user } = useAuth();
+
+  const [loadMore, setLoadMore] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,6 +36,38 @@ const ProfileScreen = ({ route }) => {
 
   const changeAvatar = async photoURL => {
     dispatch(updateUserProfile({ ...photoURL }));
+  };
+
+  const viewabilityConfig = {
+    minimumViewTime: 3000,
+    viewAreaCoveragePercentThreshold: 20,
+  };
+
+  const onViewableItemsChanged = ({ changed, viewableItems }) => {
+    viewableItems.forEach(item => {
+      // console.log(item?.item.name, item?.isViewable);
+    });
+    changed.forEach(item => {
+      dispatch(actUpdatePostOwnerItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView' }));
+    });
+  };
+
+  const onEndReached = async () => {
+    setLoadMore(true);
+    const lastDocId = postsOwners[postsOwners.length - 1]?.id || null;
+    const fetchData = await dispatch(
+      fetchPostsOwners({
+        collectionName: 'posts',
+        queryDoc: ['owner', '==', user.uid],
+        sort: ['timestamp', 'desc'],
+        lastVisible: lastDocId,
+      })
+    ).unwrap();
+    if (fetchData.postData.length === 0) {
+      setLoadMore('no more');
+    } else {
+      setLoadMore(false);
+    }
   };
 
   return (
@@ -52,8 +87,17 @@ const ProfileScreen = ({ route }) => {
             // ListFooterComponent={
             //   <View style={{ height: 0, marginBottom: 0 }}></View>
             // }
-            renderItem={({ item }) => <Post item={item} showCity={false} />}
+            renderItem={({ item }) => <Post item={item} showCity={false} stateForChange="postsOwners" />}
             keyExtractor={item => item.id}
+            ListFooterComponent={
+              loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
+            }
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={viewabilityConfig}
+            onEndReached={() => {
+              !loadMore && onEndReached();
+            }}
+            onEndReachedThreshold={0.5}
           />
         </ProfileBox>
         {/* </View> */}
