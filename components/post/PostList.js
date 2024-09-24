@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
 // import { fetchPosts } from '../../redux/posts/postSlice';
 import { IOFlatList } from 'react-native-intersection-observer';
-import { actUpdatePost, clearPosts } from '../../redux/posts/postSlice';
+import { actUpdatePost, actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
 
 const PostList = ({ showCity = true }) => {
   const { posts } = usePosts();
@@ -54,9 +54,9 @@ const PostList = ({ showCity = true }) => {
       // console.log(item?.item.name, item?.isViewable);
     });
     changed.forEach(item => {
-      const data = { ...item?.item };
-      data.inView = item?.isViewable;
-      dispatch(actUpdatePost({ idPost: item?.item.id, update: data }));
+      // const data = { ...item?.item };
+      // data.inView = item?.isViewable;
+      dispatch(actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView' }));
     });
   };
 

@@ -37,6 +37,14 @@ const postsSlice = createSlice({
         state.postError = 'Немає такої публікації';
       }
     },
+    actUpdatePostItem(state, { payload }) {
+      findIndex = state.posts.findIndex(post => post.id === payload.idPost);
+      if (findIndex !== -1) {
+        state.posts[findIndex][payload.key] = payload.update;
+      } else {
+        state.postError = 'Немає такої публікації';
+      }
+    },
     clearPosts(state, _) {
       state.posts = [];
     },
@@ -77,5 +85,5 @@ const postsSlice = createSlice({
       );
   },
 });
-export const { actUpdatePost, clearPosts } = postsSlice.actions;
+export const { actUpdatePost, clearPosts, actUpdatePostItem } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;

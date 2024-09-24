@@ -33,7 +33,7 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
       navigation.navigate('Nested', { screen: 'CommentsScreen' });
     }
     if (social === 'like') {
-      const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];
+      // const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];
       dispatch(updatePostLike({ idPost, data: uid, isAdd: !activeIcon }));
     }
   };
