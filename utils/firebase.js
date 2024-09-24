@@ -99,9 +99,18 @@ export const updateArrDataInFirestore = async (collectionName, docId, keyPost, d
   }
 };
 
-export const getDataFromFirestore = async ({ collectionName, sort = [], pageLimit = 3, lastVisible = null }) => {
+export const getDataFromFirestore = async ({
+  collectionName,
+  sort = [],
+  pageLimit = 3,
+  lastVisible = null,
+  queryDoc = [],
+}) => {
   try {
     let constraints = [];
+    if (queryDoc.length > 0) {
+      constraints.push(where(...queryDoc));
+    }
     if (sort.length > 0) {
       constraints.push(orderBy(...sort));
     }
@@ -129,6 +138,7 @@ export const getDataFromFirestore = async ({ collectionName, sort = [], pageLimi
     throw error;
   }
 };
+
 export const getQueryDataFromFirestore = async (collectionName, key, value) => {
   const q = query(collection(db, collectionName), where(key, '==', value));
 

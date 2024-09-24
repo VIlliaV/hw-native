@@ -10,16 +10,24 @@ import { useDispatch } from 'react-redux';
 import { getQueryDataFromFirestore } from '../../utils/firebase';
 import { usePosts } from '../../utils/hooks/usePosts';
 import { useAuth } from '../../utils/hooks/useAuth';
+import { useEffect } from 'react';
+import { fetchPostsOwners } from '../../redux/posts/postOperations';
 
 const jsonData = require('../../base/posts.json');
 
 const ProfileScreen = ({ route }) => {
-  const { posts } = usePosts();
+  const { postsOwners } = usePosts();
   const { user } = useAuth();
   const dispatch = useDispatch();
 
-  const postsOwner = posts.filter(post => post.owner === user.uid);
-  postsOwner.sort((a, b) => b.timestamp - a.timestamp);
+  useEffect(() => {
+    dispatch(
+      fetchPostsOwners({ collectionName: 'posts', sort: ['timestamp', 'desc'], queryDoc: ['owner', '==', user.uid] })
+    );
+  }, []);
+
+  // const postsOwner = posts.filter(post => post.owner === user.uid);
+  // postsOwner.sort((a, b) => b.timestamp - a.timestamp);
 
   // getQueryDataFromFirestore('posts', 'owner', 'UTQjHAVytld3L5Yo2UQ2wjKErkz2');
 
@@ -40,7 +48,7 @@ const ProfileScreen = ({ route }) => {
         {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
         <ProfileBox route={route} changeAvatar={changeAvatar} style={{ height: '85%', backgroundColor: color.bg }}>
           <FlatList
-            data={postsOwner}
+            data={postsOwners}
             // ListFooterComponent={
             //   <View style={{ height: 0, marginBottom: 0 }}></View>
             // }

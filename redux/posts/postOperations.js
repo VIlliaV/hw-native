@@ -57,3 +57,18 @@ export const fetchPosts = createAsyncThunk(
     }
   }
 );
+
+export const fetchPostsOwners = createAsyncThunk(
+  'posts/fetchPostsOwners',
+  async ({ collectionName, sort, lastVisible, queryDoc }, { rejectWithValue }) => {
+    try {
+      const { postData } = await getDataFromFirestore({ collectionName, sort, lastVisible, queryDoc });
+
+      // console.log('🚀 ~ data:', postData);
+      return { postData };
+    } catch (error) {
+      const errorToast = error.code || error.message;
+      return rejectWithValue(errorToast);
+    }
+  }
+);

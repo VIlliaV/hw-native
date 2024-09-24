@@ -1,11 +1,12 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { addPost, fetchPosts, updatePost, updatePostLike } from './postOperations';
+import { addPost, fetchPosts, updatePost, updatePostLike, fetchPostsOwners } from './postOperations';
 
 // import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
 
 const postInitialState = {
   posts: [],
   postError: null,
+  postsOwners: [],
 };
 
 const handlePending = state => {
@@ -56,6 +57,10 @@ const postsSlice = createSlice({
         const { postData } = payload;
         state.posts.push(...postData);
       })
+      .addCase(fetchPostsOwners.fulfilled, (state, { payload }) => {
+        const { postData } = payload;
+        state.postsOwners.push(...postData);
+      })
       .addCase(updatePost.fulfilled, (state, { payload }) => {
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
         if (findIndex !== -1) {
@@ -76,12 +81,24 @@ const postsSlice = createSlice({
         state.posts.unshift(payload);
       })
       .addMatcher(
-        isAnyOf(addPost.pending, updatePost.pending, updatePostLike.pending, fetchPosts.pending),
+        isAnyOf(
+          addPost.pending,
+          updatePost.pending,
+          updatePostLike.pending,
+          fetchPosts.pending,
+          fetchPostsOwners.pending
+        ),
         handlePending
       )
       //   .addMatcher(isAnyOf(registerUser.fulfilled, loginUser.fulfilled), handleFulfilled)
       .addMatcher(
-        isAnyOf(addPost.rejected, updatePost.rejected, updatePostLike.rejected, fetchPosts.rejected),
+        isAnyOf(
+          addPost.rejected,
+          updatePost.rejected,
+          updatePostLike.rejected,
+          fetchPosts.rejected,
+          fetchPostsOwners.rejected
+        ),
         handleRejected
       );
   },
