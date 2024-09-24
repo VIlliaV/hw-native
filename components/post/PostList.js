@@ -33,13 +33,13 @@ const PostList = ({ showCity = true }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [loadMore, setLoadMore] = useState(false);
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = async () => {
     setRefreshing(true);
     dispatch(clearPosts());
-    dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] }));
+    await dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] })).unwrap();
     setRefreshing(false);
     setLoadMore(false);
-  }, []);
+  };
 
   const viewabilityConfig = {
     minimumViewTime: 3000,
@@ -56,8 +56,9 @@ const PostList = ({ showCity = true }) => {
   };
 
   const onEndReached = async () => {
+    if (refreshing) return;
     setLoadMore(true);
-    const lastDocId = posts[posts.length - 1]?.id;
+    const lastDocId = posts[posts.length - 1]?.id || null;
     const testData = await dispatch(
       fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'], lastVisible: lastDocId })
     ).unwrap();
