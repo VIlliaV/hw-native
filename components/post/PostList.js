@@ -41,6 +41,7 @@ const PostList = ({ showCity = true }) => {
     dispatch(clearPosts());
     dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] }));
     setRefreshing(false);
+    setLoadMore(false);
   }, []);
 
   const viewabilityConfig = {
@@ -59,13 +60,17 @@ const PostList = ({ showCity = true }) => {
     });
   };
 
-  const onEndReached = () => {
-    if (loadMore) return;
-    console.log('object scroll');
+  const onEndReached = async () => {
     setLoadMore(true);
     const lastDocId = posts[posts.length - 1]?.id;
-    dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'], lastVisible: lastDocId }));
-    setLoadMore(false);
+    const testData = await dispatch(
+      fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'], lastVisible: lastDocId })
+    ).unwrap();
+    if (testData.postData.length === 0) {
+      setLoadMore('no more');
+    } else {
+      setLoadMore(false);
+    }
   };
 
   // const sortedPosts = [...posts].sort((a, b) => b.timestamp - a.timestamp);
@@ -76,13 +81,15 @@ const PostList = ({ showCity = true }) => {
       // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}
-      ListFooterComponent={loadMore && <Text>чекай</Text>}
+      ListFooterComponent={
+        loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
+      }
       refreshing={refreshing}
       onRefresh={onRefresh}
       onViewableItemsChanged={onViewableItemsChanged}
       viewabilityConfig={viewabilityConfig}
       onEndReached={() => {
-        onEndReached();
+        !loadMore && onEndReached();
       }}
       onEndReachedThreshold={0.5}
     />
