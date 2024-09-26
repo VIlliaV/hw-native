@@ -62,9 +62,10 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
       await setDoc(ref, { ...data, timestamp: serverTimestamp() });
     } else {
       const ref = collection(db, collectionName);
-      const timestamp = Date.now();
+      // const timestamp = Date.now();
       const postRef = await addDoc(ref, { ...data, timestamp: serverTimestamp() });
-
+      const postSnap = await getDoc(postRef);
+      const timestamp = postSnap.data().timestamp.toMillis();
       return { id: postRef.id, timestamp };
     }
   } catch (error) {
@@ -81,10 +82,18 @@ export const updateDataInFirestore = async (collectionName, docId, data) => {
   }
 };
 
-export const updateArrDataInFirestore = async (collectionName, docId, keyPost, data, isAdd = true) => {
+export const updateArrDataInFirestore = async ({
+  collectionName,
+  docId,
+  keyPost,
+  data,
+  isAdd = true,
+  timestamp = false,
+}) => {
   try {
     const ref = doc(db, collectionName, docId);
     if (isAdd) {
+      timestamp ? (data.timestamp = Date.now()) : data;
       await updateDoc(ref, {
         [keyPost]: arrayUnion(data),
       });

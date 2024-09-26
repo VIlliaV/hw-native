@@ -22,7 +22,7 @@ export const updatePostLike = createAsyncThunk(
   'posts/updatePostLike',
   async ({ idPost, data, isAdd }, { rejectWithValue }) => {
     try {
-      await updateArrDataInFirestore('posts', idPost, 'like', data, isAdd);
+      await updateArrDataInFirestore({ collectionName: 'posts', docId: idPost, keyPost: 'like', data, isAdd });
       const { like } = await getItemFromFirestore('posts', idPost);
 
       return { idPost, update: like };
@@ -37,7 +37,13 @@ export const updatePostComments = createAsyncThunk(
   'posts/updatePostComments',
   async ({ idPost, data }, { rejectWithValue }) => {
     try {
-      await updateArrDataInFirestore('posts', idPost, 'comments', data);
+      await updateArrDataInFirestore({
+        collectionName: 'posts',
+        docId: idPost,
+        keyPost: 'comments',
+        data,
+        timestamp: true,
+      });
       const { comments } = await getItemFromFirestore('posts', idPost);
 
       return { idPost, update: comments };

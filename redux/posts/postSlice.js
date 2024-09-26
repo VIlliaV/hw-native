@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { addPost, fetchPosts, updatePost, updatePostLike } from './postOperations';
+import { addPost, fetchPosts, updatePost, updatePostComments, updatePostLike } from './postOperations';
 
 // import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
 
@@ -63,6 +63,7 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
         const { postData, stateForChange } = payload;
+        // console.log('🚀 ~ postData:', postData);
         state[stateForChange].push(...postData);
       })
 
@@ -88,6 +89,17 @@ const postsSlice = createSlice({
           state.postsOwners[findIndex].like = [...update];
         }
       })
+      .addCase(updatePostComments.fulfilled, (state, { payload }) => {
+        const { idPost, update } = payload;
+        findIndex = state.posts.findIndex(post => post.id === idPost);
+        if (findIndex !== -1) {
+          state.posts[findIndex].comments = [...update];
+        }
+        findIndex = state.postsOwners.findIndex(post => post.id === idPost);
+        if (findIndex !== -1) {
+          state.postsOwners[findIndex].comments = [...update];
+        }
+      })
       .addCase(addPost.fulfilled, (state, { payload }) => {
         state.posts.unshift(payload);
         state.postsOwners.unshift(payload);
@@ -95,6 +107,7 @@ const postsSlice = createSlice({
       .addMatcher(
         isAnyOf(
           addPost.pending,
+          updatePostComments.pending,
           // updatePost.pending,
           updatePostLike.pending,
           fetchPosts.pending
@@ -106,6 +119,7 @@ const postsSlice = createSlice({
       .addMatcher(
         isAnyOf(
           addPost.rejected,
+          updatePostComments.rejected,
           // updatePost.rejected,
           updatePostLike.rejected,
           fetchPosts.rejected
