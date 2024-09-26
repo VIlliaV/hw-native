@@ -34,16 +34,12 @@ const postsSlice = createSlice({
       findIndex = state.posts.findIndex(post => post.id === payload.idPost);
       if (findIndex !== -1) {
         state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
-      } else {
-        state.postError = 'Немає такої публікації 1';
       }
     },
     actUpdatePostOwner(state, { payload }) {
       findIndex = state.postsOwners.findIndex(post => post.id === payload.idPost);
       if (findIndex !== -1) {
         state.postsOwners[findIndex] = { ...state.postsOwners[findIndex], ...payload.update };
-      } else {
-        state.postError = 'Немає такої публікації 7';
       }
     },
     actUpdatePostItem(state, { payload }) {
@@ -51,8 +47,6 @@ const postsSlice = createSlice({
       findIndex = state.posts.findIndex(post => post.id === payload.idPost);
       if (findIndex !== -1) {
         state.posts[findIndex][payload.key] = payload.update;
-      } else {
-        state.postError = 'Немає такої публікації 2';
       }
     },
     actUpdatePostOwnerItem(state, { payload }) {
@@ -60,8 +54,6 @@ const postsSlice = createSlice({
       findIndex = state.postsOwners.findIndex(post => post.id === payload.idPost);
       if (findIndex !== -1) {
         state.postsOwners[findIndex][payload.key] = payload.update;
-      } else {
-        state.postError = 'Немає такої публікації 5';
       }
     },
     clearPosts(state, _) {
@@ -82,16 +74,12 @@ const postsSlice = createSlice({
         findIndex = state.posts.findIndex(post => post.id === payload.idPost);
         if (findIndex !== -1) {
           state.posts[findIndex] = { ...state.posts[findIndex], ...payload.update };
-        } else {
-          state.postError = 'Немає такої публікації 3';
         }
       })
       .addCase(updatePostLike.fulfilled, (state, { payload }) => {
         findIndex = state[payload.stateForChange].findIndex(post => post.id === payload.idPost);
         if (findIndex !== -1) {
           state[payload.stateForChange][findIndex].like = [...payload.update];
-        } else {
-          state.postError = 'Немає такої публікації 4';
         }
       })
       .addCase(addPost.fulfilled, (state, { payload }) => {
