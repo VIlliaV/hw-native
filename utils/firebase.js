@@ -81,7 +81,7 @@ export const updateDataInFirestore = async (collectionName, docId, data) => {
   }
 };
 
-export const updateArrDataInFirestore = async (collectionName, docId, keyPost, data, isAdd) => {
+export const updateArrDataInFirestore = async (collectionName, docId, keyPost, data, isAdd = true) => {
   try {
     const ref = doc(db, collectionName, docId);
     if (isAdd) {

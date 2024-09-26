@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { updatePost } from '../../redux/posts/postOperations';
 import { actUpdatePost } from '../../redux/posts/postSlice';
 
-export const useDocSubscription = (collectionName, id, inView, stateForChange = 'posts', delay = 3000) => {
+export const useDocSubscription = (collectionName, id, inView, delay = 3000) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const useDocSubscription = (collectionName, id, inView, stateForChange = 
         const data = doc.data();
         data.timestamp = data.timestamp?.toMillis() || Date.now();
 
-        dispatch(actUpdatePost({ idPost: id, update: data, stateForChange }));
+        dispatch(actUpdatePost({ idPost: id, update: data }));
       });
       setIsSubscribed(true);
       // }, delay);

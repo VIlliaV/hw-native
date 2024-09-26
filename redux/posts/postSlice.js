@@ -31,33 +31,30 @@ const postsSlice = createSlice({
   initialState: postInitialState,
   reducers: {
     actUpdatePost(state, { payload }) {
-      const { idPost, update, stateForChange } = payload;
-      findIndex = state[stateForChange].findIndex(post => post.id === idPost);
+      const { idPost, update } = payload;
+      findIndex = state.posts.findIndex(post => post.id === idPost);
       if (findIndex !== -1) {
-        state[stateForChange][findIndex] = { ...state[stateForChange][findIndex], ...update };
+        state.posts[findIndex] = { ...state.posts[findIndex], ...update };
+      }
+      findIndex = state.postsOwners.findIndex(post => post.id === idPost);
+      if (findIndex !== -1) {
+        state.postsOwners[findIndex] = { ...state.postsOwners[findIndex], ...update };
       }
     },
-    // actUpdatePostOwner(state, { payload }) {
-    //   findIndex = state.postsOwners.findIndex(post => post.id === payload.idPost);
-    //   if (findIndex !== -1) {
-    //     state.postsOwners[findIndex] = { ...state.postsOwners[findIndex], ...payload.update };
-    //   }
-    // },
+
     actUpdatePostItem(state, { payload }) {
-      const { idPost, update, stateForChange } = payload;
-      if (state[stateForChange].length === 0) return;
-      findIndex = state[stateForChange].findIndex(post => post.id === idPost);
+      const { idPost, update } = payload;
+      if (state.posts.length === 0) return;
+      findIndex = state.posts.findIndex(post => post.id === idPost);
       if (findIndex !== -1) {
-        state[stateForChange][findIndex][payload.key] = update;
+        state.posts[findIndex][payload.key] = update;
+      }
+      findIndex = state.postsOwners.findIndex(post => post.id === idPost);
+      if (findIndex !== -1) {
+        state.postsOwners[findIndex][payload.key] = update;
       }
     },
-    // actUpdatePostOwnerItem(state, { payload }) {
-    //   if (state.postsOwners.length === 0) return;
-    //   findIndex = state.postsOwners.findIndex(post => post.id === payload.idPost);
-    //   if (findIndex !== -1) {
-    //     state.postsOwners[findIndex][payload.key] = payload.update;
-    //   }
-    // },
+
     clearPosts(state, _) {
       state.posts = [];
     },
@@ -68,22 +65,27 @@ const postsSlice = createSlice({
         const { postData, stateForChange } = payload;
         state[stateForChange].push(...postData);
       })
-      // .addCase(fetchPostsOwners.fulfilled, (state, { payload }) => {
-      //   const { postData } = payload;
-      //   state.postsOwners.push(...postData);
+
+      // .addCase(updatePost.fulfilled, (state, { payload }) => {
+      //   const { idPost, update } = payload;
+      //   findIndex = state.posts.findIndex(post => post.id === idPost);
+      //   if (findIndex !== -1) {
+      //     state.posts[findIndex] = { ...state.posts[findIndex], ...update };
+      //   }
+      //   findIndex = state.postsOwners.findIndex(post => post.id === idPost);
+      //   if (findIndex !== -1) {
+      //     state.postsOwners[findIndex] = { ...state.postsOwners[findIndex], ...update };
+      //   }
       // })
-      .addCase(updatePost.fulfilled, (state, { payload }) => {
-        const { idPost, stateForChange, update } = payload;
-        findIndex = state[stateForChange].findIndex(post => post.id === idPost);
-        if (findIndex !== -1) {
-          state[stateForChange][findIndex] = { ...state[stateForChange][findIndex], ...update };
-        }
-      })
       .addCase(updatePostLike.fulfilled, (state, { payload }) => {
-        const { idPost, stateForChange, update } = payload;
-        findIndex = state[stateForChange].findIndex(post => post.id === idPost);
+        const { idPost, update } = payload;
+        findIndex = state.posts.findIndex(post => post.id === idPost);
         if (findIndex !== -1) {
-          state[stateForChange][findIndex].like = [...update];
+          state.posts[findIndex].like = [...update];
+        }
+        findIndex = state.postsOwners.findIndex(post => post.id === idPost);
+        if (findIndex !== -1) {
+          state.postsOwners[findIndex].like = [...update];
         }
       })
       .addCase(addPost.fulfilled, (state, { payload }) => {
@@ -93,7 +95,7 @@ const postsSlice = createSlice({
       .addMatcher(
         isAnyOf(
           addPost.pending,
-          updatePost.pending,
+          // updatePost.pending,
           updatePostLike.pending,
           fetchPosts.pending
           // fetchPostsOwners.pending
@@ -104,7 +106,7 @@ const postsSlice = createSlice({
       .addMatcher(
         isAnyOf(
           addPost.rejected,
-          updatePost.rejected,
+          // updatePost.rejected,
           updatePostLike.rejected,
           fetchPosts.rejected
           // fetchPostsOwners.rejected

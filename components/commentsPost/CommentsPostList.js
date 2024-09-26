@@ -5,8 +5,8 @@ import CommentsPostItem from './CommentsPostItem';
 
 const jsonCommentsData = require('../../base/comments.json');
 
-const CommentsPostList = () => {
-  const { comments } = jsonCommentsData;
+const CommentsPostList = ({ comments }) => {
+  // const { comments } = jsonCommentsData;
   return (
     <FlatList
       data={comments}

@@ -51,9 +51,7 @@ const PostList = ({ showCity = true }) => {
       // console.log(item?.item.name, item?.isViewable);
     });
     changed.forEach(item => {
-      dispatch(
-        actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView', stateForChange: 'posts' })
-      );
+      dispatch(actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView' }));
     });
   };
 

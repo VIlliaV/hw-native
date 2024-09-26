@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { updateDataInFirestore } from '../../utils/firebase';
 import { updatePostLike } from '../../redux/posts/postOperations';
 
-const Social = ({ data = [], social = 'comment', idPost, stateForChange = 'posts' }) => {
+const Social = ({ data = [], social = 'comment', idPost }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {
@@ -34,7 +34,7 @@ const Social = ({ data = [], social = 'comment', idPost, stateForChange = 'posts
     }
     if (social === 'like') {
       // const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];
-      dispatch(updatePostLike({ idPost, data: uid, isAdd: !activeIcon, stateForChange }));
+      await dispatch(updatePostLike({ idPost, data: uid, isAdd: !activeIcon })).unwrap();
     }
   };
 

@@ -53,9 +53,7 @@ const ProfileScreen = ({ route }) => {
       // console.log(item?.item.name, item?.isViewable);
     });
     changed.forEach(item => {
-      dispatch(
-        actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView', stateForChange: 'posts' })
-      );
+      dispatch(actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView' }));
     });
   };
 
@@ -95,7 +93,7 @@ const ProfileScreen = ({ route }) => {
             // ListFooterComponent={
             //   <View style={{ height: 0, marginBottom: 0 }}></View>
             // }
-            renderItem={({ item }) => <Post item={item} showCity={false} stateForChange="postsOwners" />}
+            renderItem={({ item }) => <Post item={item} showCity={false} />}
             keyExtractor={item => item.id}
             ListFooterComponent={
               loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
