@@ -11,7 +11,7 @@ import { getQueryDataFromFirestore } from '../../utils/firebase';
 import { usePosts } from '../../utils/hooks/usePosts';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { fetchPostsOwners } from '../../redux/posts/postOperations';
+import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem, actUpdatePostOwnerItem } from '../../redux/posts/postSlice';
 
 const jsonData = require('../../base/posts.json');
@@ -25,7 +25,12 @@ const ProfileScreen = ({ route }) => {
 
   useEffect(() => {
     dispatch(
-      fetchPostsOwners({ collectionName: 'posts', sort: ['timestamp', 'desc'], queryDoc: ['owner', '==', user.uid] })
+      fetchPosts({
+        collectionName: 'posts',
+        sort: ['timestamp', 'desc'],
+        queryDoc: ['owner', '==', user.uid],
+        stateForChange: 'postsOwners',
+      })
     );
   }, []);
 
@@ -48,7 +53,9 @@ const ProfileScreen = ({ route }) => {
       // console.log(item?.item.name, item?.isViewable);
     });
     changed.forEach(item => {
-      dispatch(actUpdatePostOwnerItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView' }));
+      dispatch(
+        actUpdatePostItem({ idPost: item?.item.id, update: item?.isViewable, key: 'inView', stateForChange: 'posts' })
+      );
     });
   };
 
@@ -56,11 +63,12 @@ const ProfileScreen = ({ route }) => {
     setLoadMore(true);
     const lastDocId = postsOwners[postsOwners.length - 1]?.id || null;
     const fetchData = await dispatch(
-      fetchPostsOwners({
+      fetchPosts({
         collectionName: 'posts',
         queryDoc: ['owner', '==', user.uid],
         sort: ['timestamp', 'desc'],
         lastVisible: lastDocId,
+        stateForChange: 'postsOwners',
       })
     ).unwrap();
     if (fetchData.postData.length === 0) {

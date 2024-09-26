@@ -3,9 +3,9 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../../config';
 import { useDispatch } from 'react-redux';
 import { updatePost } from '../../redux/posts/postOperations';
-import { actUpdatePost, actUpdatePostOwner } from '../../redux/posts/postSlice';
+import { actUpdatePost } from '../../redux/posts/postSlice';
 
-export const useDocSubscription = (collectionName, id, inView, stateForChange = '', delay = 3000) => {
+export const useDocSubscription = (collectionName, id, inView, stateForChange = 'posts', delay = 3000) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const dispatch = useDispatch();
@@ -19,11 +19,8 @@ export const useDocSubscription = (collectionName, id, inView, stateForChange = 
       unsubscribe = onSnapshot(doc(db, collectionName, id), doc => {
         const data = doc.data();
         data.timestamp = data.timestamp?.toMillis() || Date.now();
-        if (stateForChange === 'postsOwners') {
-          dispatch(actUpdatePostOwner({ idPost: id, update: data }));
-        } else {
-          dispatch(actUpdatePost({ idPost: id, update: data }));
-        }
+
+        dispatch(actUpdatePost({ idPost: id, update: data, stateForChange }));
       });
       setIsSubscribed(true);
       // }, delay);
