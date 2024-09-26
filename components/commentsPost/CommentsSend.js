@@ -2,11 +2,20 @@ import SendSVG from '../../components/SVGComponents/SendSVG';
 import { useState } from 'react';
 import { color } from '../../style/color';
 import { Keyboard, TextInput, TouchableOpacity, View } from 'react-native';
+import { updatePostComments } from '../../redux/posts/postOperations';
+import { useAuth } from '../../utils/hooks/useAuth';
+import { useDispatch } from 'react-redux';
 
-const CommentsSend = () => {
+const CommentsSend = ({ idPost }) => {
   const [comment, setComment] = useState('');
+  const dispatch = useDispatch();
+  const {
+    user: { photoURL, uid },
+  } = useAuth();
 
-  const sendComment = () => {
+  const sendComment = async () => {
+    const data = { avatar: photoURL, holderComment: uid, comment };
+    await dispatch(updatePostComments({ idPost, data })).unwrap();
     setComment('');
     Keyboard.dismiss();
   };

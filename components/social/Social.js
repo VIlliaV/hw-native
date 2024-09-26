@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { updateDataInFirestore } from '../../utils/firebase';
 import { updatePostLike } from '../../redux/posts/postOperations';
 
-const Social = ({ data = [], social = 'comment', idPost }) => {
+const Social = ({ data = [], social = 'comment', idPost, postImage, owner }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {
@@ -30,7 +30,10 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
 
   const handleSocial = async () => {
     if (social === 'comment') {
-      navigation.navigate('Nested', { screen: 'CommentsScreen' });
+      navigation.navigate('Nested', {
+        screen: 'CommentsScreen',
+        params: { idPost, comments: data, postImage, ownerPost: owner },
+      });
     }
     if (social === 'like') {
       // const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];

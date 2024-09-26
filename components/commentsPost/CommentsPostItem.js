@@ -1,29 +1,30 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { formatDate } from '../../utils/formatDate';
-
-import avatar from '../../assets/image/avatarImage.jpg';
+import noPhoto from '../../assets/image/noPhoto.png';
 import { color } from '../../style/color';
 
-const CommentsPostItem = ({ item }) => {
+const CommentsPostItem = ({ item, ownerPost }) => {
+  const { avatar, comment, holderComment, timestamp } = item;
+
   return (
     <View
       style={{
-        flexDirection: item.holderComment === 'email@example.com' ? 'row-reverse' : 'row',
+        flexDirection: holderComment === ownerPost ? 'row-reverse' : 'row',
         ...styleComments.flatItem,
       }}
     >
-      <Image source={avatar} resizeMode="cover" style={{ ...styleComments.avatar }} />
+      <Image source={avatar ? { uri: avatar } : noPhoto} resizeMode="cover" style={{ ...styleComments.avatar }} />
 
       <View style={{ ...styleComments.commentBox }}>
-        <Text style={{ ...styleComments.commentText }}>{item.comment}</Text>
+        <Text style={{ ...styleComments.commentText }}>{comment}</Text>
         <Text
           style={{
             ...styleComments.commentDate,
-            textAlign: item.holderComment === 'email@example.com' ? '' : 'right',
+            textAlign: holderComment === ownerPost ? '' : 'right',
           }}
         >
-          {formatDate(item.dateComment)}
+          {formatDate(timestamp)}
         </Text>
       </View>
     </View>
