@@ -3,18 +3,20 @@ import CommentSVG from '../SVGComponents/CommentSVG';
 import { styles } from '../../style/styles';
 import { color } from '../../style/color';
 import LikeSVG from '../SVGComponents/LikeSVG';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { updateDataInFirestore } from '../../utils/firebase';
 import { updatePostLike } from '../../redux/posts/postOperations';
 
-const Social = ({ data = [], social = 'comment', idPost, postImage, owner }) => {
+const Social = ({ data = [], social = 'comment', idPost }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {
     user: { uid },
   } = useAuth();
+
+  const { name } = useRoute();
 
   const socialIcon = {
     comment: CommentSVG,
@@ -32,7 +34,7 @@ const Social = ({ data = [], social = 'comment', idPost, postImage, owner }) => 
     if (social === 'comment') {
       navigation.navigate('Nested', {
         screen: 'CommentsScreen',
-        params: { idPost, comments: data, postImage, ownerPost: owner },
+        params: { idPost, fromRoute: name },
       });
     }
     if (social === 'like') {
