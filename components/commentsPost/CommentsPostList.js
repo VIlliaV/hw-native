@@ -1,15 +1,21 @@
 import { FlatList, Image, View } from 'react-native';
-import postPhoto from '../../assets/image/postPhoto.jpg';
 import { styles } from '../../style/styles';
 import CommentsPostItem from './CommentsPostItem';
 import noPhoto from '../../assets/image/noPhoto.png';
-
-const jsonCommentsData = require('../../base/comments.json');
+import { useEffect, useRef } from 'react';
 
 const CommentsPostList = ({ comments, postImage, ownerPost }) => {
-  // const { comments } = jsonCommentsData;
+  const flatListCommentsRef = useRef(null);
+
+  // useEffect(() => {
+  //   // if (flatListCommentsRef.current) {
+  //   flatListCommentsRef.current.scrollToEnd({ animated: true });
+  //   // }
+  // }, [comments]);
+
   return (
     <FlatList
+      ref={flatListCommentsRef}
       data={comments}
       style={{ minHeight: '100%' }}
       ListFooterComponent={<View style={{ height: 50, marginBottom: 34 }}></View>}
@@ -17,6 +23,7 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
         <Image
           source={postImage ? { uri: postImage } : noPhoto}
           resizeMode="cover"
+          // resizeMethod="resize"
           style={{
             ...styles.image,
             marginBottom: 32,

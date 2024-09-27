@@ -14,7 +14,12 @@ const CommentsPostItem = ({ item, ownerPost }) => {
         ...styleComments.flatItem,
       }}
     >
-      <Image source={avatar ? { uri: avatar } : noPhoto} resizeMode="cover" style={{ ...styleComments.avatar }} />
+      <Image
+        source={avatar ? { uri: avatar } : noPhoto}
+        resizeMode="cover"
+        // initialNumToRender={10}
+        style={{ ...styleComments.avatar }}
+      />
 
       <View style={{ ...styleComments.commentBox }}>
         <Text style={{ ...styleComments.commentText }}>{comment}</Text>
