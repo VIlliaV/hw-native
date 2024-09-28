@@ -63,7 +63,6 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
         const { postData, stateForChange } = payload;
-        // console.log('🚀 ~ postData:', postData);
         state[stateForChange].push(...postData);
       })
 

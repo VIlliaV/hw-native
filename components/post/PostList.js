@@ -56,7 +56,7 @@ const PostList = ({ showCity = true }) => {
   };
 
   const onEndReached = async () => {
-    if (refreshing) return;
+    if (refreshing || !posts.length) return;
     setLoadMore(true);
     const lastDocId = posts[posts.length - 1]?.id || null;
     const fetchData = await dispatch(
@@ -79,6 +79,7 @@ const PostList = ({ showCity = true }) => {
       ListFooterComponent={
         loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
       }
+      ListEmptyComponent={<Text>Пустота</Text>}
       refreshing={refreshing}
       onRefresh={onRefresh}
       onViewableItemsChanged={onViewableItemsChanged}
@@ -86,7 +87,7 @@ const PostList = ({ showCity = true }) => {
       onEndReached={() => {
         !loadMore && onEndReached();
       }}
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={0.1}
     />
   );
 };

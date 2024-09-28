@@ -58,6 +58,7 @@ const ProfileScreen = ({ route }) => {
   };
 
   const onEndReached = async () => {
+    if (!postsOwners.length) return;
     setLoadMore(true);
     const lastDocId = postsOwners[postsOwners.length - 1]?.id || null;
     const fetchData = await dispatch(
@@ -94,10 +95,11 @@ const ProfileScreen = ({ route }) => {
             //   <View style={{ height: 0, marginBottom: 0 }}></View>
             // }
             renderItem={({ item }) => <Post item={item} showCity={false} />}
-            keyExtractor={item => item.id}
+            keyExtractor={(item, index) => index}
             ListFooterComponent={
               loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
             }
+            ListEmptyComponent={<Text>Пустота</Text>}
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             onEndReached={() => {
