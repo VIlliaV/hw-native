@@ -31,7 +31,7 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
 
       if (!result.canceled) {
         setIsAvatarAdd(result.assets[0].uri);
-        const urlAvatar = await uploadImageToFirebase(result.assets[0].uri);
+        const urlAvatar = await uploadImageToFirebase({ fileUri: result.assets[0].uri, width: 120, height: 120 });
         if (route.name === 'ProfileScreen') {
           changeAvatar({ photoURL: urlAvatar });
         } else {

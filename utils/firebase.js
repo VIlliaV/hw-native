@@ -15,10 +15,10 @@ import {
   arrayUnion,
   arrayRemove,
   orderBy,
-  Timestamp,
   limit,
   startAfter,
 } from 'firebase/firestore';
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 const uriToBlob = async uri => {
   const response = await fetch(uri);
@@ -26,14 +26,32 @@ const uriToBlob = async uri => {
   return blob;
 };
 
-export const uploadImageToFirebase = async fileUri => {
+export const uploadImageToFirebase = async ({ fileUri, width, height }) => {
   try {
-    const blob = await uriToBlob(fileUri);
+    const size = [];
+    if (width || height) {
+      size[0] = { resize: {} };
+    }
+    if (width) {
+      size[0].resize.width = width;
+    }
+
+    // Додаємо висоту, якщо вона є
+    if (height) {
+      size[0].resize.height = height;
+    }
+
+    const compressedImage = await manipulateAsync(fileUri, size, {
+      compress: 0.8,
+      format: SaveFormat.WEBP,
+    });
+    const blob = await uriToBlob(compressedImage.uri);
     const storageRef = ref(storage, `images/${Date.now()}`);
     const snapshot = await uploadBytes(storageRef, blob);
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
   } catch (error) {
+    console.log('🚀 ~ error:', error);
     Toast.show({
       type: 'error',
       text1: 'Помилка завантаження файлу, спробуйте ще раз',

@@ -64,7 +64,7 @@ const CreatePostsScreen = () => {
     try {
       if (readyToSubmit) {
         setIsFetching(true);
-        const urlPhoto = await uploadImageToFirebase(photoUri);
+        const urlPhoto = await uploadImageToFirebase({ fileUri: photoUri });
         const { country, region } = await fetchDataFromCoordinates(coords.latitude, coords.longitude);
         const descriptionOrRegion = description || region;
         await dispatch(
