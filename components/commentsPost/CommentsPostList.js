@@ -7,21 +7,18 @@ import { useEffect, useRef } from 'react';
 const CommentsPostList = ({ comments, postImage, ownerPost }) => {
   const flatListCommentsRef = useRef(null);
 
-  // useEffect(() => {
-  //   // if (flatListCommentsRef.current) {
-  //   flatListCommentsRef.current.scrollToEnd({ animated: true });
-  //   // }
-  // }, [comments]);
-  if (flatListCommentsRef.current) {
-    flatListCommentsRef.current.scrollToEnd({ animated: true });
-  }
+  useEffect(() => {
+    if (flatListCommentsRef.current) {
+      flatListCommentsRef.current.scrollToOffset({ offset: 1000000, animated: true });
+    }
+  }, [comments]);
 
   return (
     <FlatList
       ref={flatListCommentsRef}
       data={comments}
       style={{ minHeight: '100%' }}
-      ListFooterComponent={<View style={{ height: 50, marginBottom: 34, backgroundColor: 'red' }}></View>}
+      ListFooterComponent={<View style={{ height: 50, marginBottom: 34 }}></View>}
       ListHeaderComponent={
         <Image
           source={postImage ? { uri: postImage } : noPhoto}
