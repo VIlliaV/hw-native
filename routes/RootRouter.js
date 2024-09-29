@@ -39,7 +39,7 @@ const RootRouter = () => {
   return (
     <NavigationContainer>
       <View style={{ flex: 1 }}>
-        <MainStack.Navigator initialRouteName="Registration">
+        <MainStack.Navigator initialRouteName="Login">
           <MainStack.Screen name="Registration" component={RegistrationScreen} options={{ headerShown: false }} />
           <MainStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />

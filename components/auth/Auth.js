@@ -52,7 +52,6 @@ const AuthComp = ({ route }) => {
         navigation.navigate('Home');
       } else {
         dispatch(clearUser());
-        navigation.navigate('Login');
       }
     });
     return () => unsubscribe();

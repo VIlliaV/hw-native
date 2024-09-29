@@ -14,8 +14,6 @@ import { useEffect, useState } from 'react';
 import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem, actUpdatePostOwnerItem } from '../../redux/posts/postSlice';
 
-const jsonData = require('../../base/posts.json');
-
 const ProfileScreen = ({ route }) => {
   const { postsOwners } = usePosts();
   const { user } = useAuth();
