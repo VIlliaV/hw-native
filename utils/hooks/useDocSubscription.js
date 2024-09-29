@@ -16,12 +16,23 @@ export const useDocSubscription = (collectionName, id, inView = true) => {
 
     if (inView) {
       // timer = setTimeout(() => {
-      unsubscribe = onSnapshot(doc(db, collectionName, id), doc => {
-        const data = doc.data();
-        data.timestamp = data.timestamp?.toMillis() || Date.now();
+      unsubscribe = onSnapshot(
+        doc(db, collectionName, id),
+        doc => {
+          const data = doc.data();
+          data.timestamp = data?.timestamp.toMillis() || Date.now();
 
-        dispatch(actUpdatePost({ idPost: id, update: data }));
-      });
+          dispatch(actUpdatePost({ idPost: id, update: data }));
+        },
+        error => {
+          console.log(error);
+          Toast.show({
+            type: 'error',
+            text1: 'Помилка',
+            text2: `${error.code || error.message}`,
+          });
+        }
+      );
       setIsSubscribed(true);
       // }, delay);
     } else {
