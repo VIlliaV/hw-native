@@ -3,6 +3,7 @@ import { styles } from '../../style/styles';
 import CommentsPostItem from './CommentsPostItem';
 import noPhoto from '../../assets/image/noPhoto.png';
 import { useEffect, useRef } from 'react';
+import Plug from '../Plug';
 
 const CommentsPostList = ({ comments, postImage, ownerPost }) => {
   const flatListCommentsRef = useRef(null);
@@ -30,7 +31,7 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
           }}
         />
       }
-      ListEmptyComponent={<Text>Пустота</Text>}
+      ListEmptyComponent={<Plug height={140}>Ще немає коментарів, будьте першим</Plug>}
       renderItem={({ item }) => <CommentsPostItem item={item} ownerPost={ownerPost} />}
       keyExtractor={(item, index) => item.timestamp || index}
       getItemLayout={(data, index) => ({ length: 150, offset: 150 * index + 250, index })}

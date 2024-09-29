@@ -12,6 +12,7 @@ import { useAuth } from '../../utils/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem } from '../../redux/posts/postSlice';
+import Plug from '../../components/Plug';
 
 const ProfileScreen = ({ route }) => {
   const { postsOwners } = usePosts();
@@ -94,9 +95,13 @@ const ProfileScreen = ({ route }) => {
             renderItem={({ item }) => <Post item={item} showCity={false} />}
             keyExtractor={(item, index) => index}
             ListFooterComponent={
-              loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
+              loadMore && loadMore === 'no more' ? (
+                <Plug height={240}>Більше немає постів</Plug>
+              ) : (
+                loadMore && <Text>чекай</Text>
+              )
             }
-            ListEmptyComponent={<Text>Пустота</Text>}
+            ListEmptyComponent={<Plug height={240}>Зробіть свій перший пост</Plug>}
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             onEndReached={() => {

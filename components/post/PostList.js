@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import Plug from '../Plug';
 
 const PostList = ({ showCity = true }) => {
   const route = useRoute();
@@ -72,9 +73,13 @@ const PostList = ({ showCity = true }) => {
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}
       ListFooterComponent={
-        loadMore && loadMore === 'no more' ? <Text>більше нема постів</Text> : loadMore && <Text>чекай</Text>
+        loadMore && loadMore === 'no more' ? (
+          <Plug height={240}>Більше немає постів</Plug>
+        ) : (
+          loadMore && <Text>чекай</Text>
+        )
       }
-      ListEmptyComponent={<Text>Пустота</Text>}
+      ListEmptyComponent={<Plug height={240}>Зробіть свій перший пост</Plug>}
       refreshing={refreshing}
       onRefresh={onRefresh}
       onViewableItemsChanged={onViewableItemsChanged}
