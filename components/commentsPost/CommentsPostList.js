@@ -9,7 +9,7 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
 
   useEffect(() => {
     if (flatListCommentsRef.current) {
-      flatListCommentsRef.current.scrollToOffset({ offset: 1000000, animated: true });
+      flatListCommentsRef.current.scrollToOffset({ offset: comments.length * 1000, animated: true });
     }
   }, [comments]);
 
@@ -32,7 +32,9 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
       }
       ListEmptyComponent={<Text>Пустота</Text>}
       renderItem={({ item }) => <CommentsPostItem item={item} ownerPost={ownerPost} />}
-      keyExtractor={item => item.timestamp}
+      keyExtractor={(item, index) => item.timestamp || index}
+      getItemLayout={(data, index) => ({ length: 150, offset: 150 * index + 250, index })}
+      initialScrollIndex={comments.length > 10 ? comments.length - 10 : 0}
     />
   );
 };

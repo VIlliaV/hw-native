@@ -9,8 +9,7 @@ import { useDispatch } from 'react-redux';
 const CommentsSend = ({ idPost }) => {
   const [comment, setComment] = useState('');
   const [pending, setPending] = useState(false);
-  console.log('🚀 ~ pending:', pending);
-  // console.log('🚀 ~ comment:', comment);
+
   const dispatch = useDispatch();
   const {
     user: { photoURL, uid },

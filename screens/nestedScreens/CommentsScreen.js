@@ -22,7 +22,7 @@ const CommentsScreen = () => {
   }
 
   const { comments = [], urlPhoto, owner } = postData;
-  const {} = useDocSubscription('posts', idPost);
+  useDocSubscription('posts', idPost);
 
   return (
     <HeadContainer>
