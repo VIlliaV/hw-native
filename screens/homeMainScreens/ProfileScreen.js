@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, Platform, Text } from 'react-native';
+import { ActivityIndicator, FlatList, ImageBackground, Platform, Text } from 'react-native';
 import back_ground from '../../assets/image/Photo BG.webp';
 import back_ground_2x from '../../assets/image/Photo BGx2.webp';
 import ProfileBox from '../../components/ProfileBox';
@@ -15,7 +15,7 @@ import { actUpdatePostItem } from '../../redux/posts/postSlice';
 import Plug from '../../components/Plug';
 
 const ProfileScreen = ({ route }) => {
-  const { postsOwners } = usePosts();
+  const { postsOwners, isLoadingPostsOwners } = usePosts();
   const { user } = useAuth();
 
   const [loadMore, setLoadMore] = useState(false);
@@ -87,28 +87,32 @@ const ProfileScreen = ({ route }) => {
       >
         {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
         <ProfileBox route={route} changeAvatar={changeAvatar} style={{ height: '85%', backgroundColor: color.bg }}>
-          <FlatList
-            data={postsOwners}
-            // ListFooterComponent={
-            //   <View style={{ height: 0, marginBottom: 0 }}></View>
-            // }
-            renderItem={({ item }) => <Post item={item} showCity={false} />}
-            keyExtractor={(item, index) => index}
-            ListFooterComponent={
-              loadMore && loadMore === 'no more' ? (
-                <Plug height={240}>Більше немає постів</Plug>
-              ) : (
-                loadMore && <Text>чекай</Text>
-              )
-            }
-            ListEmptyComponent={<Plug height={240}>Зробіть свій перший пост</Plug>}
-            onViewableItemsChanged={onViewableItemsChanged}
-            viewabilityConfig={viewabilityConfig}
-            onEndReached={() => {
-              !loadMore && onEndReached();
-            }}
-            onEndReachedThreshold={0.5}
-          />
+          {isLoadingPostsOwners && !postsOwners.length ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <FlatList
+              data={postsOwners}
+              // ListFooterComponent={
+              //   <View style={{ height: 0, marginBottom: 0 }}></View>
+              // }
+              renderItem={({ item }) => <Post item={item} showCity={false} />}
+              keyExtractor={(item, index) => index}
+              ListFooterComponent={
+                loadMore && loadMore === 'no more' ? (
+                  <Plug height={240}>Більше немає постів</Plug>
+                ) : (
+                  loadMore && <Text>чекай</Text>
+                )
+              }
+              ListEmptyComponent={<Plug height={240}>Зробіть свій перший пост</Plug>}
+              onViewableItemsChanged={onViewableItemsChanged}
+              viewabilityConfig={viewabilityConfig}
+              onEndReached={() => {
+                !loadMore && onEndReached();
+              }}
+              onEndReachedThreshold={0.5}
+            />
+          )}
         </ProfileBox>
         {/* </View> */}
       </ImageBackground>

@@ -5,23 +5,32 @@ const postInitialState = {
   posts: [],
   postError: null,
   postsOwners: [],
+  isLoading: { posts: false, postsOwners: false },
+  isLoadingPostsOwners: false,
+  isLoadingComments: false,
 };
+const defaultStatus = { pending: 'pending', fulfilled: 'fulfilled', rejected: 'rejected' };
+const operationsArr = [addPost, fetchPosts, updatePostComments, updatePostLike];
+const allOperationStatus = status => operationsArr.map(el => el[status]);
 
 const handlePending = state => {
   state.postError = false;
+  state.isLoading.posts = true;
+  state.isLoading.postsOwners = true;
+  state.isLoadingComments = true;
 };
-
-// const handleFulfilled = (state, { payload }) => {
-//   state.user = {
-//     displayName: payload.displayName,
-//     email: payload.emailUser,
-//     photoURL: payload.photoURL,
-//     uid: payload.uid,
-//   };
-// };
 
 const handleRejected = (state, { payload }) => {
   state.postError = payload;
+  state.isLoading.posts = false;
+  state.isLoading.postsOwners = false;
+  state.isLoadingComments = false;
+};
+
+const handleFulfilled = state => {
+  state.isLoading.posts = false;
+  state.isLoading.postsOwners = false;
+  state.isLoadingComments = false;
 };
 
 const postsSlice = createSlice({
@@ -59,6 +68,9 @@ const postsSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      .addCase(fetchPosts.pending, state => {
+        state.isLoadingPosts = true;
+      })
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
         const { postData, stateForChange } = payload;
         state[stateForChange].push(...postData);
@@ -101,29 +113,9 @@ const postsSlice = createSlice({
         state.posts.unshift(payload);
         state.postsOwners.unshift(payload);
       })
-      .addMatcher(
-        isAnyOf(
-          addPost.pending,
-          updatePostComments.pending,
-          // updatePost.pending,
-          updatePostLike.pending,
-          fetchPosts.pending
-          // fetchPostsOwners.pending
-        ),
-        handlePending
-      )
-      //   .addMatcher(isAnyOf(registerUser.fulfilled, loginUser.fulfilled), handleFulfilled)
-      .addMatcher(
-        isAnyOf(
-          addPost.rejected,
-          updatePostComments.rejected,
-          // updatePost.rejected,
-          updatePostLike.rejected,
-          fetchPosts.rejected
-          // fetchPostsOwners.rejected
-        ),
-        handleRejected
-      );
+      .addMatcher(isAnyOf(...allOperationStatus(defaultStatus.pending)), handlePending)
+      .addMatcher(isAnyOf(...allOperationStatus(defaultStatus.fulfilled)), handleFulfilled)
+      .addMatcher(isAnyOf(...allOperationStatus(defaultStatus.rejected)), handleRejected);
   },
 });
 export const { actUpdatePost, clearPosts, actUpdatePostItem } = postsSlice.actions;

@@ -1,12 +1,14 @@
-import { FlatList, Image, View, Text } from 'react-native';
+import { FlatList, Image, View, Text, ActivityIndicator } from 'react-native';
 import { styles } from '../../style/styles';
 import CommentsPostItem from './CommentsPostItem';
 import noPhoto from '../../assets/image/noPhoto.png';
 import { useEffect, useRef } from 'react';
 import Plug from '../Plug';
+import { usePosts } from '../../utils/hooks/usePosts';
 
 const CommentsPostList = ({ comments, postImage, ownerPost }) => {
   const flatListCommentsRef = useRef(null);
+  const { isLoadingComments } = usePosts();
 
   useEffect(() => {
     if (flatListCommentsRef.current) {
@@ -19,7 +21,12 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
       ref={flatListCommentsRef}
       data={comments}
       style={{ minHeight: '100%' }}
-      ListFooterComponent={<View style={{ height: 50, marginBottom: 34 }}></View>}
+      ListFooterComponent={
+        <>
+          {isLoadingComments && <ActivityIndicator size="large" />}
+          <View style={{ height: isLoadingComments ? 100 : 50, marginBottom: 34 }}></View>
+        </>
+      }
       ListHeaderComponent={
         <Image
           source={postImage ? { uri: postImage } : noPhoto}

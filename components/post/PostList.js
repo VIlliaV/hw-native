@@ -1,4 +1,4 @@
-import { FlatList, Text } from 'react-native';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 
 import Post from './Post';
 
@@ -14,7 +14,7 @@ const PostList = ({ showCity = true }) => {
   const route = useRoute();
   const navigation = useNavigation();
 
-  const { posts } = usePosts();
+  const { posts, isLoadingPosts } = usePosts();
 
   const dispatch = useDispatch();
 
@@ -65,7 +65,9 @@ const PostList = ({ showCity = true }) => {
     }
   };
 
-  return (
+  return isLoadingPosts && !posts.length ? (
+    <ActivityIndicator size="large" />
+  ) : (
     <FlatList
       ref={flatListRef}
       data={posts}
@@ -76,7 +78,7 @@ const PostList = ({ showCity = true }) => {
         loadMore && loadMore === 'no more' ? (
           <Plug height={240}>Більше немає постів</Plug>
         ) : (
-          loadMore && <Text>чекай</Text>
+          loadMore && <ActivityIndicator size="large" />
         )
       }
       ListEmptyComponent={<Plug height={240}>Зробіть свій перший пост</Plug>}
