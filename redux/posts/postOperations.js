@@ -3,7 +3,6 @@ import {
   getDataFromFirestore,
   getItemFromFirestore,
   updateArrDataInFirestore,
-  updateDataInFirestore,
   writeDataToFirestore,
 } from '../../utils/firebase';
 

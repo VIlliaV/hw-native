@@ -11,10 +11,6 @@ import { useAuth } from '../utils/hooks/useAuth';
 import Toast from 'react-native-toast-message';
 import { usePosts } from '../utils/hooks/usePosts';
 import { useDispatch } from 'react-redux';
-// import { fetchPosts } from '../redux/posts/postOperations';
-import { collection, onSnapshot } from 'firebase/firestore';
-// import { fetchPosts } from '../redux/posts/postSlice';
-import { db } from '../config';
 import { fetchPosts } from '../redux/posts/postOperations';
 
 const RootRouter = () => {

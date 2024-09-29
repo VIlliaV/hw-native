@@ -4,7 +4,6 @@ import { color } from '../style/color';
 import AddSVG from './SVGComponents/AddSVG';
 import DeleteSVG from './SVGComponents/DeleteSVG';
 import { useEffect, useState } from 'react';
-import avatarImage from '../assets/image/avatarImage.jpg';
 import noPhoto from '../assets/image/noPhoto.png';
 import ExitButton from './buttons/ExitButton';
 import { useAuth } from '../utils/hooks/useAuth';

@@ -6,7 +6,6 @@ import LikeSVG from '../SVGComponents/LikeSVG';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
-import { updateDataInFirestore } from '../../utils/firebase';
 import { updatePostLike } from '../../redux/posts/postOperations';
 
 const Social = ({ data = [], social = 'comment', idPost }) => {

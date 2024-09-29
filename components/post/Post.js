@@ -3,20 +3,12 @@ import { styles } from '../../style/styles';
 import PostBar from './PostBar';
 import { color } from '../../style/color';
 import noPhoto from '../../assets/image/noPhoto.png';
-import { InView } from 'react-native-intersection-observer';
-// import { useFirestoreSubscription } from '../../hooks/useFirestoreSubscription'; // підключаємо хук
-import { db } from '../../config';
 import { useDocSubscription } from '../../utils/hooks/useDocSubscription';
-import { useState } from 'react';
 
 const Post = ({ item, showCity }) => {
   const { name, urlPhoto, id, inView } = item;
 
   useDocSubscription('posts', id, inView);
-
-  // const onViewChange = inView => {
-  //   setInView(inView);
-  // };
 
   return (
     <View

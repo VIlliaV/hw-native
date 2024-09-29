@@ -22,7 +22,6 @@ import { useDispatch } from 'react-redux';
 import { loginUser, registerUser, updateUserProfile } from '../../redux/auth/authOperations';
 import { auth } from '../../config';
 import { onAuthStateChanged } from 'firebase/auth';
-// import { useAuth } from '../../utils/hooks/useAuth';
 import { clearUser, setUser } from '../../redux/auth/authSlice';
 
 const initialLogin = {

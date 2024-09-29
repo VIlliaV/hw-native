@@ -2,17 +2,12 @@ import { FlatList, Text } from 'react-native';
 
 import Post from './Post';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Toast from 'react-native-toast-message';
+import { useEffect, useRef, useState } from 'react';
 import { usePosts } from '../../utils/hooks/usePosts';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from '../../config';
 import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
-// import { fetchPosts } from '../../redux/posts/postSlice';
-import { IOFlatList } from 'react-native-intersection-observer';
-import { actUpdatePost, actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const PostList = ({ showCity = true }) => {
   const route = useRoute();

@@ -1,5 +1,5 @@
 import SendSVG from '../../components/SVGComponents/SendSVG';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { color } from '../../style/color';
 import { Keyboard, TextInput, TouchableOpacity, View } from 'react-native';
 import { updatePostComments } from '../../redux/posts/postOperations';

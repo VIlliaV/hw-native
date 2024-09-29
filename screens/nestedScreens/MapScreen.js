@@ -2,7 +2,6 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-// import avatarImage from "../../assets/image/avatarPNG.png";
 import { color } from '../../style/color';
 import { useRoute } from '@react-navigation/native';
 

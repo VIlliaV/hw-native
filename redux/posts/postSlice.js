@@ -1,7 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { addPost, fetchPosts, updatePost, updatePostComments, updatePostLike } from './postOperations';
-
-// import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
+import { addPost, fetchPosts, updatePostComments, updatePostLike } from './postOperations';
 
 const postInitialState = {
   posts: [],

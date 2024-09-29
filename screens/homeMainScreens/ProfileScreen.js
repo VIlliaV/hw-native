@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, Platform, Text, View } from 'react-native';
+import { FlatList, ImageBackground, Platform, Text } from 'react-native';
 import back_ground from '../../assets/image/Photo BG.webp';
 import back_ground_2x from '../../assets/image/Photo BGx2.webp';
 import ProfileBox from '../../components/ProfileBox';
@@ -7,12 +7,11 @@ import Post from '../../components/post/Post';
 import { color } from '../../style/color';
 import { updateUserProfile } from '../../redux/auth/authOperations';
 import { useDispatch } from 'react-redux';
-import { getQueryDataFromFirestore } from '../../utils/firebase';
 import { usePosts } from '../../utils/hooks/usePosts';
 import { useAuth } from '../../utils/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { fetchPosts } from '../../redux/posts/postOperations';
-import { actUpdatePostItem, actUpdatePostOwnerItem } from '../../redux/posts/postSlice';
+import { actUpdatePostItem } from '../../redux/posts/postSlice';
 
 const ProfileScreen = ({ route }) => {
   const { postsOwners } = usePosts();
