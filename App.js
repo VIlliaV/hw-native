@@ -1,13 +1,12 @@
 import 'react-native-gesture-handler';
-import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
-import Toast from 'react-native-toast-message';
-
 import RootRouter from './routes/RootRouter';
-
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+
+import { ActivityIndicator } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,12 +17,12 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <Text>loading</Text>;
+    return <ActivityIndicator size="large" />;
   }
 
   return (
     <Provider store={store.store}>
-      <PersistGate loading={<Text>Loading...</Text>} persistor={store.persistor}>
+      <PersistGate loading={<ActivityIndicator size="large" />} persistor={store.persistor}>
         <RootRouter />
         <Toast />
       </PersistGate>

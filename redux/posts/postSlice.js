@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { addPost, fetchPosts, updatePostComments, updatePostLike } from './postOperations';
-import { defaultStatus } from '../../constants/reduxConstants';
+import { defaultStatus } from '../../constants';
 
 const postInitialState = {
   posts: [],

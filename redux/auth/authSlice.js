@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { loginUser, registerUser, updateUserProfile, signOutUser } from './authOperations';
-import { defaultStatus } from '../../constants/reduxConstants';
+import { defaultStatus } from '../../constants';
 
 const authInitialState = {
   user: {},
