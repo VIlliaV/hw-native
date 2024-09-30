@@ -1,12 +1,11 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import CommentSVG from '../SVGComponents/CommentSVG';
-import { styles } from '../../style/styles';
-import { color } from '../../style/color';
+import { styles, color } from '../../style';
 import LikeSVG from '../SVGComponents/LikeSVG';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { updatePostLike } from '../../redux/posts/postOperations';
+import { useAuth } from '../../utils';
 
 const Social = ({ data = [], social = 'comment', idPost }) => {
   const navigation = useNavigation();
@@ -51,10 +50,6 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
           handleSocial();
         }}
         activeOpacity={0.6}
-        // style={{
-        //   ...stylesPost.trashButton,
-        //   backgroundColor: photoUri ? color.accent : color.bg_secondary,
-        // }}
       >
         <IconName activeIcon={activeIcon} />
       </TouchableOpacity>

@@ -1,24 +1,23 @@
-import { ActivityIndicator, FlatList, Text } from 'react-native';
-
+import { ActivityIndicator, FlatList } from 'react-native';
 import Post from './Post';
-
 import { useEffect, useRef, useState } from 'react';
-import { usePosts } from '../../utils/hooks/usePosts';
 import { useDispatch } from 'react-redux';
 import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Plug from '../Plug';
+import { usePosts } from '../../utils';
 
 const PostList = ({ showCity = true }) => {
   const route = useRoute();
   const navigation = useNavigation();
-
   const { posts, isLoadingPosts } = usePosts();
-
   const dispatch = useDispatch();
-
   const flatListRef = useRef(null);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
+
   useEffect(() => {
     if (route.params?.from === 'CreatePostScreen' && flatListRef.current) {
       flatListRef.current.scrollToOffset({ offset: 0, animated: true });
@@ -26,8 +25,10 @@ const PostList = ({ showCity = true }) => {
     }
   }, [route]);
 
-  const [refreshing, setRefreshing] = useState(false);
-  const [loadMore, setLoadMore] = useState(false);
+  const viewabilityConfig = {
+    minimumViewTime: 3000,
+    viewAreaCoveragePercentThreshold: 20,
+  };
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -35,11 +36,6 @@ const PostList = ({ showCity = true }) => {
     await dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] })).unwrap();
     setRefreshing(false);
     setLoadMore(false);
-  };
-
-  const viewabilityConfig = {
-    minimumViewTime: 3000,
-    viewAreaCoveragePercentThreshold: 20,
   };
 
   const onViewableItemsChanged = ({ changed, viewableItems }) => {
@@ -71,7 +67,6 @@ const PostList = ({ showCity = true }) => {
     <FlatList
       ref={flatListRef}
       data={posts}
-      // style={{ marginTop: 100 }}
       renderItem={({ item }) => <Post item={item} showCity={showCity} />}
       keyExtractor={item => item.id}
       ListFooterComponent={

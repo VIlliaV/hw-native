@@ -1,14 +1,7 @@
-import React from 'react';
 import { Text, View } from 'react-native';
-import { styles } from '../style/styles';
-import { color } from '../style/color';
+import { styles, color } from '../style';
 
-const Plug = ({
-  width = '100%',
-  height = '100%',
-  //   text = "скоро тут щось з'явиться",
-  children = "скоро тут щось з'явиться",
-}) => {
+const Plug = ({ width = '100%', height = '100%', children = "скоро тут щось з'явиться" }) => {
   return (
     <View
       style={{

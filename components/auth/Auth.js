@@ -11,19 +11,20 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import { styles } from '../../style/styles';
 import { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { color } from '../../style/color';
-import back_ground from '../../assets/image/Photo BG.webp';
-import back_ground_2x from '../../assets/image/Photo BGx2.webp';
-import ProfileBox from '../ProfileBox';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { loginUser, registerUser, updateUserProfile } from '../../redux/auth/authOperations';
+import { clearUser, setUser } from '../../redux/auth/authSlice';
 import { auth } from '../../config';
 import { onAuthStateChanged } from 'firebase/auth';
-import { clearUser, setUser } from '../../redux/auth/authSlice';
+
 import SubmitAuth from './SubmitAuth';
+import ProfileBox from '../ProfileBox';
+
+import back_ground from '../../assets/image/Photo BG.webp';
+import back_ground_2x from '../../assets/image/Photo BGx2.webp';
+import { color, styles } from '../../style';
 
 const initialLogin = {
   email: '',
@@ -37,9 +38,14 @@ const initialReg = {
   photoURL: '',
 };
 
-const AuthComp = ({ route }) => {
+const AuthComp = () => {
+  const route = useRoute();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
+  const [inputOnFocus, setInputOnFocus] = useState(null);
+  const [isPasswordHide, setIsPasswordHide] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -59,11 +65,6 @@ const AuthComp = ({ route }) => {
     return () => unsubscribe();
   }, [auth]);
 
-  const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
-
-  const [inputOnFocus, setInputOnFocus] = useState(null);
-  const [isPasswordHide, setIsPasswordHide] = useState(false);
-
   const keyboardHide = () => {
     Keyboard.dismiss();
   };
@@ -76,6 +77,8 @@ const AuthComp = ({ route }) => {
       : Platform.OS === 'ios'
       ? 'new-password'
       : 'password-new';
+
+  const title = route?.name !== 'Login' ? 'Реєстрація' : 'Увійти';
 
   const onSubmit = async () => {
     try {
@@ -90,18 +93,6 @@ const AuthComp = ({ route }) => {
       }
     } catch (error) {}
   };
-
-  const title = route?.name !== 'Login' ? 'Реєстрація' : 'Увійти';
-
-  // const onBlur = (e) => {
-  //   const { placeholder } = e._dispatchInstances.memoizedProps;
-  //   setInputOnFocus((prev) => ({ ...prev, [placeholder]: false }));
-  // };
-
-  // const onFocus = (e) => {
-  //   const { placeholder } = e._dispatchInstances.memoizedProps;
-  //   setInputOnFocus((prev) => ({ ...prev, [placeholder]: true }));
-  // };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -200,9 +191,9 @@ const styleAuth = {
 
   passwordBox: {
     position: 'relative',
-    // transformOrigin: "top",
     marginBottom: 43,
   },
+
   showPassword: {
     position: 'absolute',
     right: 16,

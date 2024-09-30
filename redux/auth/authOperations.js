@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '../../config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
-import { updateDataInFirestore, writeDataToFirestore } from '../../utils/firebase';
+import { updateDataInFirestore, writeDataToFirestore } from '../../utils';
 
 export const registerUser = createAsyncThunk('auth/registerUser', async ({ email, password }, { rejectWithValue }) => {
   try {

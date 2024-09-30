@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, { G, Path, Defs, Rect, ClipPath } from 'react-native-svg';
-import { color } from '../../style/color';
+import { color } from '../../style';
 
 const PlugCamera = ({ active }) => {
   return (

@@ -1,27 +1,27 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import RegistrationScreen from '../screens/authScreens/RegistrationScreen';
 import LoginScreen from '../screens/authScreens/LoginScreen';
-
 import Nested from './Nested';
 import Home from './Home';
-import { useAuth } from '../utils/hooks/useAuth';
-import Toast from 'react-native-toast-message';
-import { usePosts } from '../utils/hooks/usePosts';
-import { useDispatch } from 'react-redux';
+
 import { fetchPosts } from '../redux/posts/postOperations';
+import { useAuth, usePosts } from '../utils';
 
 const RootRouter = () => {
   const MainStack = createStackNavigator();
   const dispatch = useDispatch();
+  const { userError } = useAuth();
+  const { postsError } = usePosts();
+
   useEffect(() => {
     dispatch(fetchPosts({ collectionName: 'posts', sort: ['timestamp', 'desc'] }));
   }, []);
-
-  const { userError } = useAuth();
-  const { postsError } = usePosts();
 
   useEffect(() => {
     if (userError || postsError)

@@ -51,7 +51,6 @@ export const uploadImageToFirebase = async ({ fileUri, width, height }) => {
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
   } catch (error) {
-    console.log('🚀 ~ error:', error);
     Toast.show({
       type: 'error',
       text1: 'Помилка завантаження файлу, спробуйте ще раз',
@@ -121,7 +120,6 @@ export const updateArrDataInFirestore = async ({
       });
     }
   } catch (error) {
-    // console.log(error);
     throw error;
   }
 };

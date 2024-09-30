@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
-import { color } from '../../style/color';
+import { color } from '../../style';
 
 const CommentSVG = props => (
   <Svg

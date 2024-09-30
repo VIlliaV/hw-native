@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { color } from '../../style/color';
+import { color } from '../../style';
 import { useRoute } from '@react-navigation/native';
 
 const MapScreen = () => {
@@ -10,13 +10,6 @@ const MapScreen = () => {
     params: { markerCoords, name, description },
   } = useRoute();
   const [location, setLocation] = useState(null);
-
-  // const name = 'marker';
-  // const description = 'description';
-  // const locationMarker = {
-  //   latitude: 49.81122943769388,
-  //   longitude: 24.024978248853097,
-  // };
 
   useEffect(() => {
     const getLocation = async () => {
@@ -36,8 +29,6 @@ const MapScreen = () => {
   return (
     <View style={styles.container}>
       <MapView
-        style={styles.mapStyle}
-        // provider="google"
         region={{
           ...startPosition,
           latitudeDelta: 0.005,
@@ -45,24 +36,12 @@ const MapScreen = () => {
         }}
         showsUserLocation={true}
         mapType="standard"
-        // minZoomLevel={18}
         cameraZoomRange={{
           minCenterCoordinateDistance: 300,
-          // maxCenterCoordinateDistance: 50000,
           animated: false,
         }}
-        // onMapReady={() => console.log("Map is ready")}
-        // onRegionChange={() => console.log("Region change")}
-        // loadingEnabled={true}
       >
-        {location && (
-          <Marker
-            title="ти тут"
-            coordinate={location}
-            // image={avatarImage}
-            pinColor={color.accent}
-          />
-        )}
+        {location && <Marker title="ти тут" coordinate={location} pinColor={color.accent} />}
         {markerCoords && <Marker title={name} coordinate={markerCoords} description={description} />}
       </MapView>
     </View>

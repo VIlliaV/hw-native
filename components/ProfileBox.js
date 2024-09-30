@@ -1,15 +1,13 @@
 import { View, TouchableOpacity, Text, Image } from 'react-native';
-import { styles } from '../style/styles';
-import { color } from '../style/color';
+import { styles, color } from '../style';
 import AddSVG from './SVGComponents/AddSVG';
 import DeleteSVG from './SVGComponents/DeleteSVG';
 import { useEffect, useState } from 'react';
 import noPhoto from '../assets/image/noPhoto.png';
 import ExitButton from './buttons/ExitButton';
-import { useAuth } from '../utils/hooks/useAuth';
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
-import { deleteImageFromFirebase, uploadImageToFirebase } from '../utils/firebase';
+import { deleteImageFromFirebase, uploadImageToFirebase, useAuth } from '../utils';
 
 const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {} }) => {
   const { user } = useAuth();

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, { Path, Circle } from 'react-native-svg';
-import { color } from '../../style/color';
+import { color } from '../../style';
 
 const SendSVG = () => (
   <Svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">

@@ -10,8 +10,7 @@ import {
   View,
 } from 'react-native';
 import HeadContainer from '../../components/HeadContainer';
-import { styles } from '../../style/styles';
-import { color } from '../../style/color';
+import { styles, color } from '../../style';
 import { useRef, useState } from 'react';
 import LocationSVG from '../../components/SVGComponents/LocationSVG';
 import { useNavigation } from '@react-navigation/native';
@@ -22,12 +21,11 @@ import { useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import Permission from '../../components/notification/Permission';
-import { uploadImageToFirebase, writeDataToFirestore } from '../../utils/firebase';
+import { uploadImageToFirebase } from '../../utils/firebase';
 import Toast from 'react-native-toast-message';
-import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../redux/posts/postOperations';
-import { fetchDataFromCoordinates } from '../../utils/api/fetchData';
+import { fetchDataFromCoordinates, useAuth } from '../../utils';
 
 const initial = {
   name: '',
@@ -47,16 +45,17 @@ const CreatePostsScreen = () => {
   const [createPostData, setCreatePostData] = useState(initial);
   const [isFetching, setIsFetching] = useState(false);
   const [inputOnFocus, setInputOnFocus] = useState({});
+
   const dispatch = useDispatch();
-
   const navigation = useNavigation();
-
   const {
     user: { uid },
   } = useAuth();
+  const secondInputRef = useRef(null);
 
   const { photoUri, name, description, coords } = createPostData;
   const readyToSubmit = photoUri && name;
+
   const keyboardHide = () => {
     Keyboard.dismiss();
   };
@@ -90,8 +89,6 @@ const CreatePostsScreen = () => {
       setIsFetching(false);
     }
   };
-
-  const secondInputRef = useRef(null);
 
   if (!statusCamera || !statusLibrary || !statusLocation) {
     return <View />;

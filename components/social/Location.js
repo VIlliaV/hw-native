@@ -1,26 +1,14 @@
-import React from 'react';
 import LocationSVG from '../SVGComponents/LocationSVG';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { styles } from '../../style/styles';
-import { color } from '../../style/color';
+import { styles, color } from '../../style';
 import { useNavigation } from '@react-navigation/native';
 
 const Location = ({ props, showCity = true }) => {
   const { description, country = 'Ukraine', coords, name } = props;
-
   const navigation = useNavigation();
+
   return (
-    // <View
-    //   style={{
-    //     flexDirection: 'row',
-    //     flexShrink: 1,
-    //     flexGrow: 0,
-    //     gap: 4,
-    //     alignItems: 'center',
-    //   }}
-    // >
     <TouchableOpacity
-      // style={{ ...styleComments.sendSVG }}
       style={{
         flexDirection: 'row',
         flexShrink: 1,
@@ -56,7 +44,6 @@ const Location = ({ props, showCity = true }) => {
         </Text>
       </View>
     </TouchableOpacity>
-    // </View>
   );
 };
 

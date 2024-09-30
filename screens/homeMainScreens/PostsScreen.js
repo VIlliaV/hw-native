@@ -12,5 +12,3 @@ const PostsScreen = () => {
 };
 
 export default PostsScreen;
-
-const stylePosts = {};

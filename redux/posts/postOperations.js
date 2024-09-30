@@ -4,7 +4,7 @@ import {
   getItemFromFirestore,
   updateArrDataInFirestore,
   writeDataToFirestore,
-} from '../../utils/firebase';
+} from '../../utils';
 
 // export const updatePost = createAsyncThunk('posts/updatePost', async ({ idPost, update }, { rejectWithValue }) => {
 //   try {
@@ -68,8 +68,6 @@ export const fetchPosts = createAsyncThunk(
   async ({ collectionName, sort, lastVisible, queryDoc, stateForChange = 'posts' }, { rejectWithValue }) => {
     try {
       const { postData } = await getDataFromFirestore({ collectionName, sort, lastVisible, queryDoc });
-
-      // console.log('🚀 ~ data:', postData);
       return { postData, stateForChange };
     } catch (error) {
       const errorToast = error.code || error.message;

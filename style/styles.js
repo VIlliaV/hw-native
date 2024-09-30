@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { color } from './color';
 
 export const styles = StyleSheet.create({
@@ -7,16 +7,19 @@ export const styles = StyleSheet.create({
     backgroundColor: color.bg,
     paddingHorizontal: 16,
   },
+
   image: {
     position: 'relative',
     width: '100%',
     height: 240,
     borderRadius: 8,
   },
+
   bg_image: {
     flex: 1,
     position: 'relative',
   },
+
   popUp: {
     position: 'relative',
     backgroundColor: color.bg,
@@ -30,6 +33,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlignVertical: 'bottom',
   },
+
   textInput: {
     width: '100%',
     padding: 16,
@@ -56,16 +60,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 35,
     color: color.primary,
-    //? just for test:
-    // ...Platform.select({
-    //   ios: {
-    //     fontSize: 30,
-    //   },
-    //   android: {
-    //     fontFamily: "Roboto-Medium",
-    //   },
-    // }),
   },
+
   headerTitle: {
     color: color.primary,
     textAlign: 'center',
@@ -82,6 +78,7 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     fontStyle: 'normal',
   },
+
   positionCenter: ({ width, height }) => ({
     position: 'absolute',
     top: '50%',

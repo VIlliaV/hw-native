@@ -2,17 +2,15 @@ import { ActivityIndicator, FlatList, ImageBackground, Platform, Text } from 're
 import back_ground from '../../assets/image/Photo BG.webp';
 import back_ground_2x from '../../assets/image/Photo BGx2.webp';
 import ProfileBox from '../../components/ProfileBox';
-import { styles } from '../../style/styles';
+import { styles, color } from '../../style';
 import Post from '../../components/post/Post';
-import { color } from '../../style/color';
 import { updateUserProfile } from '../../redux/auth/authOperations';
 import { useDispatch } from 'react-redux';
-import { usePosts } from '../../utils/hooks/usePosts';
-import { useAuth } from '../../utils/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem } from '../../redux/posts/postSlice';
 import Plug from '../../components/Plug';
+import { useAuth, usePosts } from '../../utils';
 
 const ProfileScreen = ({ route }) => {
   const { postsOwners, isLoadingPostsOwners } = usePosts();
@@ -31,11 +29,6 @@ const ProfileScreen = ({ route }) => {
       })
     );
   }, []);
-
-  // const postsOwner = posts.filter(post => post.owner === user.uid);
-  // postsOwner.sort((a, b) => b.timestamp - a.timestamp);
-
-  // getQueryDataFromFirestore('posts', 'owner', 'UTQjHAVytld3L5Yo2UQ2wjKErkz2');
 
   const changeAvatar = async photoURL => {
     dispatch(updateUserProfile({ ...photoURL }));
@@ -85,16 +78,12 @@ const ProfileScreen = ({ route }) => {
           justifyContent: 'flex-end',
         }}
       >
-        {/* <View style={{ height: "85%", backgroundColor: color.bg }}> */}
         <ProfileBox route={route} changeAvatar={changeAvatar} style={{ height: '85%', backgroundColor: color.bg }}>
           {isLoadingPostsOwners && !postsOwners.length ? (
             <ActivityIndicator size="large" />
           ) : (
             <FlatList
               data={postsOwners}
-              // ListFooterComponent={
-              //   <View style={{ height: 0, marginBottom: 0 }}></View>
-              // }
               renderItem={({ item }) => <Post item={item} showCity={false} />}
               keyExtractor={(item, index) => index}
               ListFooterComponent={
@@ -114,7 +103,6 @@ const ProfileScreen = ({ route }) => {
             />
           )}
         </ProfileBox>
-        {/* </View> */}
       </ImageBackground>
     </>
   );

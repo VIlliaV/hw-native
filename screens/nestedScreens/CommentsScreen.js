@@ -3,17 +3,14 @@ import HeadContainer from '../../components/HeadContainer';
 import CommentsSend from '../../components/commentsPost/CommentsSend';
 import CommentsPostList from '../../components/commentsPost/CommentsPostList';
 import { useRoute } from '@react-navigation/native';
-import { useDocSubscription } from '../../utils/hooks/useDocSubscription';
-import { usePosts } from '../../utils/hooks/usePosts';
+import { useDocSubscription, usePosts } from '../../utils';
 
 const CommentsScreen = () => {
   const {
     params: { idPost, fromRoute },
   } = useRoute();
-
-  let postData = {};
-
   const { posts, postsOwners } = usePosts();
+  let postData = {};
 
   if (fromRoute === 'ProfileScreen') {
     postData = postsOwners.find(item => item.id === idPost);

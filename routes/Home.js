@@ -3,11 +3,10 @@ import PostsScreen from '../screens/homeMainScreens/PostsScreen';
 import CreatePostsScreen from '../screens/homeMainScreens/CreatePostsScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PostsSVG from '../components/SVGComponents/PostsSVG';
-import { color } from '../style/color';
+import { color, styles } from '../style/color';
 import CreatePostSVG from '../components/SVGComponents/CreatePostSVG';
 import ProfileSVG from '../components/SVGComponents/ProfileSVG';
-import { View, Text } from 'react-native';
-import { styles } from '../style/styles';
+import { View } from 'react-native';
 import ExitButton from '../components/buttons/ExitButton';
 import BackButton from '../components/buttons/BackButton';
 
@@ -51,7 +50,6 @@ const Home = () => {
         component={PostsScreen}
         options={{
           title: 'Публікації',
-          // unmountOnBlur: true,
           headerRight: () => <ExitButton />,
         }}
       />

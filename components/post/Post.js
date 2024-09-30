@@ -1,9 +1,8 @@
 import { Image, Text, View } from 'react-native';
-import { styles } from '../../style/styles';
+import { styles, color } from '../../style';
 import PostBar from './PostBar';
-import { color } from '../../style/color';
 import noPhoto from '../../assets/image/noPhoto.png';
-import { useDocSubscription } from '../../utils/hooks/useDocSubscription';
+import { useDocSubscription } from '../../utils';
 
 const Post = ({ item, showCity }) => {
   const { name, urlPhoto, id, inView } = item;
@@ -11,10 +10,7 @@ const Post = ({ item, showCity }) => {
   useDocSubscription('posts', id, inView);
 
   return (
-    <View
-      // onChange={onViewChange}
-      style={{ gap: 8, paddingBottom: 32 }}
-    >
+    <View style={{ gap: 8, paddingBottom: 32 }}>
       <View style={{ height: 240 }}>
         <Image
           source={urlPhoto ? { uri: urlPhoto } : noPhoto}

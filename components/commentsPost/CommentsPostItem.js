@@ -1,8 +1,7 @@
-import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { formatDate } from '../../utils/formatDate';
 import noPhoto from '../../assets/image/noPhoto.png';
-import { color } from '../../style/color';
+import { color } from '../../style';
 
 const CommentsPostItem = ({ item, ownerPost }) => {
   const { avatar, comment, holderComment, timestamp } = item;
@@ -14,12 +13,7 @@ const CommentsPostItem = ({ item, ownerPost }) => {
         ...styleComments.flatItem,
       }}
     >
-      <Image
-        source={avatar ? { uri: avatar } : noPhoto}
-        resizeMode="cover"
-        // initialNumToRender={10}
-        style={{ ...styleComments.avatar }}
-      />
+      <Image source={avatar ? { uri: avatar } : noPhoto} resizeMode="cover" style={{ ...styleComments.avatar }} />
 
       <View style={{ ...styleComments.commentBox }}>
         <Text style={{ ...styleComments.commentText }}>{comment}</Text>

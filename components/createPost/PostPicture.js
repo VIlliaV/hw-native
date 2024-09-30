@@ -1,8 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { styles } from '../../style/styles';
+import { styles, color } from '../../style';
 import PlugCamera from '../SVGComponents/PlugCamera';
-import { color } from '../../style/color';
-
 import { CameraView } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';

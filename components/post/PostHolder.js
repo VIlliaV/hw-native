@@ -1,10 +1,12 @@
 import { Image, Text, View } from 'react-native';
-import { styles } from '../../style/styles';
-import { useAuth } from '../../utils/hooks/useAuth';
+import { styles } from '../../style';
 import noPhoto from '../../assets/image/noPhoto.png';
+import { useAuth } from '../../utils';
+
 const PostHolder = () => {
   const { user } = useAuth();
   const { displayName, email, photoURL } = user;
+
   return (
     <View style={{ flexDirection: 'row', gap: 8, marginBottom: 32 }}>
       <View style={{ width: 60, height: 60 }}>

@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { color } from '../style/color';
+import { color } from '../style';
 
 const HeadContainer = ({ children }) => {
   return (
@@ -10,8 +10,6 @@ const HeadContainer = ({ children }) => {
         backgroundColor: color.bg,
         paddingHorizontal: 16,
         paddingTop: 32,
-        // paddingBottom: 84,
-        // minHeight: "100%",
       }}
     >
       {children}

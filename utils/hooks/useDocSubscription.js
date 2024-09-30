@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../../config';
 import { useDispatch } from 'react-redux';
-import { updatePost } from '../../redux/posts/postOperations';
 import { actUpdatePost } from '../../redux/posts/postSlice';
+import Toast from 'react-native-toast-message';
 
 export const useDocSubscription = (collectionName, id, inView = true) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -11,11 +11,9 @@ export const useDocSubscription = (collectionName, id, inView = true) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // let timer;
     let unsubscribe;
 
     if (inView) {
-      // timer = setTimeout(() => {
       unsubscribe = onSnapshot(
         doc(db, collectionName, id),
         doc => {
@@ -25,7 +23,6 @@ export const useDocSubscription = (collectionName, id, inView = true) => {
           dispatch(actUpdatePost({ idPost: id, update: data }));
         },
         error => {
-          console.log(error);
           Toast.show({
             type: 'error',
             text1: 'Помилка',
@@ -34,9 +31,7 @@ export const useDocSubscription = (collectionName, id, inView = true) => {
         }
       );
       setIsSubscribed(true);
-      // }, delay);
     } else {
-      // clearTimeout(timer);
       if (unsubscribe) {
         unsubscribe();
         setIsSubscribed(false);
@@ -45,7 +40,6 @@ export const useDocSubscription = (collectionName, id, inView = true) => {
     }
 
     return () => {
-      // clearTimeout(timer);
       if (unsubscribe) {
         unsubscribe();
       }

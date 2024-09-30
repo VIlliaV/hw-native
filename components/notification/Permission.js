@@ -1,6 +1,5 @@
-import React from 'react';
 import { Button, Text, View } from 'react-native';
-import { color } from '../../style/color';
+import { color } from '../../style';
 
 const Permission = ({ text, permissionFunction = () => {}, status = 'denied' }) => {
   return (

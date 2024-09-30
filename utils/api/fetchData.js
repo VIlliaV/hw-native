@@ -1,3 +1,5 @@
+import Toast from 'react-native-toast-message';
+
 export const fetchDataFromCoordinates = async (latitude, longitude) => {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`;
 
@@ -8,6 +10,10 @@ export const fetchDataFromCoordinates = async (latitude, longitude) => {
     const country = data.address.country;
     return { region, country };
   } catch (error) {
-    console.error('Error:', error);
+    Toast.show({
+      type: 'error',
+      text1: 'Помилка',
+      text2: `${error.code || error.message}`,
+    });
   }
 };
