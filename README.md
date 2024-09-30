@@ -19,7 +19,9 @@ hw-native це мобільний додаток, розроблений на о
 
 ## Стек технологій:
 
-![React native](https://img.shields.io/badge/react-%2361DAFB?style=for-the-badge&logo=React-native&logoColor=white)
+![React native](https://img.shields.io/badge/react-%2361DAFB?style=for-the-badge&logo=React&logoColor=white)
+![Firebase](https://img.shields.io/badge/firebase-%23DD2C00?style=for-the-badge&logo=firebase&logoColor=white)
+![Redux](https://img.shields.io/badge/redux-%23764ABC?style=for-the-badge&logo=Redux&logoColor=white)
 
 ## Встановлення та запуск
 
