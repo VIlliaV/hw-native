@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -113,7 +114,7 @@ const CreatePostsScreen = () => {
       return <Permission text="локацію" status={statusLocation.status} />;
     }
   }
-  if (isFetching) return <Text style={styles.text}>Чекайте...</Text>;
+  if (isFetching) return <ActivityIndicator size="large" />;
   return (
     <HeadContainer>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -9,6 +9,7 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
 
 import { styles } from '../../style/styles';
@@ -23,6 +24,7 @@ import { loginUser, registerUser, updateUserProfile } from '../../redux/auth/aut
 import { auth } from '../../config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { clearUser, setUser } from '../../redux/auth/authSlice';
+import { useAuth } from '../../utils/hooks/useAuth';
 
 const initialLogin = {
   email: '',
@@ -55,6 +57,8 @@ const AuthComp = ({ route }) => {
     });
     return () => unsubscribe();
   }, [auth]);
+
+  const { isLoadingUser } = useAuth();
 
   const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
 
@@ -186,10 +190,14 @@ const AuthComp = ({ route }) => {
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
         <View style={styleAuth.submitBox}>
-          <TouchableOpacity onPress={onSubmit} activeOpacity={0.6} style={styles.button}>
-            <Text style={{ ...styles.text, color: color.bg }}>
-              {route.name !== 'Login' ? 'Зареєструватися' : 'Увійти'}
-            </Text>
+          <TouchableOpacity disabled={isLoadingUser} onPress={onSubmit} activeOpacity={0.6} style={styles.button}>
+            {isLoadingUser ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              <Text style={{ ...styles.text, color: color.bg }}>
+                {route.name !== 'Login' ? 'Зареєструватися' : 'Увійти'}
+              </Text>
+            )}
           </TouchableOpacity>
           <View
             style={{
