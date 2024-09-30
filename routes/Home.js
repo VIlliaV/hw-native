@@ -3,7 +3,7 @@ import PostsScreen from '../screens/homeMainScreens/PostsScreen';
 import CreatePostsScreen from '../screens/homeMainScreens/CreatePostsScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PostsSVG from '../components/SVGComponents/PostsSVG';
-import { color, styles } from '../style/color';
+import { color, styles } from '../style';
 import CreatePostSVG from '../components/SVGComponents/CreatePostSVG';
 import ProfileSVG from '../components/SVGComponents/ProfileSVG';
 import { View } from 'react-native';
