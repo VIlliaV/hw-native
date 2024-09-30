@@ -23,6 +23,24 @@ hw-native це мобільний додаток, розроблений на о
 
 ## Встановлення та запуск
 
-Клонування репозиторію:
+1. Клонування репозиторію:
 
-git clone https://github.com/VIlliaV/hw-native.git cd hw-native
+git clone https://github.com/VIlliaV/hw-native.git
+
+cd hw-native
+
+2. Використовуйте npm або yarn для встановлення залежностей:
+
+npm install
+
+# або
+
+yarn install
+
+3. Запустіть додаток у симуляторі або на реальному пристрої:
+
+npm start
+
+# або
+
+yarn start
