@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem } from '../../redux/posts/postSlice';
 import Plug from '../../components/Plug';
-import { useAuth, usePosts } from '../../utils';
+import { useAuth, usePosts } from '../../utils/hooks';
 
 const ProfileScreen = ({ route }) => {
   const { postsOwners, isLoadingPostsOwners } = usePosts();

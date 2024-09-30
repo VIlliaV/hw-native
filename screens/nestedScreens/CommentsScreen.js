@@ -3,7 +3,7 @@ import HeadContainer from '../../components/HeadContainer';
 import CommentsSend from '../../components/commentsPost/CommentsSend';
 import CommentsPostList from '../../components/commentsPost/CommentsPostList';
 import { useRoute } from '@react-navigation/native';
-import { useDocSubscription, usePosts } from '../../utils';
+import { useDocSubscription, usePosts } from '../../utils/hooks';
 
 const CommentsScreen = () => {
   const {

@@ -6,7 +6,7 @@ import { fetchPosts } from '../../redux/posts/postOperations';
 import { actUpdatePostItem, clearPosts } from '../../redux/posts/postSlice';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Plug from '../Plug';
-import { usePosts } from '../../utils';
+import { usePosts } from '../../utils/hooks';
 
 const PostList = ({ showCity = true }) => {
   const route = useRoute();

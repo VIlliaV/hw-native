@@ -1,7 +1,7 @@
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
-import { useAuth } from '../../utils/hooks/useAuth';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { color, styles } from '../../style';
+import { useAuth } from '../../utils/hooks';
 
 const SubmitAuth = ({ onSubmit }) => {
   const { isLoadingUser } = useAuth();

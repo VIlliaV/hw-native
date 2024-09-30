@@ -1,7 +1,7 @@
 import { Image, Text, View } from 'react-native';
 import { styles } from '../../style';
 import noPhoto from '../../assets/image/noPhoto.png';
-import { useAuth } from '../../utils';
+import { useAuth } from '../../utils/hooks';
 
 const PostHolder = () => {
   const { user } = useAuth();

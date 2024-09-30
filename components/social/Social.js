@@ -5,7 +5,7 @@ import LikeSVG from '../SVGComponents/LikeSVG';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { updatePostLike } from '../../redux/posts/postOperations';
-import { useAuth } from '../../utils';
+import { useAuth } from '../../utils/hooks';
 
 const Social = ({ data = [], social = 'comment', idPost }) => {
   const navigation = useNavigation();

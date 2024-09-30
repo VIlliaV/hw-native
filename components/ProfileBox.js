@@ -7,7 +7,8 @@ import noPhoto from '../assets/image/noPhoto.png';
 import ExitButton from './buttons/ExitButton';
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
-import { deleteImageFromFirebase, uploadImageToFirebase, useAuth } from '../utils';
+import { deleteImageFromFirebase, uploadImageToFirebase } from '../utils';
+import { useAuth } from '../utils/hooks';
 
 const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {} }) => {
   const { user } = useAuth();

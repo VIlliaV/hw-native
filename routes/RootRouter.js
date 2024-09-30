@@ -11,7 +11,7 @@ import Nested from './Nested';
 import Home from './Home';
 
 import { fetchPosts } from '../redux/posts/postOperations';
-import { useAuth, usePosts } from '../utils';
+import { useAuth, usePosts } from '../utils/hooks';
 
 const RootRouter = () => {
   const MainStack = createStackNavigator();

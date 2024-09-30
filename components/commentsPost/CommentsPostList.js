@@ -4,7 +4,7 @@ import CommentsPostItem from './CommentsPostItem';
 import noPhoto from '../../assets/image/noPhoto.png';
 import { useEffect, useRef } from 'react';
 import Plug from '../Plug';
-import { usePosts } from '../../utils';
+import { usePosts } from '../../utils/hooks';
 
 const CommentsPostList = ({ comments, postImage, ownerPost }) => {
   const flatListCommentsRef = useRef(null);

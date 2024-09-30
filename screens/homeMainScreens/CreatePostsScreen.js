@@ -25,7 +25,8 @@ import { uploadImageToFirebase } from '../../utils/firebase';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../redux/posts/postOperations';
-import { fetchDataFromCoordinates, useAuth } from '../../utils';
+import { fetchDataFromCoordinates } from '../../utils';
+import { useAuth } from '../../utils/hooks';
 
 const initial = {
   name: '',

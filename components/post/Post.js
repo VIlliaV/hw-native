@@ -2,7 +2,7 @@ import { Image, Text, View } from 'react-native';
 import { styles, color } from '../../style';
 import PostBar from './PostBar';
 import noPhoto from '../../assets/image/noPhoto.png';
-import { useDocSubscription } from '../../utils';
+import { useDocSubscription } from '../../utils/hooks';
 
 const Post = ({ item, showCity }) => {
   const { name, urlPhoto, id, inView } = item;

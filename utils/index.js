@@ -10,9 +10,6 @@ import {
   writeDataToFirestore,
 } from './firebase';
 import { formatDate } from './formatDate';
-import { useAuth } from './hooks/useAuth';
-import { useDocSubscription } from './hooks/useDocSubscription';
-import { usePosts } from './hooks/usePosts';
 
 export {
   fetchDataFromCoordinates,
@@ -25,7 +22,4 @@ export {
   getQueryDataFromFirestore,
   getItemFromFirestore,
   formatDate,
-  useAuth,
-  useDocSubscription,
-  usePosts,
 };

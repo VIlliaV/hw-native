@@ -3,8 +3,8 @@ import { useRef, useState } from 'react';
 import { color } from '../../style';
 import { Keyboard, TextInput, TouchableOpacity, View } from 'react-native';
 import { updatePostComments } from '../../redux/posts/postOperations';
-import { useAuth } from '../../utils/hooks/useAuth';
 import { useDispatch } from 'react-redux';
+import { useAuth } from '../../utils/hooks';
 
 const CommentsSend = ({ idPost }) => {
   const [comment, setComment] = useState('');
