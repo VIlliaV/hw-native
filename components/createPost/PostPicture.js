@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
 import { styles, color } from '../../style';
 import PlugCamera from '../SVGComponents/PlugCamera';
 import { CameraView } from 'expo-camera';
@@ -54,7 +54,7 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
       }}
     >
       {isFetching ? (
-        <Text style={styles.text}>Чекайте...</Text>
+        <ActivityIndicator size="large" />
       ) : photoUri || !isFocused ? (
         <Image
           source={photoUri ? { uri: photoUri } : noPhoto}

@@ -90,7 +90,7 @@ const ProfileScreen = ({ route }) => {
                 loadMore && loadMore === 'no more' ? (
                   <Plug height={240}>Більше немає постів</Plug>
                 ) : (
-                  loadMore && <Text>чекай</Text>
+                  loadMore && <ActivityIndicator size="small" />
                 )
               }
               ListEmptyComponent={<Plug height={240}>Зробіть свій перший пост</Plug>}

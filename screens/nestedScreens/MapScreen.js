@@ -14,6 +14,7 @@ const MapScreen = () => {
   useEffect(() => {
     const getLocation = async () => {
       const location = await Location.getCurrentPositionAsync({});
+
       const coords = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -29,6 +30,7 @@ const MapScreen = () => {
   return (
     <View style={styles.container}>
       <MapView
+        style={styles.mapStyle}
         region={{
           ...startPosition,
           latitudeDelta: 0.005,
