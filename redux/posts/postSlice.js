@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { addPost, fetchPosts, updatePostComments, updatePostLike } from './postOperations';
+import { defaultStatus } from '../../constants/reduxConstants';
 
 const postInitialState = {
   posts: [],
@@ -9,7 +10,7 @@ const postInitialState = {
   isLoadingPostsOwners: false,
   isLoadingComments: false,
 };
-const defaultStatus = { pending: 'pending', fulfilled: 'fulfilled', rejected: 'rejected' };
+
 const operationsArr = [addPost, fetchPosts, updatePostComments, updatePostLike];
 const allOperationStatus = status => operationsArr.map(el => el[status]);
 
