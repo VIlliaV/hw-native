@@ -34,16 +34,8 @@ cd hw-native
 
 2. Використовуйте npm або yarn для встановлення залежностей:
 
-npm install
-
-# або
-
-yarn install
+npm install або yarn install
 
 3. Запустіть додаток у симуляторі або на реальному пристрої:
 
-npm start
-
-# або
-
-yarn start
+npm start або yarn start
