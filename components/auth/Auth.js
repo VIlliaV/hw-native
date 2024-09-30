@@ -9,7 +9,6 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
-  ActivityIndicator,
 } from 'react-native';
 
 import { styles } from '../../style/styles';
@@ -24,7 +23,7 @@ import { loginUser, registerUser, updateUserProfile } from '../../redux/auth/aut
 import { auth } from '../../config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { clearUser, setUser } from '../../redux/auth/authSlice';
-import { useAuth } from '../../utils/hooks/useAuth';
+import SubmitAuth from './SubmitAuth';
 
 const initialLogin = {
   email: '',
@@ -40,6 +39,8 @@ const initialReg = {
 
 const AuthComp = ({ route }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
@@ -58,14 +59,10 @@ const AuthComp = ({ route }) => {
     return () => unsubscribe();
   }, [auth]);
 
-  const { isLoadingUser } = useAuth();
-
   const [authData, setAuthData] = useState(route.name === 'Login' ? initialLogin : initialReg);
 
   const [inputOnFocus, setInputOnFocus] = useState(null);
   const [isPasswordHide, setIsPasswordHide] = useState(false);
-
-  const navigation = useNavigation();
 
   const keyboardHide = () => {
     Keyboard.dismiss();
@@ -79,10 +76,6 @@ const AuthComp = ({ route }) => {
       : Platform.OS === 'ios'
       ? 'new-password'
       : 'password-new';
-
-  const handleAuth = () => {
-    route.name === 'Login' ? navigation.push('Registration') : navigation.push('Login');
-  };
 
   const onSubmit = async () => {
     try {
@@ -189,30 +182,7 @@ const AuthComp = ({ route }) => {
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
-        <View style={styleAuth.submitBox}>
-          <TouchableOpacity disabled={isLoadingUser} onPress={onSubmit} activeOpacity={0.6} style={styles.button}>
-            {isLoadingUser ? (
-              <ActivityIndicator size="small" />
-            ) : (
-              <Text style={{ ...styles.text, color: color.bg }}>
-                {route.name !== 'Login' ? 'Зареєструватися' : 'Увійти'}
-              </Text>
-            )}
-          </TouchableOpacity>
-          <View
-            style={{
-              marginBottom: route.name !== 'Login' ? 78 : 144,
-              flexDirection: 'row',
-            }}
-          >
-            <Text style={{ ...styles.text, color: color.secondary }}>
-              {route.name !== 'Login' ? 'Вже є акаунт? ' : 'Немає акаунту? '}
-            </Text>
-            <Text onPress={handleAuth} style={styleAuth.changeAuth}>
-              {route.name !== 'Login' ? 'Увійти' : 'Зареєструватися'}
-            </Text>
-          </View>
-        </View>
+        <SubmitAuth onSubmit={onSubmit} />
         <StatusBar style="auto" />
       </ImageBackground>
     </TouchableWithoutFeedback>
@@ -239,16 +209,6 @@ const styleAuth = {
     top: '50%',
     transform: [{ translateY: -10 }],
   },
-  submitBox: {
-    backgroundColor: color.bg,
-    paddingHorizontal: 16,
-    alignItems: 'center',
-  },
-  changeAuth: {
-    ...styles.text,
-    color: color.secondary,
-    textDecorationLine: 'underline',
-  },
 };
 
 const inputLoginProps = {
@@ -272,6 +232,4 @@ const inputEmailProps = {
 const inputPasswordProps = {
   placeholder: 'Пароль',
   placeholderTextColor: color.placeholder,
-
-  // clearButtonMode: "always",
 };
