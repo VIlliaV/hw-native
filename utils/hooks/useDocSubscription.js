@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { actUpdatePost } from '../../redux/posts/postSlice';
 import Toast from 'react-native-toast-message';
 
-export const useDocSubscription = (collectionName, id, inView = true) => {
+export const useDocSubscription = ({ collectionName, id, inView = true }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const dispatch = useDispatch();

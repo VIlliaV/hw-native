@@ -70,7 +70,7 @@ export const deleteImageFromFirebase = async fileUri => {
   }
 };
 
-export const writeDataToFirestore = async (collectionName, docID, data) => {
+export const writeDataToFirestore = async ({ collectionName, docID = null, data }) => {
   try {
     if (docID) {
       const ref = doc(db, collectionName, docID);
@@ -87,7 +87,7 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
   }
 };
 
-export const updateDataInFirestore = async (collectionName, docId, data) => {
+export const updateDataInFirestore = async ({ collectionName, docId, data }) => {
   try {
     const ref = doc(db, collectionName, docId);
     await updateDoc(ref, data);
@@ -161,19 +161,19 @@ export const getDataFromFirestore = async ({
   }
 };
 
-export const getQueryDataFromFirestore = async (collectionName, key, value) => {
-  const q = query(collection(db, collectionName), where(key, '==', value));
+// export const getQueryDataFromFirestore = async ({ collectionName, key, value }) => {
+//   const q = query(collection(db, collectionName), where(key, '==', value));
 
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => {
-    const data = doc.data();
-    data.timestamp = data.timestamp.toMillis();
-    data.id = doc.id;
-    return data;
-  });
-};
+//   const querySnapshot = await getDocs(q);
+//   return querySnapshot.docs.map(doc => {
+//     const data = doc.data();
+//     data.timestamp = data.timestamp.toMillis();
+//     data.id = doc.id;
+//     return data;
+//   });
+// };
 
-export const getItemFromFirestore = async (collectionName, docId) => {
+export const getItemFromFirestore = async ({ collectionName, docId }) => {
   try {
     const docRef = doc(db, collectionName, docId);
     const docSnap = await getDoc(docRef);

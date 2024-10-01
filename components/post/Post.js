@@ -7,7 +7,7 @@ import CustomImage from '../CustomImage';
 const Post = ({ item, showCity }) => {
   const { name, urlPhoto, id, inView } = item;
 
-  useDocSubscription('posts', id, inView);
+  useDocSubscription({ collectionName: 'posts', id, inView });
 
   return (
     <View style={{ gap: 8, paddingBottom: 32 }}>

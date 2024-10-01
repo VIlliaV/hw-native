@@ -3,7 +3,6 @@ import {
   deleteImageFromFirebase,
   getDataFromFirestore,
   getItemFromFirestore,
-  getQueryDataFromFirestore,
   updateArrDataInFirestore,
   updateDataInFirestore,
   uploadImageToFirebase,
@@ -19,7 +18,6 @@ export {
   updateDataInFirestore,
   updateArrDataInFirestore,
   getDataFromFirestore,
-  getQueryDataFromFirestore,
   getItemFromFirestore,
   formatDate,
 };

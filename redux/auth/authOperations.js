@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk('auth/registerUser', async ({ email
   try {
     const credentials = await createUserWithEmailAndPassword(auth, email, password);
     const { email: emailUser, uid } = credentials.user;
-    await writeDataToFirestore('users', uid, { emailUser, uid });
+    await writeDataToFirestore({ collectionName: 'users', docID: uid, data: { emailUser, uid } });
     return { emailUser, uid };
   } catch (error) {
     const errorToast = error.code || error.message;
@@ -31,7 +31,7 @@ export const updateUserProfile = createAsyncThunk('auth/updateUserProfile', asyn
   if (user) {
     try {
       await updateProfile(user, update);
-      await updateDataInFirestore('users', user.uid, update);
+      await updateDataInFirestore({ collectionName: 'users', docId: user.uid, data: update });
       return update;
     } catch (error) {
       const errorToast = error.code || error.message;

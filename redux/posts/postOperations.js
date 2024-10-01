@@ -8,8 +8,8 @@ import {
 
 // export const updatePost = createAsyncThunk('posts/updatePost', async ({ idPost, update }, { rejectWithValue }) => {
 //   try {
-//     await getItemFromFirestore('posts', idPost);
-//     await updateDataInFirestore('posts', idPost, update);
+//     await getItemFromFirestore({collectionName: 'posts', docId: idPost});
+//     await updateDataInFirestore({collectionName: 'posts',docId: idPost,data: update});
 //     return { idPost, update };
 //   } catch (error) {
 //     const errorToast = error.code || error.message;
@@ -22,7 +22,7 @@ export const updatePostLike = createAsyncThunk(
   async ({ idPost, data, isAdd }, { rejectWithValue }) => {
     try {
       await updateArrDataInFirestore({ collectionName: 'posts', docId: idPost, keyPost: 'like', data, isAdd });
-      const { like } = await getItemFromFirestore('posts', idPost);
+      const { like } = await getItemFromFirestore({ collectionName: 'posts', docId: idPost });
 
       return { idPost, update: like };
     } catch (error) {
@@ -43,7 +43,7 @@ export const updatePostComments = createAsyncThunk(
         data,
         timestamp: true,
       });
-      const { comments } = await getItemFromFirestore('posts', idPost);
+      const { comments } = await getItemFromFirestore({ collectionName: 'posts', docId: idPost });
 
       return { idPost, update: comments };
     } catch (error) {
@@ -55,7 +55,7 @@ export const updatePostComments = createAsyncThunk(
 
 export const addPost = createAsyncThunk('posts/addPost', async (newPost, { rejectWithValue }) => {
   try {
-    const dataNewPost = await writeDataToFirestore('posts', null, newPost);
+    const dataNewPost = await writeDataToFirestore({ collectionName: 'posts', data: newPost });
     return { ...newPost, ...dataNewPost };
   } catch (error) {
     const errorToast = error.code || error.message;
