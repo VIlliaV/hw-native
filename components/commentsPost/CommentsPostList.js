@@ -39,7 +39,7 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
       }
       ListEmptyComponent={<Plug height={140}>Ще немає коментарів, будьте першим</Plug>}
       renderItem={({ item }) => <CommentsPostItem item={item} ownerPost={ownerPost} />}
-      keyExtractor={(item, index) => item.timestamp || index}
+      keyExtractor={(item, index) => item.timestamp || index.toString()}
       getItemLayout={(data, index) => ({ length: 150, offset: 150 * index + 250, index })}
       initialScrollIndex={comments.length > 10 ? comments.length - 10 : 0}
     />

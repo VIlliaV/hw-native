@@ -9,6 +9,7 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  StyleSheet,
 } from 'react-native';
 
 import { useEffect, useState } from 'react';
@@ -25,6 +26,7 @@ import ProfileBox from '../ProfileBox';
 import back_ground from '../../assets/image/Photo BG.webp';
 import back_ground_2x from '../../assets/image/Photo BGx2.webp';
 import { color, styles } from '../../style';
+import Toast from 'react-native-toast-message';
 
 const initialLogin = {
   email: '',
@@ -91,7 +93,13 @@ const AuthComp = () => {
         await dispatch(updateUserProfile({ displayName, photoURL })).unwrap();
         setAuthData(initialReg);
       }
-    } catch (error) {}
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Помилка',
+        text2: `${error.code || error.message}`,
+      });
+    }
   };
 
   return (
@@ -182,25 +190,23 @@ const AuthComp = () => {
 
 export default AuthComp;
 
-const styleAuth = {
+const styleAuth = StyleSheet.create({
   inputAuth: ({ inputOnFocus, type }) => ({
     ...styles.textInput,
     borderColor: inputOnFocus !== type ? color.border : color.accent,
     backgroundColor: inputOnFocus !== type ? color.bg_secondary : color.bg,
   }),
-
   passwordBox: {
     position: 'relative',
     marginBottom: 43,
   },
-
   showPassword: {
     position: 'absolute',
     right: 16,
     top: '50%',
     transform: [{ translateY: -10 }],
   },
-};
+});
 
 const inputLoginProps = {
   placeholder: 'Логін',

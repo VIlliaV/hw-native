@@ -6,6 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
+import { useIsFocused } from '@react-navigation/native';
 import CustomImage from '../CustomImage';
 
 const PostPicture = ({ setCreatePostData, photoUri }) => {

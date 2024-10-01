@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import BackSVG from '../SVGComponents/BackSVG';
+import { TouchableOpacity } from 'react-native';
 
 const BackButton = () => {
   const navigation = useNavigation();
