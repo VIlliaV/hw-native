@@ -8,12 +8,12 @@ import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   // databaseURL: "<https://native-viv.firebaseio.com>",
-  apiKey: 'AIzaSyA77j-BmjocvDvr93fFSa8qgLLZy8Ml9bU',
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'native-viv.firebaseapp.com',
   projectId: 'native-viv',
   storageBucket: 'native-viv.appspot.com',
   messagingSenderId: '685794446892',
-  appId: '1:685794446892:web:11a3f15f86c0a2bbdfcb89',
+  appId: process.env.FIREBASE_APP_ID,
   measurementId: 'G-1JQ388B23Q',
 };
 

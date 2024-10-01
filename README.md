@@ -36,6 +36,8 @@ cd hw-native
 
 npm install або yarn install
 
-3. Запустіть додаток у симуляторі або на реальному пристрої:
+3. Добавте залежності в .env файлLanguage: Ukrainian, English.
+
+4. Запустіть додаток у симуляторі або на реальному пристрої:
 
 npm start або yarn start
