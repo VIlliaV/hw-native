@@ -36,7 +36,6 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
       });
     }
     if (social === 'like') {
-      // const update = activeIcon ? data.filter(el => el !== uid) : [...data, uid];
       await dispatch(updatePostLike({ idPost, data: uid, isAdd: !activeIcon })).unwrap();
     }
   };
@@ -44,7 +43,7 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
   const IconName = socialIcon[social];
 
   return (
-    <View style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}>
+    <View style={styleSocial.container}>
       <TouchableOpacity
         onPress={() => {
           handleSocial();
@@ -54,17 +53,18 @@ const Social = ({ data = [], social = 'comment', idPost }) => {
         <IconName activeIcon={activeIcon} />
       </TouchableOpacity>
 
-      <Text
-        style={{
-          ...styles.text,
-          textAlignVertical: 'none',
-          color: data?.length > 0 ? color.primary : color.placeholder,
-        }}
-      >
-        {data?.length}
-      </Text>
+      <Text style={styleSocial.text(data)}>{data?.length}</Text>
     </View>
   );
 };
 
 export default Social;
+
+const styleSocial = {
+  container: { flexDirection: 'row', gap: 6, alignItems: 'center' },
+  text: data => ({
+    ...styles.text,
+    textAlignVertical: 'none',
+    color: data?.length > 0 ? color.primary : color.placeholder,
+  }),
+};

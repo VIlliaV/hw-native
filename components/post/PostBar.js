@@ -6,14 +6,8 @@ const PostBar = ({ props, showCity }) => {
   const { like, comments, id } = props;
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 4,
-      }}
-    >
-      <View style={{ flexDirection: 'row', gap: 24 }}>
+    <View style={stylePostBar.container}>
+      <View style={stylePostBar.box}>
         <Social data={comments} idPost={id} />
         <Social social="like" data={like} idPost={id} />
       </View>
@@ -24,3 +18,12 @@ const PostBar = ({ props, showCity }) => {
 };
 
 export default PostBar;
+
+const stylePostBar = {
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 4,
+  },
+  box: { flexDirection: 'row', gap: 24 },
+};

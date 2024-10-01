@@ -4,12 +4,14 @@ import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
 import { color } from '../../style';
 import { useRoute } from '@react-navigation/native';
+import Permission from '../../components/notification/Permission';
 
 const MapScreen = () => {
   const {
     params: { markerCoords, name, description },
   } = useRoute();
   const [location, setLocation] = useState(null);
+  const [statusLocation, requestPermission] = Location.useForegroundPermissions();
 
   useEffect(() => {
     const getLocation = async () => {
@@ -26,6 +28,15 @@ const MapScreen = () => {
   }, []);
 
   const startPosition = markerCoords || location;
+
+  if (!statusLocation) return <View />;
+  if (!statusLocation.granted) {
+    if (statusLocation.status === 'undetermined') {
+      requestPermission();
+    } else {
+      return <Permission text="локацію" status={statusLocation.status} />;
+    }
+  }
 
   return (
     <View style={styles.container}>

@@ -9,36 +9,15 @@ const Location = ({ props, showCity = true }) => {
 
   return (
     <TouchableOpacity
-      style={{
-        flexDirection: 'row',
-        flexShrink: 1,
-        flexGrow: 0,
-        gap: 4,
-        alignItems: 'center',
-      }}
+      style={styleLocation.container}
       activeOpacity={0.6}
       onPress={() =>
         navigation.navigate('Nested', { screen: 'MapScreen', params: { markerCoords: coords, description, name } })
       }
     >
       <LocationSVG />
-      <View
-        style={{
-          flexDirection: 'row',
-          flexShrink: 1,
-          flexGrow: 0,
-          flexWrap: 'wrap',
-        }}
-      >
-        <Text
-          style={{
-            ...styles.text,
-            textAlignVertical: 'none',
-            color: color.primary,
-            textAlign: 'right',
-            textDecorationLine: 'underline',
-          }}
-        >
+      <View style={styleLocation.box}>
+        <Text style={styleLocation.text}>
           {showCity && `${description}, `}
           {country}
         </Text>
@@ -48,3 +27,26 @@ const Location = ({ props, showCity = true }) => {
 };
 
 export default Location;
+
+const styleLocation = {
+  container: {
+    flexDirection: 'row',
+    flexShrink: 1,
+    flexGrow: 0,
+    gap: 4,
+    alignItems: 'center',
+  },
+  box: {
+    flexDirection: 'row',
+    flexShrink: 1,
+    flexGrow: 0,
+    flexWrap: 'wrap',
+  },
+  text: {
+    ...styles.text,
+    textAlignVertical: 'none',
+    color: color.primary,
+    textAlign: 'right',
+    textDecorationLine: 'underline',
+  },
+};

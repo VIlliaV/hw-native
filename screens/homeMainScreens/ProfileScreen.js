@@ -73,10 +73,7 @@ const ProfileScreen = ({ route }) => {
       <ImageBackground
         source={Platform.OS === 'ios' ? back_ground_2x : back_ground}
         resizeMode="cover"
-        style={{
-          ...styles.bg_image,
-          justifyContent: 'flex-end',
-        }}
+        style={{ ...styles.bg_image, justifyContent: 'flex-end' }}
       >
         <ProfileBox route={route} changeAvatar={changeAvatar} style={{ height: '85%', backgroundColor: color.bg }}>
           {isLoadingPostsOwners && !postsOwners.length ? (

@@ -35,8 +35,6 @@ export const uploadImageToFirebase = async ({ fileUri, width, height }) => {
     if (width) {
       size[0].resize.width = width;
     }
-
-    // Додаємо висоту, якщо вона є
     if (height) {
       size[0].resize.height = height;
     }
@@ -79,7 +77,6 @@ export const writeDataToFirestore = async (collectionName, docID, data) => {
       await setDoc(ref, { ...data, timestamp: serverTimestamp() });
     } else {
       const ref = collection(db, collectionName);
-      // const timestamp = Date.now();
       const postRef = await addDoc(ref, { ...data, timestamp: serverTimestamp() });
       const postSnap = await getDoc(postRef);
       const timestamp = postSnap.data().timestamp.toMillis();

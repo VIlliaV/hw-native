@@ -35,7 +35,6 @@ export const useDocSubscription = (collectionName, id, inView = true) => {
       if (unsubscribe) {
         unsubscribe();
         setIsSubscribed(false);
-        unsubscribe();
       }
     }
 

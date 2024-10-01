@@ -12,7 +12,6 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   posts: postsReducer,
-  //   filter: filterReducer,
   auth: persistReducer(authPersistConfig, authReducer),
 });
 

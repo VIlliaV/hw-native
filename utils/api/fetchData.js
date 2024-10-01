@@ -6,8 +6,8 @@ export const fetchDataFromCoordinates = async (latitude, longitude) => {
   try {
     let response = await fetch(url);
     let data = await response.json();
-    const region = data.address.state || data.address.province || data.address.region;
-    const country = data.address.country;
+    const region = data.address.state || data.address.province || data.address.region || 'Невідомий регіон';
+    const country = data.address.country || 'Невідома країна';
     return { region, country };
   } catch (error) {
     Toast.show({

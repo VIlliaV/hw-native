@@ -63,17 +63,8 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
         </View>
       )}
       {route.name !== 'Login' && (
-        <View style={{ ...styleProfileBox.avatarBox }}>
-          <CustomImage
-            source={isAvatarAdd}
-            resizeMode="cover"
-            style={{
-              ...styles.bg_image,
-              borderRadius: 16,
-              width: 120,
-              height: 120,
-            }}
-          />
+        <View style={styleProfileBox.avatarBox}>
+          <CustomImage source={isAvatarAdd} resizeMode="cover" style={styleProfileBox.img} />
 
           <View style={styleProfileBox.buttonAvatar(isAvatarAdd)}>
             <TouchableOpacity
@@ -126,5 +117,11 @@ const styleProfileBox = {
     position: 'absolute',
     top: 22,
     right: 0,
+  },
+  img: {
+    ...styles.bg_image,
+    borderRadius: 16,
+    width: 120,
+    height: 120,
   },
 };

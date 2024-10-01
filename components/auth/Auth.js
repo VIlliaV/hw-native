@@ -107,16 +107,9 @@ const AuthComp = () => {
       <ImageBackground
         source={Platform.OS === 'ios' ? back_ground_2x : back_ground}
         resizeMode="cover"
-        style={{ ...styles.bg_image, justifyContent: 'flex-end' }}
+        style={styleAuth.imgBg}
       >
-        <KeyboardAvoidingView
-          style={{
-            backgroundColor: color.bg,
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
-          }}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-        >
+        <KeyboardAvoidingView style={styleAuth.keyboardAvView} behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}>
           <TouchableWithoutFeedback onPress={keyboardHide}>
             <View>
               <ProfileBox route={route} title={title} changeAvatar={setAuthData}>
@@ -169,10 +162,7 @@ const AuthComp = () => {
                     }}
                   />
                   <TouchableOpacity style={styleAuth.showPassword} activeOpacity={0.6}>
-                    <Text
-                      onPress={() => setIsPasswordHide(!isPasswordHide)}
-                      style={{ ...styles.text, color: color.secondary }}
-                    >
+                    <Text onPress={() => setIsPasswordHide(!isPasswordHide)} style={styleAuth.text}>
                       {isPasswordHide ? 'Показати' : 'Сховати'}
                     </Text>
                   </TouchableOpacity>
@@ -190,12 +180,21 @@ const AuthComp = () => {
 
 export default AuthComp;
 
-const styleAuth = StyleSheet.create({
+const styleAuth = {
   inputAuth: ({ inputOnFocus, type }) => ({
     ...styles.textInput,
     borderColor: inputOnFocus !== type ? color.border : color.accent,
     backgroundColor: inputOnFocus !== type ? color.bg_secondary : color.bg,
   }),
+  imgBg: {
+    ...styles.bg_image,
+    justifyContent: 'flex-end',
+  },
+  keyboardAvView: {
+    backgroundColor: color.bg,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
   passwordBox: {
     position: 'relative',
     marginBottom: 43,
@@ -206,7 +205,8 @@ const styleAuth = StyleSheet.create({
     top: '50%',
     transform: [{ translateY: -10 }],
   },
-});
+  text: { ...styles.text, color: color.secondary },
+};
 
 const inputLoginProps = {
   placeholder: 'Логін',

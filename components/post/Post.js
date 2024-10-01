@@ -12,26 +12,20 @@ const Post = ({ item, showCity }) => {
   return (
     <View style={{ gap: 8, paddingBottom: 32 }}>
       <View style={{ height: 240 }}>
-        <CustomImage
-          source={urlPhoto}
-          resizeMode="cover"
-          style={{
-            ...styles.image,
-          }}
-        />
+        <CustomImage source={urlPhoto} resizeMode="cover" style={styles.image} />
       </View>
-      <Text
-        style={{
-          fontFamily: 'Roboto-Medium',
-          fontSize: 16,
-          color: color.primary,
-        }}
-      >
-        {name}
-      </Text>
+      <Text style={stylePost.text}>{name}</Text>
       <PostBar props={item} showCity={showCity} />
     </View>
   );
 };
 
 export default Post;
+
+const stylePost = {
+  text: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 16,
+    color: color.primary,
+  },
+};

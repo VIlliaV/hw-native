@@ -122,16 +122,7 @@ const CreatePostsScreen = () => {
             behavior={Platform.OS === 'ios' ? 'position' : 'position'}
           >
             <PostPicture setCreatePostData={setCreatePostData} photoUri={photoUri} />
-            <Text
-              style={{
-                ...styles.text,
-                color: color.placeholder,
-                marginBottom: 32,
-                lineHeight: 19,
-              }}
-            >
-              {photoUri ? 'Редагувати фото' : 'Завантажте фото'}
-            </Text>
+            <Text style={stylesPost.postPictText}>{photoUri ? 'Редагувати фото' : 'Завантажте фото'}</Text>
 
             <View>
               <TextInput
@@ -141,7 +132,7 @@ const CreatePostsScreen = () => {
                 onFocus={() => setInputOnFocus(inputNameProps.placeholder)}
                 onBlur={() => setInputOnFocus(null)}
                 onSubmitEditing={() => {
-                  keyboardHide;
+                  keyboardHide();
                   secondInputRef.current?.focus();
                 }}
                 style={stylesPost.inputPost({
@@ -183,21 +174,9 @@ const CreatePostsScreen = () => {
             disabled={!readyToSubmit}
             onPress={onSubmit}
             activeOpacity={0.6}
-            style={{
-              ...styles.button,
-              position: 'absolute',
-              top: 447,
-              backgroundColor: readyToSubmit ? color.accent : color.bg_secondary,
-            }}
+            style={stylesPost.submit(readyToSubmit)}
           >
-            <Text
-              style={{
-                ...styles.text,
-                color: readyToSubmit ? color.bg : color.placeholder,
-              }}
-            >
-              Опублікувати
-            </Text>
+            <Text style={stylesPost.textSubmit(readyToSubmit)}>Опублікувати</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -234,6 +213,13 @@ const stylesPost = {
     marginBottom: 16,
   }),
 
+  postPictText: {
+    ...styles.text,
+    color: color.placeholder,
+    marginBottom: 32,
+    lineHeight: 19,
+  },
+
   locationBox: {
     position: 'relative',
     transformOrigin: 'top',
@@ -246,6 +232,18 @@ const stylesPost = {
     top: '50%',
     transform: [{ translateY: -12 }],
   },
+
+  submit: readyToSubmit => ({
+    ...styles.button,
+    position: 'absolute',
+    top: 447,
+    backgroundColor: readyToSubmit ? color.accent : color.bg_secondary,
+  }),
+
+  textSubmit: readyToSubmit => ({
+    ...styles.text,
+    color: readyToSubmit ? color.bg : color.placeholder,
+  }),
 
   trashButton: {
     position: 'absolute',

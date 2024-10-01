@@ -45,27 +45,11 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
   };
 
   return (
-    <View
-      style={{
-        position: 'relative',
-        marginBottom: 8,
-        overflow: 'hidden',
-        minHeight: 240,
-      }}
-    >
+    <View style={postStyles.container}>
       {isFetching ? (
         <ActivityIndicator size="large" />
       ) : photoUri || !isFocused ? (
-        <CustomImage
-          source={photoUri}
-          resizeMode="cover"
-          style={{
-            ...styles.image,
-            borderWidth: 1,
-            borderColor: color.border,
-            backgroundColor: color.bg_secondary,
-          }}
-        />
+        <CustomImage source={photoUri} resizeMode="cover" style={postStyles.img} />
       ) : (
         <CameraView
           ref={setCameraRef}
@@ -73,24 +57,15 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
           style={{
             minHeight: 240,
           }}
-          //   active={false}
         ></CameraView>
       )}
       <TouchableOpacity
         onPress={() => {
           takePicture();
         }}
-        style={{
-          ...styles.positionCenter({ width: 60, height: 60 }),
-          borderRadius: 50,
-          backgroundColor: photoUri ? 'rgba(255, 255, 255, 0.3)' : color.bg,
-        }}
+        style={postStyles.touch(photoUri)}
       >
-        <View
-          style={{
-            ...styles.positionCenter({ width: 24, height: 24 }),
-          }}
-        >
+        <View style={styles.positionCenter({ width: 24, height: 24 })}>
           <PlugCamera active={photoUri} />
         </View>
       </TouchableOpacity>
@@ -99,3 +74,23 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
 };
 
 export default PostPicture;
+
+const postStyles = {
+  container: {
+    position: 'relative',
+    marginBottom: 8,
+    overflow: 'hidden',
+    minHeight: 240,
+  },
+  img: {
+    ...styles.image,
+    borderWidth: 1,
+    borderColor: color.border,
+    backgroundColor: color.bg_secondary,
+  },
+  touch: photoUri => ({
+    ...styles.positionCenter({ width: 60, height: 60 }),
+    borderRadius: 50,
+    backgroundColor: photoUri ? 'rgba(255, 255, 255, 0.3)' : color.bg,
+  }),
+};
