@@ -1,8 +1,8 @@
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles, color } from '../../style';
 import PostBar from './PostBar';
-import noPhoto from '../../assets/image/noPhoto.png';
 import { useDocSubscription } from '../../utils/hooks';
+import CustomImage from '../CustomImage';
 
 const Post = ({ item, showCity }) => {
   const { name, urlPhoto, id, inView } = item;
@@ -12,8 +12,8 @@ const Post = ({ item, showCity }) => {
   return (
     <View style={{ gap: 8, paddingBottom: 32 }}>
       <View style={{ height: 240 }}>
-        <Image
-          source={urlPhoto ? { uri: urlPhoto } : noPhoto}
+        <CustomImage
+          source={urlPhoto}
           resizeMode="cover"
           style={{
             ...styles.image,

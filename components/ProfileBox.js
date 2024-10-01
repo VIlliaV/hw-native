@@ -1,14 +1,14 @@
-import { View, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { styles, color } from '../style';
 import AddSVG from './SVGComponents/AddSVG';
 import DeleteSVG from './SVGComponents/DeleteSVG';
 import { useEffect, useState } from 'react';
-import noPhoto from '../assets/image/noPhoto.png';
 import ExitButton from './buttons/ExitButton';
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
 import { deleteImageFromFirebase, uploadImageToFirebase } from '../utils';
 import { useAuth } from '../utils/hooks';
+import CustomImage from './CustomImage';
 
 const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {} }) => {
   const { user } = useAuth();
@@ -64,8 +64,8 @@ const ProfileBox = ({ route, children, style = {}, title, changeAvatar = () => {
       )}
       {route.name !== 'Login' && (
         <View style={{ ...styleProfileBox.avatarBox }}>
-          <Image
-            source={isAvatarAdd ? { uri: isAvatarAdd } : noPhoto}
+          <CustomImage
+            source={isAvatarAdd}
             resizeMode="cover"
             style={{
               ...styles.bg_image,

@@ -1,10 +1,10 @@
-import { FlatList, Image, View, ActivityIndicator } from 'react-native';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 import { styles } from '../../style';
 import CommentsPostItem from './CommentsPostItem';
-import noPhoto from '../../assets/image/noPhoto.png';
 import { useEffect, useRef } from 'react';
 import Plug from '../Plug';
 import { usePosts } from '../../utils/hooks';
+import CustomImage from '../CustomImage';
 
 const CommentsPostList = ({ comments, postImage, ownerPost }) => {
   const flatListCommentsRef = useRef(null);
@@ -28,8 +28,8 @@ const CommentsPostList = ({ comments, postImage, ownerPost }) => {
         </>
       }
       ListHeaderComponent={
-        <Image
-          source={postImage ? { uri: postImage } : noPhoto}
+        <CustomImage
+          source={postImage}
           resizeMode="cover"
           style={{
             ...styles.image,

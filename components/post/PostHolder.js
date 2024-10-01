@@ -1,7 +1,7 @@
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from '../../style';
-import noPhoto from '../../assets/image/noPhoto.png';
 import { useAuth } from '../../utils/hooks';
+import CustomImage from '../CustomImage';
 
 const PostHolder = () => {
   const { user } = useAuth();
@@ -10,8 +10,8 @@ const PostHolder = () => {
   return (
     <View style={{ flexDirection: 'row', gap: 8, marginBottom: 32 }}>
       <View style={{ width: 60, height: 60 }}>
-        <Image
-          source={photoURL ? { uri: photoURL } : noPhoto}
+        <CustomImage
+          source={photoURL}
           resizeMode="cover"
           style={{
             ...styles.image,

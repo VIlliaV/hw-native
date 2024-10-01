@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
 import { styles, color } from '../../style';
 import PlugCamera from '../SVGComponents/PlugCamera';
 import { CameraView } from 'expo-camera';
@@ -6,8 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
-import { useIsFocused } from '@react-navigation/native';
-import noPhoto from '../../assets/image/noPhoto.png';
+import CustomImage from '../CustomImage';
 
 const PostPicture = ({ setCreatePostData, photoUri }) => {
   const [cameraRef, setCameraRef] = useState(null);
@@ -56,8 +55,8 @@ const PostPicture = ({ setCreatePostData, photoUri }) => {
       {isFetching ? (
         <ActivityIndicator size="large" />
       ) : photoUri || !isFocused ? (
-        <Image
-          source={photoUri ? { uri: photoUri } : noPhoto}
+        <CustomImage
+          source={photoUri}
           resizeMode="cover"
           style={{
             ...styles.image,
